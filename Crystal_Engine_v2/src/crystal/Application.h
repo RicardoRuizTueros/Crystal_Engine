@@ -11,6 +11,7 @@ namespace crystal
 			virtual ~Application();
 			
 			void Run();
-
 	};
+
+	Application* CreateApplication();
 }

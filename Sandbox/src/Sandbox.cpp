@@ -16,9 +16,7 @@ class Sandbox : public Application
 		}
 };
 
-void main()
+crystal::Application* crystal::CreateApplication()
 {
-	Sandbox* sandbox = new Sandbox();
-	sandbox->Run();
-	delete sandbox;
+	return new Sandbox();
 }
