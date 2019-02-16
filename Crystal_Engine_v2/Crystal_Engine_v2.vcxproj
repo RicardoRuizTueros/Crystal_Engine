@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\crystal\Log.h" />
     <ClInclude Include="src\Crystal.h" />
     <ClInclude Include="src\crystal\Application.h" />
     <ClInclude Include="src\crystal\Core.h" />
     <ClInclude Include="src\crystal\EntryPoint.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\crystal\Log.cpp" />
     <ClCompile Include="src\crystal\Application.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -71,6 +73,7 @@
       <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_BUILD_DLL;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Crystal_Engine_v2\vendor\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -88,6 +91,7 @@
       <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_BUILD_DLL;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Crystal_Engine_v2\vendor\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
