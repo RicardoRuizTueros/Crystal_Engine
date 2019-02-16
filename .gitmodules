@@ -1,0 +1,3 @@
+[submodule "Crystal_Engine_v2/vendor/spdlog"]
+	path = Crystal_Engine_v2/vendor/spdlog
+	url = https://github.com/gabime/spdlog
