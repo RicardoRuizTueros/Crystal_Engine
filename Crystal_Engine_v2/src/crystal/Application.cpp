@@ -1,6 +1,6 @@
 #include "Application.h"
 
-namespace crystal
+namespace Crystal
 {
 	Application::Application()
 	{

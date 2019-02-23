@@ -1,6 +1,6 @@
 #include "Log.h"
 
-namespace crystal
+namespace Crystal
 {
 	shared_ptr<logger> Log::coreLogger;
 	shared_ptr<logger> Log::clientLogger;

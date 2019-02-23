@@ -2,7 +2,7 @@
 
 #include "Core.h"
 
-namespace crystal 
+namespace Crystal
 {
 	class CRYSTAL_API Application
 	{

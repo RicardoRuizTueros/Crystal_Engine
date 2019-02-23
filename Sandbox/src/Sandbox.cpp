@@ -1,6 +1,6 @@
 #include <Crystal.h>
 
-using namespace crystal;
+using namespace Crystal;
 
 class Sandbox : public Application
 {
@@ -16,7 +16,7 @@ class Sandbox : public Application
 		}
 };
 
-crystal::Application* crystal::CreateApplication()
+Crystal::Application* Crystal::CreateApplication()
 {
 	return new Sandbox();
 }

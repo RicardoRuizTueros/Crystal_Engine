@@ -8,7 +8,7 @@
 using namespace std;
 using namespace spdlog;
 
-namespace crystal {
+namespace Crystal {
 	class CRYSTAL_API Log
 	{
 	public:

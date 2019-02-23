@@ -2,16 +2,16 @@
 
 #ifdef CRYSTAL_PLATFORM_WINDOWS
 
-extern crystal::Application* crystal::CreateApplication();
+extern Crystal::Application* Crystal::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	crystal::Log::Init();
-	crystal::Log::GetCoreLogger()->warn("Initialized log!");
-	crystal::Log::GetClientLogger()->info("Hello!");
+	Crystal::Log::Init();
+	Crystal::Log::GetCoreLogger()->warn("Initialized log!");
+	Crystal::Log::GetClientLogger()->info("Hello!");
 
 
-	auto sandbox = crystal::CreateApplication();
+	auto sandbox = Crystal::CreateApplication();
 	sandbox->Run();
 	delete sandbox;
 }
