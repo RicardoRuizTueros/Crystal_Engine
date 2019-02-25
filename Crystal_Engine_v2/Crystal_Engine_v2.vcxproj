@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -9,43 +9,39 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\crystal\Log.h" />
-    <ClInclude Include="src\Crystal.h" />
-    <ClInclude Include="src\crystal\Application.h" />
-    <ClInclude Include="src\crystal\Core.h" />
-    <ClInclude Include="src\crystal\EntryPoint.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\crystal\Log.cpp" />
-    <ClCompile Include="src\crystal\Application.cpp" />
+    <ProjectConfiguration Include="Distribution|x64">
+      <Configuration>Distribution</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{20CAEE61-9FD3-4F14-BE05-C4E2E4382713}</ProjectGuid>
+    <ProjectGuid>{63C14746-CFD7-45DC-184F-D1FD84A41664}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>CrystalEnginev2</RootNamespace>
+    <RootNamespace>Crystal_Engine_v2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -53,53 +49,102 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\bin\$(Configuration)_$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\bin_int\$(Configuration)_$(Platform)\$(ProjectName)\</IntDir>
+    <OutDir>..\bin\Debug-windows-x86_64\Crystal_Engine_v2\</OutDir>
+    <IntDir>..\bin-int\Debug-windows-x86_64\Crystal_Engine_v2\</IntDir>
+    <TargetName>Crystal_Engine_v2</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\bin\$(Configuration)_$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\bin_int\$(Configuration)_$(Platform)\$(ProjectName)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\Release-windows-x86_64\Crystal_Engine_v2\</OutDir>
+    <IntDir>..\bin-int\Release-windows-x86_64\Crystal_Engine_v2\</IntDir>
+    <TargetName>Crystal_Engine_v2</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\Distribution-windows-x86_64\Crystal_Engine_v2\</OutDir>
+    <IntDir>..\bin-int\Distribution-windows-x86_64\Crystal_Engine_v2\</IntDir>
+    <TargetName>Crystal_Engine_v2</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_BUILD_DLL;CRYSTAL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_BUILD_DLL;</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Crystal_Engine_v2\vendor\spdlog\include;</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>..\bin\Debug-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.lib</ImportLibrary>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Debug-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll .. \bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll .. \bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_BUILD_DLL;</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Crystal_Engine_v2\vendor\spdlog\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_BUILD_DLL;CRYSTAL_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>..\bin\Release-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.lib</ImportLibrary>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Release-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll .. \bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll .. \bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_BUILD_DLL;CRYSTAL_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>..\bin\Distribution-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Distribution-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll\ (xcopy /Q /E /Y /I ..\bin\Distribution-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll .. \bin\Distribution-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Distribution-windows-x86_64\Crystal_Engine_v2\Crystal_Engine_v2.dll .. \bin\Distribution-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Crystal.h" />
+    <ClInclude Include="src\crystal\Application.h" />
+    <ClInclude Include="src\crystal\Core.h" />
+    <ClInclude Include="src\crystal\EntryPoint.h" />
+    <ClInclude Include="src\crystal\Log.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\crystal\Application.cpp" />
+    <ClCompile Include="src\crystal\Log.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
