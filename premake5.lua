@@ -42,7 +42,7 @@ project "Crystal_Engine_v2"
 
 		postbuildcommands 
 		{
-			("{COPY} %{cfg.buildtarget.relpath} .. /bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
 		}
 
 		filter "configurations:Debug"
@@ -73,7 +73,7 @@ project "Sandbox"
 
 	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include",
+		"Crystal_Engine_v2/vendor/spdlog/include",
 		"Crystal_Engine_v2/src"
 	}
 
