@@ -19,6 +19,10 @@
     <ClInclude Include="src\crystal\Log.h">
       <Filter>crystal</Filter>
     </ClInclude>
+    <ClInclude Include="src\crystal\events\ApplicationEvent.h" />
+    <ClInclude Include="src\crystal\events\Event.h" />
+    <ClInclude Include="src\crystal\events\KeyEvent.h" />
+    <ClInclude Include="src\crystal\events\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
