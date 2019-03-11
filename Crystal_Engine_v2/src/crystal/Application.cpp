@@ -15,6 +15,9 @@ namespace Crystal
 
 	void Application::Run() 
 	{
+		WindowResizeEvent event(1280, 720);
+		CRYSTAL_TRACE(event);
+
 		while (true);
 	}
 }

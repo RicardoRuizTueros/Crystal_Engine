@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core.h"
+#include "events/ApplicationEvent.h"
+#include "crystal/Log.h"
 
 namespace Crystal
 {

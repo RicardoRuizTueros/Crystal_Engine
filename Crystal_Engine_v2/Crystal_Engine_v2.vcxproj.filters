@@ -4,6 +4,9 @@
     <Filter Include="crystal">
       <UniqueIdentifier>{A7D23FDB-13B2-BE76-1CCA-494D882825D8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="crystal\events">
+      <UniqueIdentifier>{CB300C14-B7FE-FF19-A092-70408CFFDB7E}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Crystal.h" />
@@ -19,10 +22,18 @@
     <ClInclude Include="src\crystal\Log.h">
       <Filter>crystal</Filter>
     </ClInclude>
-    <ClInclude Include="src\crystal\events\ApplicationEvent.h" />
-    <ClInclude Include="src\crystal\events\Event.h" />
-    <ClInclude Include="src\crystal\events\KeyEvent.h" />
-    <ClInclude Include="src\crystal\events\MouseEvent.h" />
+    <ClInclude Include="src\crystal\events\ApplicationEvent.h">
+      <Filter>crystal\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\events\Event.h">
+      <Filter>crystal\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\events\KeyEvent.h">
+      <Filter>crystal\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\events\MouseEvent.h">
+      <Filter>crystal\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">

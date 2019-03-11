@@ -26,6 +26,7 @@ project "Crystal_Engine_v2"
 
 	includedirs
 	{
+		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include"
 	}
 
