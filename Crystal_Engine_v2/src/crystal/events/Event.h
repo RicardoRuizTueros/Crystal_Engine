@@ -32,10 +32,10 @@ namespace Crystal
 	};
 
 #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
-								virtual EventType GetEventType() override { return GetStaticType(); }\
-								virtual const char* GetName() override { return ##type; }
+									virtual EventType GetEventType() override { return GetStaticType(); }\
+									virtual const char* GetName() override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category) virtual int GetCategory() override { return category; }
+#define EVENT_CLASS_CATEGORY(category) virtual int GetCategory() override { return category; }
 
 	class CRYSTAL_API Event 
 	{

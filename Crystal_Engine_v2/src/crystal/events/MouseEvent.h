@@ -65,7 +65,7 @@ namespace Crystal
 	public:
 		inline int GetMouseButton() const { return button; }
 
-		EVENT_CLASS_CATEGORY(EventCategoryMouse |EventCategoryInput)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
 		int button;
 
@@ -87,7 +87,7 @@ namespace Crystal
 		{
 			stringstream stream;
 			stream << "MouseButtonPressedEvent: " << button << endl;
-			
+
 			return stream.str();
 		}
 
