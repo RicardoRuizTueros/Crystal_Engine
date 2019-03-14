@@ -17,7 +17,7 @@ namespace Crystal
 		inline unsigned int GetWidth() { return width; }
 		inline unsigned int GetHeight() { return height; }
 
-		string ToString() override
+		string ToString() const override
 		{
 			stringstream stream;
 			stream << "WindowResizeEvent: " << width << ", " << height << endl;

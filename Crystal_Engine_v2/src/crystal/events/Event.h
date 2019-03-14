@@ -32,20 +32,20 @@ namespace Crystal
 	};
 
 #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
-									virtual EventType GetEventType() override { return GetStaticType(); }\
-									virtual const char* GetName() override { return #type; }
+									virtual EventType GetEventType() const override { return GetStaticType(); }\
+									virtual const char* GetName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category) virtual int GetCategory() override { return category; }
+#define EVENT_CLASS_CATEGORY(category) virtual int GetCategory() const override { return category; }
 
 	class CRYSTAL_API Event 
 	{
 		friend class EventDispatcher;
 	
 	public:
-		virtual EventType GetEventType();
-		virtual const char* GetName();
-		virtual int GetCategory();
-		virtual string ToString() { return GetName(); }
+		virtual EventType GetEventType() const = 0;
+		virtual const char* GetName() const = 0;
+		virtual int GetCategory() const = 0;
+		virtual string ToString() const { return GetName(); }
 
 		inline bool IsCategory(EventCategory category)
 		{
@@ -79,7 +79,7 @@ namespace Crystal
 		Event* event;
 	};
 
-	inline ostream& operator<<(ostream& stream, Event& event)
+	inline ostream& operator<<(ostream& stream, const Event& event)
 	{
 		return stream << event.ToString();
 	}
