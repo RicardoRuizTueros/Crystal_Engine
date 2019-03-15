@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Event.h"
-#include <sstream>
 
 using namespace std;
 
@@ -20,7 +19,7 @@ namespace Crystal
 		inline float GetX() const { return x; }
 		inline float GetY() const { return y; }
 
-		string ToString() override
+		string ToString() const override
 		{
 			stringstream stream;
 			stream << "MouseMovedEvent: " << x << ", " << y << endl;
@@ -46,7 +45,7 @@ namespace Crystal
 		inline float GetXOffset() const { return xOffset; }
 		inline float GetYOffset() const { return yOffset; }
 
-		string ToString() override
+		string ToString() const override
 		{
 			stringstream stream;
 			stream << "MouseScrolledEvent: " << xOffset << ", " << yOffset << endl;
@@ -83,7 +82,7 @@ namespace Crystal
 			this->button = button;
 		}
 
-		string ToString() override
+		string ToString() const override
 		{
 			stringstream stream;
 			stream << "MouseButtonPressedEvent: " << button << endl;
@@ -102,7 +101,7 @@ namespace Crystal
 			this->button = button;
 		}
 
-		string ToString() override
+		string ToString() const override
 		{
 			stringstream stream;
 			stream << "MouseButtonReleasedEvent: " << button << endl;

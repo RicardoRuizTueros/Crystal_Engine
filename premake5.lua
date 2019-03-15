@@ -18,6 +18,9 @@ project "Crystal_Engine_v2"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "crystalpch.h"
+	pchsource "Crystal_Engine_v2/src/crystalpch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",

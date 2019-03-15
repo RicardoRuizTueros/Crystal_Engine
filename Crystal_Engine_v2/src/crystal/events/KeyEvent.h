@@ -1,5 +1,6 @@
 #pragma once
 
+#include "crystalpch.h"
 #include "Event.h"
 
 using namespace std;
@@ -12,7 +13,7 @@ namespace Crystal
 		inline int GetKeyCode() const { return keycode; }
 
 
-		virtual int GetCategory() override { return EventCategoryKeyboard | EventCategoryInput; }
+		virtual int GetCategory() const override { return EventCategoryKeyboard | EventCategoryInput; }
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
 		int keycode;
@@ -34,7 +35,7 @@ namespace Crystal
 
 		inline int GetRepeatCount() const { return repeatCount; }
 
-		string ToString() override
+		string ToString() const override
 		{
 			stringstream stream;
 			stream << "KeyPressedEvent: " << keycode << " " << repeatCount << " times" << endl;
@@ -55,7 +56,7 @@ namespace Crystal
 			this->keycode = keycode;
 		}
 
-		string ToString() override
+		string ToString() const override
 		{
 			stringstream stream;
 			stream << "KeyReleasedEvent: " << keycode << endl;

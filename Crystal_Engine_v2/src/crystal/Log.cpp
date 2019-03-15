@@ -1,3 +1,4 @@
+#include "crystalpch.h"
 #include "Log.h"
 
 namespace Crystal

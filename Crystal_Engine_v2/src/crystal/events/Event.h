@@ -1,10 +1,7 @@
 #pragma once
 
+#include "crystalpch.h"
 #include "crystal/Core.h"
-
-#include <string>
-#include <functional>
-#include <sstream>
 
 using namespace std;
 
