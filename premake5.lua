@@ -10,6 +10,11 @@ workspace "Crystal_Engine_v2"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Crystal_Engine_v2/vendor/GLFW/include"
+
+include "Crystal_Engine_v2/vendor/GLFW"
+
 project "Crystal_Engine_v2"
 	location "Crystal_Engine_v2"
 	kind "SharedLib"
@@ -30,7 +35,14 @@ project "Crystal_Engine_v2"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
