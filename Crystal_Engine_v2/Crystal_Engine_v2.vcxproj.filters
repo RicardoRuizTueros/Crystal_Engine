@@ -34,6 +34,7 @@
     <ClInclude Include="src\crystal\events\MouseEvent.h">
       <Filter>crystal\events</Filter>
     </ClInclude>
+    <ClInclude Include="src\crystalpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
@@ -42,5 +43,6 @@
     <ClCompile Include="src\crystal\Log.cpp">
       <Filter>crystal</Filter>
     </ClCompile>
+    <ClCompile Include="src\crystalpch.cpp" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,3 @@
-[submodule "Crystal_Engine_v2/vendor/spdlog"]
-	path = Crystal_Engine_v2/vendor/spdlog
-	url = https://github.com/gabime/spdlog
-[submodule "Crystal_Engine_v2\\vendor\\GLFW"]
-	path = Crystal_Engine_v2\\vendor\\GLFW
-	url = https://github.com/RicardoRuizTueros/glfw
+[submodule "Crystal_Engine_v2/vendor/GLFW"]
+	path = Crystal_Engine_v2/vendor/GLFW
+	url = https://www.github.com/RicardoRuizTueros/glfw
