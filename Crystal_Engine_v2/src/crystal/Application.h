@@ -3,6 +3,9 @@
 #include "Core.h"
 #include "events/ApplicationEvent.h"
 #include "crystal/Log.h"
+#include "Window.h"
+
+using namespace std;
 
 namespace Crystal
 {
@@ -13,6 +16,9 @@ namespace Crystal
 			virtual ~Application();
 			
 			void Run();
+	private:
+		unique_ptr<Window> window;
+		bool running = true;
 	};
 
 	Application* CreateApplication();

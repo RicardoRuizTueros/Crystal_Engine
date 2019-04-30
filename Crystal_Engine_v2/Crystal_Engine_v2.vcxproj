@@ -151,6 +151,7 @@
     <ClInclude Include="src\crystal\events\KeyEvent.h" />
     <ClInclude Include="src\crystal\events\MouseEvent.h" />
     <ClInclude Include="src\crystalpch.h" />
+    <ClInclude Include="src\crystal\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp" />

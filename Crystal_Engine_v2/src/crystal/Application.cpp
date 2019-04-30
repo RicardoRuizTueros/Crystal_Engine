@@ -1,11 +1,13 @@
 #include "crystalpch.h"
 #include "Application.h"
 
+#include <GLFW/glfw3.h>
+
 namespace Crystal
 {
 	Application::Application()
 	{
-
+		window = unique_ptr<Window>(Window::Create());
 	}
 
 
@@ -16,18 +18,11 @@ namespace Crystal
 
 	void Application::Run() 
 	{
-		WindowResizeEvent event(1280, 720);
-
-		if (event.IsCategory(EventCategoryApplication))
+		while (running)
 		{
-			CRYSTAL_TRACE(event);
+			glClearColor(1, 0, 1, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			window->OnUpdate();
 		}
-
-		if (event.IsCategory(EventCategoryInput))
-		{
-			CRYSTAL_TRACE(event);
-		}
-
-		while (true);
 	}
 }
