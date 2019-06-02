@@ -152,6 +152,7 @@
     <ClInclude Include="src\crystal\events\MouseEvent.h" />
     <ClInclude Include="src\crystalpch.h" />
     <ClInclude Include="src\crystal\Window.h" />
+    <ClInclude Include="src\platform\windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="src\crystalpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
