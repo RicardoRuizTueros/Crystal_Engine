@@ -57,23 +57,20 @@ namespace Crystal
 	{
 		template<typename T> using EventFunction = function<bool(T&)>;
 	public:
-		EventDispatcher(Event* event)
-		{
-			this->event = event;
-		}
+		EventDispatcher(Event& event) : event(event) {}
 
 		template<typename T> bool Dispatch(EventFunction<T> function)
 		{
-			if (event->GetEventType() == T::GetStaticType())
+			if (event.GetEventType() == T::GetStaticType())
 			{
-				event->handled = function(*(T*)&event);
+				event.handled = function(*(T*)&event);
 				return true;
 			}
 
 			return false;
 		}
 	private:
-		Event* event;
+		Event& event;
 	};
 
 	inline ostream& operator<<(ostream& stream, const Event& event)

@@ -56,7 +56,11 @@ namespace Crystal
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
-		glfwSwapInterval(enabled);
+		if (enabled) 
+			glfwSwapInterval(1);
+		else
+			glfwSwapInterval(0);
+
 		data.vSync = enabled;
 	}
 

@@ -14,6 +14,8 @@ namespace Crystal
 		public:
 			Application();
 			virtual ~Application();
+			void Application::OnEvent(Event& event);
+			bool Application::OnWindowClose(WindowCloseEvent& event);
 			
 			void Run();
 	private:
