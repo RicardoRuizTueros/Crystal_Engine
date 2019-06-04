@@ -22,7 +22,7 @@ namespace Crystal
 		string ToString() const override
 		{
 			stringstream stream;
-			stream << "MouseMovedEvent: " << x << ", " << y << endl;
+			stream << "MouseMovedEvent: " << x << ", " << y;
 
 			return stream.str();
 		}
@@ -48,7 +48,7 @@ namespace Crystal
 		string ToString() const override
 		{
 			stringstream stream;
-			stream << "MouseScrolledEvent: " << xOffset << ", " << yOffset << endl;
+			stream << "MouseScrolledEvent: " << xOffset << ", " << yOffset;
 
 			return stream.str();
 		}
@@ -85,7 +85,7 @@ namespace Crystal
 		string ToString() const override
 		{
 			stringstream stream;
-			stream << "MouseButtonPressedEvent: " << button << endl;
+			stream << "MouseButtonPressedEvent: " << button;
 
 			return stream.str();
 		}
@@ -104,7 +104,7 @@ namespace Crystal
 		string ToString() const override
 		{
 			stringstream stream;
-			stream << "MouseButtonReleasedEvent: " << button << endl;
+			stream << "MouseButtonReleasedEvent: " << button;
 
 			return stream.str();
 		}

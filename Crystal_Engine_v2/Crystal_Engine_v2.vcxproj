@@ -146,12 +146,12 @@
     <ClInclude Include="src\crystal\Core.h" />
     <ClInclude Include="src\crystal\EntryPoint.h" />
     <ClInclude Include="src\crystal\Log.h" />
+    <ClInclude Include="src\crystal\Window.h" />
     <ClInclude Include="src\crystal\events\ApplicationEvent.h" />
     <ClInclude Include="src\crystal\events\Event.h" />
     <ClInclude Include="src\crystal\events\KeyEvent.h" />
     <ClInclude Include="src\crystal\events\MouseEvent.h" />
     <ClInclude Include="src\crystalpch.h" />
-    <ClInclude Include="src\crystal\Window.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>

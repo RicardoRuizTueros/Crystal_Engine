@@ -12,8 +12,6 @@ namespace Crystal
 	public:
 		inline int GetKeyCode() const { return keycode; }
 
-
-		virtual int GetCategory() const override { return EventCategoryKeyboard | EventCategoryInput; }
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
 		int keycode;
@@ -38,7 +36,7 @@ namespace Crystal
 		string ToString() const override
 		{
 			stringstream stream;
-			stream << "KeyPressedEvent: " << keycode << " " << repeatCount << " times" << endl;
+			stream << "KeyPressedEvent: " << keycode << " " << repeatCount << " times";
 
 			return stream.str();
 		}
@@ -59,7 +57,7 @@ namespace Crystal
 		string ToString() const override
 		{
 			stringstream stream;
-			stream << "KeyReleasedEvent: " << keycode << endl;
+			stream << "KeyReleasedEvent: " << keycode;
 
 			return stream.str();
 		}
