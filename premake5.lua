@@ -63,14 +63,17 @@ project "Crystal_Engine_v2"
 
 		filter "configurations:Debug"
 			defines "CRYSTAL_DEBUG"
+			buildoptions "/MDd"
 			symbols "On"
 
 		filter "configurations:Release"
 			defines "CRYSTAL_RELEASE"
+			buildoptions "/MD"
 			symbols "On"
 
 		filter "configurations:Distribution"
 			defines "CRYSTAL_DISTRIBUTION"
+			buildoptions "/MD"
 			symbols "On"
 
 project "Sandbox"
@@ -110,12 +113,15 @@ project "Sandbox"
 
 		filter "configurations:Debug"
 			defines "CRYSTAL_DEBUG"
+			buildoptions "/MDd"
 			symbols "On"
 
 		filter "configurations:Release"
 			defines "CRYSTAL_RELEASE"
+			buildoptions "/MD"
 			symbols "On"
 
 		filter "configurations:Distribution"
 			defines "CRYSTAL_DISTRIBUTION"
+			buildoptions "/MD"
 			symbols "On"

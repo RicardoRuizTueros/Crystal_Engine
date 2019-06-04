@@ -35,10 +35,9 @@ namespace Crystal
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategory() const override { return category; }
 
 	class CRYSTAL_API Event 
-	{
-		friend class EventDispatcher;
-	
+	{	
 	public:
+		bool handled = false;
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategory() const = 0;
@@ -48,9 +47,6 @@ namespace Crystal
 		{
 			return GetCategory() & category;
 		}
-		
-	protected:
-		bool handled = false;
 	};
 
 	class EventDispatcher

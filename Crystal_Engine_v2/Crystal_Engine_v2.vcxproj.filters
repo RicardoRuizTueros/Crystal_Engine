@@ -47,6 +47,8 @@
     <ClInclude Include="src\platform\windows\WindowsWindow.h">
       <Filter>platform\windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\crystal\layers\Layer.h" />
+    <ClInclude Include="src\crystal\layers\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
@@ -59,5 +61,7 @@
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp">
       <Filter>platform\windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\crystal\layers\Layer.cpp" />
+    <ClCompile Include="src\crystal\layers\LayerStack.cpp" />
   </ItemGroup>
 </Project>
