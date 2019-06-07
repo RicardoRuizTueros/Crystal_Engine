@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Crystal.h"
-#include "crystal/events/Event.h"
+#include "Crystal/Core.h"
+#include "Crystal/Events/Event.h"
 
 using namespace std;
 
@@ -13,10 +13,10 @@ namespace Crystal
 		Layer(const string& name = "Layer");
 		virtual ~Layer();
 
-		virtual void OnAttach();
-		virtual void OnDetach();
-		virtual void OnUpdate();
-		virtual void OnEvent(Event& event);
+		virtual void OnAttach() {}
+		virtual void OnDetach() {}
+		virtual void OnUpdate() {}
+		virtual void OnEvent(Event& event) {}
 
 		inline const string& GetName() const { return debugName; }
 	protected:

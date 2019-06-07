@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Core.h"
-#include "events/ApplicationEvent.h"
-#include "crystal/Log.h"
 #include "Window.h"
+#include "Core.h"
+#include "Crystal/Events/Event.h"
+#include "Crystal/Layers/LayerStack.h"
+#include "Crystal/Events/ApplicationEvent.h"
 
 using namespace std;
 
@@ -14,13 +15,18 @@ namespace Crystal
 		public:
 			Application();
 			virtual ~Application();
-			void Application::OnEvent(Event& event);
-			bool Application::OnWindowClose(WindowCloseEvent& event);
+			
+			void OnEvent(Event& event);
+			bool OnWindowClose(WindowCloseEvent& event);
+
+			void PushLayer(Layer* layer);
+			void PushOverlay(Layer* layer);
 			
 			void Run();
 	private:
 		unique_ptr<Window> window;
 		bool running = true;
+		LayerStack layerStack;
 	};
 
 	Application* CreateApplication();

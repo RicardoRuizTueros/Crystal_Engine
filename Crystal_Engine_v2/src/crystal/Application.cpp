@@ -20,11 +20,28 @@ namespace Crystal
 
 	}
 
+	void Application::PushLayer(Layer* layer)
+	{
+		layerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* layer)
+	{
+		layerStack.PushOverlay(layer);
+	}
+
+
 	void Application::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_FUNCTION(OnWindowClose));
-		CRYSTAL_CORE_TRACE("{0}", event);
+
+		for (auto iterator = layerStack.end(); iterator != layerStack.begin(); )
+		{
+			(*--iterator)->OnEvent(event);
+			if (event.handled)
+				break;
+		}
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& event)
@@ -39,6 +56,10 @@ namespace Crystal
 		{
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for (Layer* layer : layerStack)
+				layer->OnUpdate();
+
 			window->OnUpdate();
 		}
 	}
