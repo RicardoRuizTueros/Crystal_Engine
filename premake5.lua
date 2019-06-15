@@ -12,8 +12,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Crystal_Engine_v2/vendor/GLFW/include"
+IncludeDir["Glad"] = "Crystal_Engine_v2/vendor/Glad/include"
+
 
 include "Crystal_Engine_v2/vendor/GLFW"
+include "Crystal_Engine_v2/vendor/Glad"
+
 
 project "Crystal_Engine_v2"
 	location "Crystal_Engine_v2"
@@ -36,12 +40,14 @@ project "Crystal_Engine_v2"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -53,7 +59,8 @@ project "Crystal_Engine_v2"
 		defines 
 		{
 			"CRYSTAL_PLATFORM_WINDOWS",
-			"CRYSTAL_BUILD_DLL"
+			"CRYSTAL_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands 

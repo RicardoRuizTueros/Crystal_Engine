@@ -7,6 +7,9 @@
     <Filter Include="crystal\events">
       <UniqueIdentifier>{CB300C14-B7FE-FF19-A092-70408CFFDB7E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="crystal\layers">
+      <UniqueIdentifier>{A61BEF22-92E9-E228-7B7D-534F67EABE8D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="platform">
       <UniqueIdentifier>{4A63C33C-3630-1E48-5F49-0CF04B7553D6}</UniqueIdentifier>
     </Filter>
@@ -43,12 +46,16 @@
     <ClInclude Include="src\crystal\events\MouseEvent.h">
       <Filter>crystal\events</Filter>
     </ClInclude>
+    <ClInclude Include="src\crystal\layers\Layer.h">
+      <Filter>crystal\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\layers\LayerStack.h">
+      <Filter>crystal\layers</Filter>
+    </ClInclude>
     <ClInclude Include="src\crystalpch.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h">
       <Filter>platform\windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\crystal\layers\Layer.h" />
-    <ClInclude Include="src\crystal\layers\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
@@ -57,11 +64,15 @@
     <ClCompile Include="src\crystal\Log.cpp">
       <Filter>crystal</Filter>
     </ClCompile>
+    <ClCompile Include="src\crystal\layers\Layer.cpp">
+      <Filter>crystal\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crystal\layers\LayerStack.cpp">
+      <Filter>crystal\layers</Filter>
+    </ClCompile>
     <ClCompile Include="src\crystalpch.cpp" />
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp">
       <Filter>platform\windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\crystal\layers\Layer.cpp" />
-    <ClCompile Include="src\crystal\layers\LayerStack.cpp" />
   </ItemGroup>
 </Project>

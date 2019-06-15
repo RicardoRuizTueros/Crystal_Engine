@@ -1,5 +1,8 @@
 #include "crystalpch.h"
 #include "WindowsWindow.h"
+
+#include <glad/glad.h>
+
 #include "Crystal/Events/ApplicationEvent.h"
 #include "Crystal/Events/MouseEvent.h"
 #include "Crystal/Events/KeyEvent.h"
@@ -45,9 +48,12 @@ namespace Crystal
 
 			GLFWInitialized = true;
 		}
-
 		window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(window);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		CRYSTAL_CORE_ASSERT(status, "Failed to initialize Glad");
+
 		glfwSetWindowUserPointer(window, &data);
 		SetVSync(true);
 

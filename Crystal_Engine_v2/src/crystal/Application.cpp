@@ -1,7 +1,7 @@
 #include "crystalpch.h"
 #include "Application.h"
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace Crystal
 {
@@ -13,7 +13,6 @@ namespace Crystal
 		window = unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_FUNCTION(OnEvent));
 	}
-
 
 	Application::~Application()
 	{
