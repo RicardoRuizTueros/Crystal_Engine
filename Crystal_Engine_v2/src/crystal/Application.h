@@ -23,9 +23,14 @@ namespace Crystal
 			void PushOverlay(Layer* layer);
 			
 			void Run();
+
+			inline static Application& Get() { return *instance; }
+			inline Window& GetWindow() { return *window; }
 	private:
-		unique_ptr<Window> window;
+		static Application* instance;
+
 		bool running = true;
+		unique_ptr<Window> window;
 		LayerStack layerStack;
 	};
 

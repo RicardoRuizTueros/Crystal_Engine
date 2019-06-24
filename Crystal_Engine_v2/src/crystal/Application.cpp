@@ -8,8 +8,13 @@ namespace Crystal
 
 #define BIND_FUNCTION(fn) std::bind(&Application::fn, this, std::placeholders::_1)
 
+	static Application* Application::instance = nullptr;
+
 	Application::Application()
 	{
+		CRYSTAL_CORE_ASSERT(!instance, "Application already exists!");
+		instance = this;
+
 		window = unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_FUNCTION(OnEvent));
 	}

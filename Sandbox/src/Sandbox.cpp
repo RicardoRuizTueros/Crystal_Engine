@@ -27,6 +27,7 @@ class Sandbox : public Application
 		Sandbox()
 		{
 			PushLayer(new ExampleLayer());
+			PushOverlay(new ImGuiLayer());
 		}
 
 		~Sandbox()

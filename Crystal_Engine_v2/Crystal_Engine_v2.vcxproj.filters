@@ -10,8 +10,14 @@
     <Filter Include="crystal\layers">
       <UniqueIdentifier>{A61BEF22-92E9-E228-7B7D-534F67EABE8D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{0098A80F-6CAC-D0C0-352E-7420A101CDF1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="platform">
       <UniqueIdentifier>{4A63C33C-3630-1E48-5F49-0CF04B7553D6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\openGL">
+      <UniqueIdentifier>{5E49BFD0-CAD4-2C95-D3E5-AF893FF08895}</UniqueIdentifier>
     </Filter>
     <Filter Include="platform\windows">
       <UniqueIdentifier>{A44FC440-9048-E392-B97A-C817A5D2C29E}</UniqueIdentifier>
@@ -53,8 +59,14 @@
       <Filter>crystal\layers</Filter>
     </ClInclude>
     <ClInclude Include="src\crystalpch.h" />
+    <ClInclude Include="src\platform\openGL\ImGuiOpenGLRenderer.h">
+      <Filter>platform\openGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\platform\windows\WindowsWindow.h">
       <Filter>platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\imgui\ImGuiLayer.h">
+      <Filter>imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,8 +83,14 @@
       <Filter>crystal\layers</Filter>
     </ClCompile>
     <ClCompile Include="src\crystalpch.cpp" />
+    <ClCompile Include="src\platform\openGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>platform\openGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp">
       <Filter>platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crystal\imgui\ImGuiLayer.cpp">
+      <Filter>imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
