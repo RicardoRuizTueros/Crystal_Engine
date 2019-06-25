@@ -59,9 +59,6 @@ namespace Crystal
 
 	void ImGuiLayer::OnUpdate()
 	{
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui::NewFrame();
-
 		ImGuiIO& io = ImGui::GetIO();
 		Application& application = Application::Get();
 		io.DisplaySize = ImVec2(application.GetWindow().GetWidth(), application.GetWindow().GetHeight());
@@ -69,6 +66,9 @@ namespace Crystal
 		float deltaTime = (float)glfwGetTime();
 		io.DeltaTime = lastTime > 0.0 ? (deltaTime - lastTime) : (1.0f / 60.0f);
 		lastTime = deltaTime;
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui::NewFrame();
 
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
