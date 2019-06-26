@@ -13,12 +13,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Crystal_Engine_v2/vendor/GLFW/include"
 IncludeDir["Glad"] = "Crystal_Engine_v2/vendor/Glad/include"
-IncludeDir["ImGui"] = "Crystal_Engine_v2/vendor/imgui/"
+IncludeDir["imgui"] = "Crystal_Engine_v2/vendor/imgui"
 
 
 include "Crystal_Engine_v2/vendor/GLFW"
 include "Crystal_Engine_v2/vendor/Glad"
-include "Crystal_Engine_v2/vendor/ImGui"
+include "Crystal_Engine_v2/vendor/imgui"
 
 project "Crystal_Engine_v2"
 	location "Crystal_Engine_v2"
@@ -43,14 +43,14 @@ project "Crystal_Engine_v2"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.imgui}"
 	}
 
 	links
 	{
 		"GLFW",
 		"Glad",
-		"ImGui",
+		"imgui",
 		"opengl32.lib"
 	}
 
