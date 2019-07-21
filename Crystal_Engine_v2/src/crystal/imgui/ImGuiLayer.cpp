@@ -2,6 +2,8 @@
 #include "ImGuiLayer.h"
 #include "crystal/Application.h"
 
+#include <crystal/Core.h>
+
 #include "imgui.h"
 #include "platform/openGL/ImGuiOpenGLRenderer.h"
 #include "GLFW/glfw3.h"
@@ -77,9 +79,46 @@ namespace Crystal
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	void ImGuiLayer::OnEvent(Event& event) 
+	void ImGuiLayer::OnEvent(Event& event)
 	{
+		EventDispatcher dispatcher = EventDispatcher(event);
+		dispatcher.Dispatch<MouseButtonPressedEvent>(CRYSTAL_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonPressedEvent));
+		...
+	}
+
+	bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& event)
+	{
+		return false;
+	}
 	
+	bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& event)
+	{
+		return false;
+	}
+	
+	bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& event)
+	{
+		return false;
+	}
+	
+	bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& event)
+	{
+		return false;
+	}
+	
+	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& event)
+	{
+		return false;
+	}
+	
+	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& event)
+	{
+		return false;
+	}
+	
+	bool ImGuiLayer::OnWindowsResizedEvent(WindowResizeEvent& event)
+	{
+		return false;
 	}
 }
 
