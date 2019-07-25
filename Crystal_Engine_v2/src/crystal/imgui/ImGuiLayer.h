@@ -3,6 +3,7 @@
 #include "crystal/layers/Layer.h"
 #include <crystal\events\MouseEvent.h>
 #include <crystal\events\KeyEvent.h>
+#include <crystal/events/ApplicationEvent.h>
 
 namespace Crystal
 {
@@ -22,7 +23,7 @@ namespace Crystal
 		bool OnMouseScrolledEvent(MouseScrolledEvent& event);
 		bool OnKeyPressedEvent(KeyPressedEvent& event);
 		bool OnKeyReleasedEvent(KeyReleasedEvent& event);
-		// bool OnKeyTypedEvent(KeyTypedEvent& event);
+		bool OnKeyTypedEvent(KeyTypedEvent& event);
 		bool OnWindowsResizedEvent(WindowResizeEvent& event);
 
 	private:

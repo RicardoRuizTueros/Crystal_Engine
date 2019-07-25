@@ -46,6 +46,27 @@ namespace Crystal
 		int repeatCount;
 	};
 
+	class CRYSTAL_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode) : KeyEvent(keycode)
+		{
+			this->keycode = keycode;
+		}
+
+		string ToString() const override
+		{
+			stringstream stream;
+			stream << "KeyTypedEvent: " << keycode;
+
+			return stream.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped)
+	private:
+		int repeatCount;
+	};
+
 	class CRYSTAL_API KeyReleasedEvent : public KeyEvent
 	{
 	public:
