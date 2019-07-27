@@ -15,15 +15,19 @@ IncludeDir["GLFW"] = "Crystal_Engine_v2/vendor/GLFW/include"
 IncludeDir["Glad"] = "Crystal_Engine_v2/vendor/Glad/include"
 IncludeDir["imgui"] = "Crystal_Engine_v2/vendor/imgui"
 
+startproject "Sandbox"
 
-include "Crystal_Engine_v2/vendor/GLFW"
-include "Crystal_Engine_v2/vendor/Glad"
-include "Crystal_Engine_v2/vendor/imgui"
+group "Dependencies"
+	include "Crystal_Engine_v2/vendor/GLFW"
+	include "Crystal_Engine_v2/vendor/Glad"
+	include "Crystal_Engine_v2/vendor/imgui"
+group ""
 
 project "Crystal_Engine_v2"
 	location "Crystal_Engine_v2"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -56,7 +60,6 @@ project "Crystal_Engine_v2"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines 
@@ -68,28 +71,29 @@ project "Crystal_Engine_v2"
 
 		postbuildcommands 
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 		filter "configurations:Debug"
 			defines "CRYSTAL_DEBUG"
-			buildoptions "/MDd"
+			runtime "Debug"
 			symbols "On"
 
 		filter "configurations:Release"
 			defines "CRYSTAL_RELEASE"
-			buildoptions "/MD"
-			symbols "On"
+			runtime "Release"
+			optimize "On"
 
 		filter "configurations:Distribution"
 			defines "CRYSTAL_DISTRIBUTION"
-			buildoptions "/MD"
-			symbols "On"
+			runtime "Release"
+			optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -113,7 +117,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines 
@@ -123,15 +126,15 @@ project "Sandbox"
 
 		filter "configurations:Debug"
 			defines "CRYSTAL_DEBUG"
-			buildoptions "/MDd"
+			runtime "Debug"
 			symbols "On"
 
 		filter "configurations:Release"
 			defines "CRYSTAL_RELEASE"
-			buildoptions "/MD"
-			symbols "On"
+			runtime "Release"
+			optimize "On"
 
 		filter "configurations:Distribution"
 			defines "CRYSTAL_DISTRIBUTION"
-			buildoptions "/MD"
-			symbols "On"
+			runtime "Release"
+			optimize "On"
