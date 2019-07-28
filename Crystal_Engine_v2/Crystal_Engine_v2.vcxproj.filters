@@ -68,6 +68,8 @@
     <ClInclude Include="src\platform\windows\WindowsWindow.h">
       <Filter>platform\windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\platform\windows\WindowsInput.h" />
+    <ClInclude Include="src\crystal\Input.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
@@ -92,5 +94,6 @@
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp">
       <Filter>platform\windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>
