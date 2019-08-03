@@ -67,9 +67,6 @@ namespace Crystal
 			for (Layer* layer : layerStack)
 				layer->OnUpdate();
 
-			auto [x, y] = Input::GetMousePosition();
-			CRYSTAL_CORE_TRACE("{0}, {1}", x, y);
-
 			window->OnUpdate();
 		}
 	}

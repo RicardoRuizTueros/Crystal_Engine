@@ -70,6 +70,8 @@
     </ClInclude>
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
     <ClInclude Include="src\crystal\Input.h" />
+    <ClInclude Include="src\crystal\MouseCodes.h" />
+    <ClInclude Include="src\crystal\KeyCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">

@@ -154,7 +154,9 @@
     <ClInclude Include="src\crystal\Core.h" />
     <ClInclude Include="src\crystal\EntryPoint.h" />
     <ClInclude Include="src\crystal\Input.h" />
+    <ClInclude Include="src\crystal\KeyCodes.h" />
     <ClInclude Include="src\crystal\Log.h" />
+    <ClInclude Include="src\crystal\MouseCodes.h" />
     <ClInclude Include="src\crystal\Window.h" />
     <ClInclude Include="src\crystal\events\ApplicationEvent.h" />
     <ClInclude Include="src\crystal\events\Event.h" />

@@ -12,12 +12,17 @@ public:
 
 	void OnUpdate() override
 	{
-		CRYSTAL_INFO("ExampleLayer::Update");
+		if (Input::IsKeyPressed(CRYSTAL_KEY_A))
+			CRYSTAL_TRACE("Pressed {0} (polling)", (char)CRYSTAL_KEY_A);
 	}
 
 	void OnEvent(Crystal::Event& event) override
 	{
-		CRYSTAL_TRACE("{0}", event);
+		if (event.GetEventType() == EventType::KeyPressed)
+		{
+			KeyPressedEvent& keyEvent = (KeyPressedEvent&)event;
+			CRYSTAL_TRACE("Pressed {0} (event)", (char)keyEvent.GetKeyCode());
+		}
 	}
 };
 
