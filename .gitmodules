@@ -7,3 +7,6 @@
 [submodule "Crystal_Engine_v2/vendor/imgui"]
 	path = Crystal_Engine_v2/vendor/imgui
 	url = https://github.com/RicardoRuizTueros/imgui
+[submodule "Crystal_Engine_v2/vendor/glm"]
+	path = Crystal_Engine_v2/vendor/glm
+	url = https://www.github.com/g-truc/glm
