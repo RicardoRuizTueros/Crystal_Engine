@@ -5,6 +5,7 @@
 #include "Crystal/Events/Event.h"
 #include "Crystal/Layers/LayerStack.h"
 #include "Crystal/Events/ApplicationEvent.h"
+#include "crystal/imgui/ImGuiLayer.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ namespace Crystal
 
 		bool running = true;
 		unique_ptr<Window> window;
+		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
 	};
 

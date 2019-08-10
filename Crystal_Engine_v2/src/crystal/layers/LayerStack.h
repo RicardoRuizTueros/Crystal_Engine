@@ -25,7 +25,6 @@ namespace Crystal
 
 	private:
 		vector<Layer*> layers;
-		vector<Layer*>::iterator layerInsert;
-
+		unsigned int layerInsertIndex = 0;
 	};
 }

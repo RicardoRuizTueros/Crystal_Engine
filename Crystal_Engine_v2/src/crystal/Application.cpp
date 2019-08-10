@@ -18,6 +18,9 @@ namespace Crystal
 
 		window = unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_FUNCTION(OnEvent));
+
+		imGuiLayer = new ImGuiLayer();
+		PushOverlay(imGuiLayer);
 	}
 
 	Application::~Application()
@@ -66,6 +69,11 @@ namespace Crystal
 
 			for (Layer* layer : layerStack)
 				layer->OnUpdate();
+
+			imGuiLayer->Begin();
+			for (Layer* layer : layerStack)
+				layer->ImGuiRender();
+			imGuiLayer->End();
 
 			window->OnUpdate();
 		}

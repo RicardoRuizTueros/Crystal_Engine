@@ -1,6 +1,7 @@
 workspace "Crystal_Engine_v2"
 	architecture "x64"
-
+	startproject "Sandbox"
+	
 	configurations
 	{
 		"Debug",
@@ -14,14 +15,12 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Crystal_Engine_v2/vendor/GLFW/include"
 IncludeDir["Glad"] = "Crystal_Engine_v2/vendor/Glad/include"
 IncludeDir["imgui"] = "Crystal_Engine_v2/vendor/imgui"
+IncludeDir["glm"] = "Crystal_Engine_v2/vendor/glm"
 
-startproject "Sandbox"
 
-group "Dependencies"
-	include "Crystal_Engine_v2/vendor/GLFW"
-	include "Crystal_Engine_v2/vendor/Glad"
-	include "Crystal_Engine_v2/vendor/imgui"
-group ""
+include "Crystal_Engine_v2/vendor/GLFW"
+include "Crystal_Engine_v2/vendor/Glad"
+include "Crystal_Engine_v2/vendor/imgui"
 
 project "Crystal_Engine_v2"
 	location "Crystal_Engine_v2"
@@ -38,7 +37,9 @@ project "Crystal_Engine_v2"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
 	includedirs
@@ -47,7 +48,8 @@ project "Crystal_Engine_v2"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.imgui}"
+		"%{IncludeDir.imgui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -107,7 +109,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Crystal_Engine_v2/vendor/spdlog/include",
-		"Crystal_Engine_v2/src"
+		"Crystal_Engine_v2/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links

@@ -5,7 +5,7 @@ namespace Crystal
 {
 	LayerStack::LayerStack()
 	{
-		layerInsert = layers.begin();
+
 	}
 
 	LayerStack::~LayerStack()
@@ -16,7 +16,8 @@ namespace Crystal
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		layers.emplace(layerInsert, layer);
+		layers.emplace(layers.begin() + layerInsertIndex, layer);
+		layerInsertIndex++;
 	}
 
 	void LayerStack::PushOverlay(Layer* layer)
@@ -31,7 +32,7 @@ namespace Crystal
 		if (iterator != layers.end())
 		{
 			layers.erase(iterator);
-			layerInsert--;
+			layerInsertIndex--;
 		}
 	}
 
