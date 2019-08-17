@@ -31,13 +31,11 @@ namespace Crystal
 	void Application::PushLayer(Layer* layer)
 	{
 		layerStack.PushLayer(layer);
-		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
 		layerStack.PushOverlay(layer);
-		layer->OnAttach();
 	}
 
 

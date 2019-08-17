@@ -17,16 +17,16 @@ IncludeDir["Glad"] = "Crystal_Engine_v2/vendor/Glad/include"
 IncludeDir["imgui"] = "Crystal_Engine_v2/vendor/imgui"
 IncludeDir["glm"] = "Crystal_Engine_v2/vendor/glm"
 
-
 include "Crystal_Engine_v2/vendor/GLFW"
 include "Crystal_Engine_v2/vendor/Glad"
 include "Crystal_Engine_v2/vendor/imgui"
 
 project "Crystal_Engine_v2"
 	location "Crystal_Engine_v2"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -40,6 +40,11 @@ project "Crystal_Engine_v2"
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs
@@ -61,19 +66,13 @@ project "Crystal_Engine_v2"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines 
 		{
 			"CRYSTAL_PLATFORM_WINDOWS",
 			"CRYSTAL_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
-		}
-
-		postbuildcommands 
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
+			"GLFW_INCLUDE_NONE",
 		}
 
 		filter "configurations:Debug"
@@ -95,7 +94,8 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -110,6 +110,7 @@ project "Sandbox"
 	{
 		"Crystal_Engine_v2/vendor/spdlog/include",
 		"Crystal_Engine_v2/src",
+		"Crystal_Engine_v2/vendor",
 		"%{IncludeDir.glm}"
 	}
 
@@ -119,7 +120,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines 

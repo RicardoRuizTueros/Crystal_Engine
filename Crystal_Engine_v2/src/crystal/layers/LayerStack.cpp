@@ -18,11 +18,13 @@ namespace Crystal
 	{
 		layers.emplace(layers.begin() + layerInsertIndex, layer);
 		layerInsertIndex++;
+		layer->OnAttach();
 	}
 
 	void LayerStack::PushOverlay(Layer* layer)
 	{
 		layers.emplace_back(layer);
+		layer->OnAttach();
 	}
 
 	void LayerStack::PopLayer(Layer* layer)
@@ -33,6 +35,7 @@ namespace Crystal
 		{
 			layers.erase(iterator);
 			layerInsertIndex--;
+			layer->OnDetach();
 		}
 	}
 
@@ -43,6 +46,7 @@ namespace Crystal
 		if (iterator != layers.end())
 		{
 			layers.erase(iterator);
+			layer->OnDetach();
 		}
 	}
 }

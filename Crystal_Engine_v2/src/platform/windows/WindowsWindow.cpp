@@ -1,11 +1,11 @@
 #include "crystalpch.h"
 #include "WindowsWindow.h"
 
-#include <glad/glad.h>
-
 #include "Crystal/Events/ApplicationEvent.h"
 #include "Crystal/Events/MouseEvent.h"
 #include "Crystal/Events/KeyEvent.h"
+
+#include <glad/glad.h>
 
 namespace Crystal 
 {
