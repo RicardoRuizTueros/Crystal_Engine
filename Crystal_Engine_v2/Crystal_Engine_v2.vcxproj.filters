@@ -16,8 +16,14 @@
     <Filter Include="src\crystal\layers">
       <UniqueIdentifier>{DD3BD380-C91F-94D6-3280-8E291E837E58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\crystal\renderer">
+      <UniqueIdentifier>{44A843A6-3037-CD6F-D955-E16AC5C3DD15}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\platform">
       <UniqueIdentifier>{41663D6D-2DC9-CC11-D64E-05C8C2909894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\platform\openGL">
+      <UniqueIdentifier>{757027EB-E1D1-04F9-6A3F-4BABD69F3BB8}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\platform\windows">
       <UniqueIdentifier>{9B5931A8-87E8-BA71-3007-CF6C1C75CB17}</UniqueIdentifier>
@@ -96,8 +102,14 @@
     <ClInclude Include="src\crystal\layers\LayerStack.h">
       <Filter>src\crystal\layers</Filter>
     </ClInclude>
+    <ClInclude Include="src\crystal\renderer\GraphicsContext.h">
+      <Filter>src\crystal\renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\crystalpch.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\openGL\OpenGLContext.h">
+      <Filter>src\platform\openGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\windows\WindowsInput.h">
       <Filter>src\platform\windows</Filter>
@@ -1231,6 +1243,9 @@
     </ClCompile>
     <ClCompile Include="src\crystalpch.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\openGL\OpenGLContext.cpp">
+      <Filter>src\platform\openGL</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\windows\WindowsInput.cpp">
       <Filter>src\platform\windows</Filter>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "crystal/Window.h"
+#include "crystal/renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -21,8 +22,12 @@ namespace Crystal {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		inline void* GetNativeWindow() const override { return window; }
+		inline virtual void* GetNativeWindow() const { return window; }
+	
 	private:
+		GLFWwindow* window;
+		GraphicsContext* context;
+
 		struct WindowData
 		{
 			string title;
@@ -31,7 +36,6 @@ namespace Crystal {
 			EventCallbackFunction callback;
 		};
 
-		GLFWwindow* window;
 		WindowData data;
 
 		virtual void Init(const WindowProperties& properties);

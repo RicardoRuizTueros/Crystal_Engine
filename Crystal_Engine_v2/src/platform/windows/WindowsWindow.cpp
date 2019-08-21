@@ -5,7 +5,7 @@
 #include "Crystal/Events/MouseEvent.h"
 #include "Crystal/Events/KeyEvent.h"
 
-#include <glad/glad.h>
+#include "platform/openGL/OpenGLContext.h"
 
 namespace Crystal 
 {
@@ -48,11 +48,10 @@ namespace Crystal
 
 			GLFWInitialized = true;
 		}
+		
 		window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(window);
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		CRYSTAL_CORE_ASSERT(status, "Failed to initialize Glad");
+		context = new OpenGLContext(window);
+		context->Init();
 
 		glfwSetWindowUserPointer(window, &data);
 		SetVSync(true);
@@ -156,7 +155,7 @@ namespace Crystal
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(window);
+		context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
