@@ -34,6 +34,7 @@ namespace Crystal
 		unique_ptr<Window> window;
 		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
+		unsigned int vertexArray, vertexBuffer, indexBuffer;
 	};
 
 	Application* CreateApplication();

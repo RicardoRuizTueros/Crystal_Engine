@@ -37,7 +37,7 @@ namespace Crystal
 		data.width = properties.width;
 		data.height = properties.height;
 
-		CRYSTAL_CORE_INFO("Creating window {0} ({1}, {2})", properties.title, properties.width, properties.height);
+		CRYSTAL_CORE_INFO("Creatinge window {0} ({1}, {2})", properties.title, properties.width, properties.height);
 
 		if (!GLFWInitialized)
 		{
