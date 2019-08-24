@@ -6,6 +6,7 @@
 #include "Crystal/Layers/LayerStack.h"
 #include "Crystal/Events/ApplicationEvent.h"
 #include "crystal/imgui/ImGuiLayer.h"
+#include <crystal\renderer\Shader.h>
 
 using namespace std;
 
@@ -35,6 +36,7 @@ namespace Crystal
 		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
 		unsigned int vertexArray, vertexBuffer, indexBuffer;
+		unique_ptr<Shader> shader;
 	};
 
 	Application* CreateApplication();

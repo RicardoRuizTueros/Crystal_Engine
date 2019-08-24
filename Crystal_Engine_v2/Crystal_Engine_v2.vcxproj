@@ -158,6 +158,7 @@
     <ClInclude Include="src\crystal\layers\Layer.h" />
     <ClInclude Include="src\crystal\layers\LayerStack.h" />
     <ClInclude Include="src\crystal\renderer\GraphicsContext.h" />
+    <ClInclude Include="src\crystal\renderer\Shader.h" />
     <ClInclude Include="src\crystalpch.h" />
     <ClInclude Include="src\platform\openGL\OpenGLContext.h" />
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
@@ -538,6 +539,7 @@
     <ClCompile Include="src\crystal\imgui\ImGuiLayer.cpp" />
     <ClCompile Include="src\crystal\layers\Layer.cpp" />
     <ClCompile Include="src\crystal\layers\LayerStack.cpp" />
+    <ClCompile Include="src\crystal\renderer\Shader.cpp" />
     <ClCompile Include="src\crystalpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

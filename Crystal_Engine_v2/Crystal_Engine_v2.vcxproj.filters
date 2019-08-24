@@ -105,6 +105,9 @@
     <ClInclude Include="src\crystal\renderer\GraphicsContext.h">
       <Filter>src\crystal\renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\crystal\renderer\Shader.h">
+      <Filter>src\crystal\renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\crystalpch.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1240,6 +1243,9 @@
     </ClCompile>
     <ClCompile Include="src\crystal\layers\LayerStack.cpp">
       <Filter>src\crystal\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crystal\renderer\Shader.cpp">
+      <Filter>src\crystal\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\crystalpch.cpp">
       <Filter>src</Filter>
