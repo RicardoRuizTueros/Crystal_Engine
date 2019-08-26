@@ -36,6 +36,15 @@ namespace Crystal
 
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+		glGenBuffers(1, &indexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+
+		unsigned int indices[3] = { 0, 1, 2 };
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
 		string vertexSource = R"(
 			#version 330 core
 
@@ -48,33 +57,22 @@ namespace Crystal
 				v_position = a_position;
 				gl_Position = vec4(a_position, 1.0);
 			}
-
 		)";
 
 		string fragmentSource = R"(
 			#version 330 core
 
-			layout(location = 0) out vec4 f_color;
+			layout(location = 0) out vec4 color;
 			
 			in vec3 v_position;
 
 			void main()
 			{
-				color = vec4(v_position * 0.25 + 0.5, 1.0);
+				color = vec4(v_position * 0.5 + 0.5, 1.0);
 			}
-
 		)";
 
 		shader.reset(new Shader(vertexSource, fragmentSource));
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-
-		glGenBuffers(1, &indexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-
-		unsigned int indices[3] = { 0, 1, 2 };
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	}
 
 	Application::~Application()
@@ -119,6 +117,7 @@ namespace Crystal
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			shader->Bind();
 			glBindVertexArray(vertexArray);
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
