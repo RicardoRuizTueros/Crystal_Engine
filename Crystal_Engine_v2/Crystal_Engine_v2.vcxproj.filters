@@ -105,13 +105,28 @@
     <ClInclude Include="src\crystal\renderer\GraphicsContext.h">
       <Filter>src\crystal\renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\crystal\renderer\IndexBuffer.h">
+      <Filter>src\crystal\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\renderer\Renderer.h">
+      <Filter>src\crystal\renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\crystal\renderer\Shader.h">
+      <Filter>src\crystal\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\renderer\VertexBuffer.h">
       <Filter>src\crystal\renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\crystalpch.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\openGL\OpenGLContext.h">
+      <Filter>src\platform\openGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\openGL\OpenGLIndexBuffer.h">
+      <Filter>src\platform\openGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\openGL\OpenGLVertexBuffer.h">
       <Filter>src\platform\openGL</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\windows\WindowsInput.h">
@@ -1244,13 +1259,28 @@
     <ClCompile Include="src\crystal\layers\LayerStack.cpp">
       <Filter>src\crystal\layers</Filter>
     </ClCompile>
+    <ClCompile Include="src\crystal\renderer\IndexBuffer.cpp">
+      <Filter>src\crystal\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crystal\renderer\Renderer.cpp">
+      <Filter>src\crystal\renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\crystal\renderer\Shader.cpp">
+      <Filter>src\crystal\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crystal\renderer\VertexBuffer.cpp">
       <Filter>src\crystal\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\crystalpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\openGL\OpenGLContext.cpp">
+      <Filter>src\platform\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\openGL\OpenGLIndexBuffer.cpp">
+      <Filter>src\platform\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\openGL\OpenGLVertexBuffer.cpp">
       <Filter>src\platform\openGL</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\windows\WindowsInput.cpp">

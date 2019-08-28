@@ -158,9 +158,14 @@
     <ClInclude Include="src\crystal\layers\Layer.h" />
     <ClInclude Include="src\crystal\layers\LayerStack.h" />
     <ClInclude Include="src\crystal\renderer\GraphicsContext.h" />
+    <ClInclude Include="src\crystal\renderer\IndexBuffer.h" />
+    <ClInclude Include="src\crystal\renderer\Renderer.h" />
     <ClInclude Include="src\crystal\renderer\Shader.h" />
+    <ClInclude Include="src\crystal\renderer\VertexBuffer.h" />
     <ClInclude Include="src\crystalpch.h" />
     <ClInclude Include="src\platform\openGL\OpenGLContext.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLIndexBuffer.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
     <ClInclude Include="src\platform\windows\WindowsWindow.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -539,11 +544,16 @@
     <ClCompile Include="src\crystal\imgui\ImGuiLayer.cpp" />
     <ClCompile Include="src\crystal\layers\Layer.cpp" />
     <ClCompile Include="src\crystal\layers\LayerStack.cpp" />
+    <ClCompile Include="src\crystal\renderer\IndexBuffer.cpp" />
+    <ClCompile Include="src\crystal\renderer\Renderer.cpp" />
     <ClCompile Include="src\crystal\renderer\Shader.cpp" />
+    <ClCompile Include="src\crystal\renderer\VertexBuffer.cpp" />
     <ClCompile Include="src\crystalpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\platform\openGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLIndexBuffer.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="src\platform\windows\WindowsInput.cpp" />
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp" />
   </ItemGroup>

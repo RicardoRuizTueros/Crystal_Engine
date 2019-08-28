@@ -7,6 +7,8 @@
 #include "Crystal/Events/ApplicationEvent.h"
 #include "crystal/imgui/ImGuiLayer.h"
 #include <crystal\renderer\Shader.h>
+#include <crystal\renderer\VertexBuffer.h>
+#include <crystal\renderer\IndexBuffer.h>
 
 using namespace std;
 
@@ -35,7 +37,9 @@ namespace Crystal
 		unique_ptr<Window> window;
 		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
-		unsigned int vertexArray, vertexBuffer, indexBuffer;
+		unsigned int vertexArray;
+		unique_ptr<VertexBuffer> vertexBuffer;
+		unique_ptr<IndexBuffer> indexBuffer;
 		unique_ptr<Shader> shader;
 	};
 
