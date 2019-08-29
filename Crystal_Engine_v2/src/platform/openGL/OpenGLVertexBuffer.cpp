@@ -6,7 +6,7 @@ namespace Crystal
 {
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 	{
-		glCreateBuffers(1, &rendererID);
+		glGenBuffers(1, &rendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, rendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
