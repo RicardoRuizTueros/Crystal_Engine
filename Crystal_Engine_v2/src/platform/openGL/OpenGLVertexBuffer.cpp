@@ -25,4 +25,14 @@ namespace Crystal
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
+
+	const BufferLayout& OpenGLVertexBuffer::GetLayout() const
+	{
+		return layout;
+	}
+	
+	void OpenGLVertexBuffer::SetLayout(const BufferLayout& layout)
+	{
+		this->layout = layout;
+	}
 }

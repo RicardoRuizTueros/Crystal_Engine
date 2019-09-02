@@ -1239,6 +1239,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\crystal\renderer\BufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
@@ -1289,5 +1290,6 @@
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp">
       <Filter>src\platform\windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\crystal\renderer\BufferLayout.cpp" />
   </ItemGroup>
 </Project>

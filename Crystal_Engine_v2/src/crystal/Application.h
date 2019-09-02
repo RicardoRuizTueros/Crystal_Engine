@@ -18,7 +18,7 @@ namespace Crystal
 	{
 		public:
 			Application();
-			virtual ~Application();
+			virtual ~Application() = default;
 			
 			void OnEvent(Event& event);
 			bool OnWindowClose(WindowCloseEvent& event);

@@ -7,7 +7,5 @@ namespace Crystal
 	{
 		debugName = name;
 	}
-
-	Layer::~Layer() {}
 }
 

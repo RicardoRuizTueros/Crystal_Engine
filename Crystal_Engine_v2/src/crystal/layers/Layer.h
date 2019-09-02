@@ -11,7 +11,7 @@ namespace Crystal
 	{
 	public:
 		Layer(const string& name = "Layer");
-		virtual ~Layer();
+		virtual ~Layer() = default;
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}

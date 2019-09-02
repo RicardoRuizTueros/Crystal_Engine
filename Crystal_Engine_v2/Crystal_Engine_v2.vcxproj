@@ -149,6 +149,7 @@
     <ClInclude Include="src\crystal\Log.h" />
     <ClInclude Include="src\crystal\MouseCodes.h" />
     <ClInclude Include="src\crystal\MouseKeycodes.h" />
+    <ClInclude Include="src\crystal\renderer\BufferLayout.h" />
     <ClInclude Include="src\crystal\Window.h" />
     <ClInclude Include="src\crystal\events\ApplicationEvent.h" />
     <ClInclude Include="src\crystal\events\Event.h" />
@@ -544,6 +545,7 @@
     <ClCompile Include="src\crystal\imgui\ImGuiLayer.cpp" />
     <ClCompile Include="src\crystal\layers\Layer.cpp" />
     <ClCompile Include="src\crystal\layers\LayerStack.cpp" />
+    <ClCompile Include="src\crystal\renderer\BufferLayout.cpp" />
     <ClCompile Include="src\crystal\renderer\IndexBuffer.cpp" />
     <ClCompile Include="src\crystal\renderer\Renderer.cpp" />
     <ClCompile Include="src\crystal\renderer\Shader.cpp" />
