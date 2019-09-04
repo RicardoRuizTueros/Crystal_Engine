@@ -86,6 +86,9 @@ namespace Crystal
 			case ShaderDataType::Bool:
 				return 1;
 			}
+
+			CRYSTAL_CORE_ASSERT(false, "Unknown ShaderDataType!");
+			return 0;
 		}
 	};
 

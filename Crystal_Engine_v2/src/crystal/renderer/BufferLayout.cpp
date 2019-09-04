@@ -3,8 +3,7 @@
 
 namespace Crystal
 {
-	
-	BufferLayout::BufferLayout(const initializer_list<BufferElement>& elements)
+	BufferLayout::BufferLayout(const initializer_list<BufferElement>& elements) :elements(elements)
 	{
 		CalculateOffsetsAndStride();
 	}
