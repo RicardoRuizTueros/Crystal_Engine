@@ -126,7 +126,6 @@ namespace Crystal
 
 			void main()
 			{
-				color = vec4(v_position * 0.5 + 0.5, 1.0);
 				color = v_color;
 			}
 		)";

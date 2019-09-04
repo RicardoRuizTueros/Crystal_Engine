@@ -53,6 +53,8 @@ namespace Crystal
 		uint32_t size;
 		uint32_t offset;
 		bool normalized;
+
+		BufferElement() = default;
 		
 		BufferElement(ShaderDataType type, const string& name, bool normalized = false) :
 			name(name), type(type), size(ShaderDataTypeSize(type)), offset(0), normalized(normalized) {}
@@ -90,7 +92,7 @@ namespace Crystal
 	class BufferLayout
 	{
 	public:
-		BufferLayout();
+		BufferLayout() = default;
 		BufferLayout(const initializer_list<BufferElement>& elements);
 
 		inline uint32_t GetStride() const { return stride; }

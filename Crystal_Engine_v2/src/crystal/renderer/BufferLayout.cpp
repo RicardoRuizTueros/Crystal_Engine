@@ -3,10 +3,6 @@
 
 namespace Crystal
 {
-	BufferLayout::BufferLayout()
-	{
-
-	}
 	
 	BufferLayout::BufferLayout(const initializer_list<BufferElement>& elements)
 	{
