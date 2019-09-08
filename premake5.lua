@@ -1,4 +1,4 @@
-workspace "Crystal_Engine_v2"
+workspace "Crystal_Engine"
 	architecture "x64"
 	startproject "Sandbox"
 	
@@ -12,19 +12,19 @@ workspace "Crystal_Engine_v2"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["GLFW"] = "Crystal_Engine_v2/vendor/GLFW/include"
-IncludeDir["Glad"] = "Crystal_Engine_v2/vendor/Glad/include"
-IncludeDir["imgui"] = "Crystal_Engine_v2/vendor/imgui"
-IncludeDir["glm"] = "Crystal_Engine_v2/vendor/glm"
+IncludeDir["GLFW"] = "Crystal_Engine/vendor/GLFW/include"
+IncludeDir["Glad"] = "Crystal_Engine/vendor/Glad/include"
+IncludeDir["imgui"] = "Crystal_Engine/vendor/imgui"
+IncludeDir["glm"] = "Crystal_Engine/vendor/glm"
 
 group "Dependencies"
-	include "Crystal_Engine_v2/vendor/GLFW"
-	include "Crystal_Engine_v2/vendor/Glad"
-	include "Crystal_Engine_v2/vendor/imgui"
+	include "Crystal_Engine/vendor/GLFW"
+	include "Crystal_Engine/vendor/Glad"
+	include "Crystal_Engine/vendor/imgui"
 group ""
 
-project "Crystal_Engine_v2"
-	location "Crystal_Engine_v2"
+project "Crystal_Engine"
+	location "Crystal_Engine"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
@@ -34,7 +34,7 @@ project "Crystal_Engine_v2"
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "crystalpch.h"
-	pchsource "Crystal_Engine_v2/src/crystalpch.cpp"
+	pchsource "Crystal_Engine/src/crystalpch.cpp"
 
 	files
 	{
@@ -110,15 +110,15 @@ project "Sandbox"
 
 	includedirs
 	{
-		"Crystal_Engine_v2/vendor/spdlog/include",
-		"Crystal_Engine_v2/src",
-		"Crystal_Engine_v2/vendor",
+		"Crystal_Engine/vendor/spdlog/include",
+		"Crystal_Engine/src",
+		"Crystal_Engine/vendor",
 		"%{IncludeDir.glm}"
 	}
 
 	links
 	{
-		"Crystal_Engine_v2"
+		"Crystal_Engine"
 	}
 
 	filter "system:windows"

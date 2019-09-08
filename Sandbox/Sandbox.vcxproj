@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Crystal_Engine_v2\vendor\spdlog\include;..\Crystal_Engine_v2\src;..\Crystal_Engine_v2\vendor;..\Crystal_Engine_v2\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Crystal_Engine\vendor\spdlog\include;..\Crystal_Engine\src;..\Crystal_Engine\vendor;..\Crystal_Engine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -95,7 +95,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Crystal_Engine_v2\vendor\spdlog\include;..\Crystal_Engine_v2\src;..\Crystal_Engine_v2\vendor;..\Crystal_Engine_v2\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Crystal_Engine\vendor\spdlog\include;..\Crystal_Engine\src;..\Crystal_Engine\vendor;..\Crystal_Engine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CRYSTAL_PLATFORM_WINDOWS;CRYSTAL_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Crystal_Engine_v2\vendor\spdlog\include;..\Crystal_Engine_v2\src;..\Crystal_Engine_v2\vendor;..\Crystal_Engine_v2\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Crystal_Engine\vendor\spdlog\include;..\Crystal_Engine\src;..\Crystal_Engine\vendor;..\Crystal_Engine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -134,8 +134,8 @@
     <ClCompile Include="src\Sandbox.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Crystal_Engine_v2\Crystal_Engine_v2.vcxproj">
-      <Project>{63C14746-CFD7-45DC-184F-D1FD84A41664}</Project>
+    <ProjectReference Include="..\Crystal_Engine\Crystal_Engine.vcxproj">
+      <Project>{5C8BBBCF-4859-AFD5-31ED-1FFC1D5A8B3A}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
