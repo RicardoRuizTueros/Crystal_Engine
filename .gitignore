@@ -266,4 +266,4 @@ __pycache__/
 # Added manually
 Crystal_Engine/vendor/GLFW
 ._*
-bin-int/
+bin-int/*
