@@ -1240,6 +1240,8 @@
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
     <ClInclude Include="src\crystal\renderer\BufferLayout.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\crystal\renderer\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
@@ -1291,5 +1293,7 @@
       <Filter>src\platform\windows</Filter>
     </ClCompile>
     <ClCompile Include="src\crystal\renderer\BufferLayout.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\crystal\renderer\VertexArray.cpp" />
   </ItemGroup>
 </Project>

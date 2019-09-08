@@ -9,6 +9,7 @@
 #include <crystal\renderer\Shader.h>
 #include <crystal\renderer\VertexBuffer.h>
 #include <crystal\renderer\IndexBuffer.h>
+#include <crystal/renderer/VertexArray.h>
 
 using namespace std;
 
@@ -37,10 +38,12 @@ namespace Crystal
 		unique_ptr<Window> window;
 		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
-		unsigned int vertexArray;
-		unique_ptr<VertexBuffer> vertexBuffer;
-		unique_ptr<IndexBuffer> indexBuffer;
-		unique_ptr<Shader> shader;
+		
+		shared_ptr<Shader> shader;
+		shared_ptr<VertexArray> vertexArray;
+
+		shared_ptr<Shader> shader_2;
+		shared_ptr<VertexArray> vertexArray_2;
 	};
 
 	Application* CreateApplication();
