@@ -1,17 +1,19 @@
 #pragma once
 
+#include "RenderCommand.h"
+
+using namespace std;
+
 namespace Crystal
 {
-	enum class RendererAPI
-	{
-		None = 0, OpenGL = 1
-	};
-
 	class Renderer
 	{
 	public:
-		inline static RendererAPI GetRendererAPI() { return rendererAPI; }
-	private:
-		static RendererAPI rendererAPI;
+		static void BeginScene();
+		static void EndScene();
+
+		static void Submit(const shared_ptr<VertexArray>& vertexArray);
+
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	};
 }

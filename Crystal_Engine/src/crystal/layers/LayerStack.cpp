@@ -29,24 +29,24 @@ namespace Crystal
 
 	void LayerStack::PopLayer(Layer* layer)
 	{
-		auto iterator = std::find(layers.begin(), layers.end(), layer);
+		auto iterator = std::find(layers.begin() + layerInsertIndex, layers.end(), layer);
 		
 		if (iterator != layers.end())
 		{
+			layer->OnDetach();
 			layers.erase(iterator);
 			layerInsertIndex--;
-			layer->OnDetach();
 		}
 	}
 
 	void LayerStack::PopOverlay(Layer* layer)
 	{
-		auto iterator = std::find(layers.begin(), layers.end(), layer);
+		auto iterator = std::find(layers.begin() + layerInsertIndex, layers.end(), layer);
 
 		if (iterator != layers.end())
 		{
-			layers.erase(iterator);
 			layer->OnDetach();
+			layers.erase(iterator);
 		}
 	}
 }

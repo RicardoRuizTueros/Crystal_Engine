@@ -18,7 +18,7 @@ namespace Crystal
 		virtual void OnUpdate() {}
 		virtual void ImGuiRender() {}
 		virtual void OnEvent(Crystal::Event& event) {}
-
+		
 		inline const string& GetName() const { return debugName; }
 	protected:
 		string debugName;

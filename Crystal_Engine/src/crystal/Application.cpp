@@ -1,7 +1,7 @@
 #include "crystalpch.h"
 #include "Application.h"
 
-#include <glad/glad.h>
+#include "crystal/renderer/Renderer.h"
 
 namespace Crystal
 {
@@ -169,16 +169,19 @@ namespace Crystal
 	{
 		while (running)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 
+			RenderCommand::Clear();
+
+			Renderer::BeginScene();
+			
 			shader_2->Bind();
-			vertexArray_2->Bind();
-			glDrawElements(GL_TRIANGLES, vertexArray_2->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(vertexArray_2);
 
 			shader->Bind();
-			vertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(vertexArray);
+
+			Renderer::EndScene();
 
 			for (Layer* layer : layerStack)
 				layer->OnUpdate();

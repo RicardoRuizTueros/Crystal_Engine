@@ -1248,6 +1248,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\crystal\renderer\RendererAPI.h" />
+    <ClInclude Include="src\crystal\renderer\RenderCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
@@ -1307,5 +1310,8 @@
     <ClCompile Include="src\platform\windows\WindowsWindow.cpp">
       <Filter>src\platform\windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\crystal\renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\crystal\renderer\RenderCommand.cpp" />
   </ItemGroup>
 </Project>

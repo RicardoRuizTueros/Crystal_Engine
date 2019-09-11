@@ -3,5 +3,19 @@
 
 namespace Crystal
 {
-	RendererAPI Renderer::rendererAPI = RendererAPI::OpenGL;
+
+	void Renderer::BeginScene()
+	{
+		
+	}
+	void Renderer::EndScene()
+	{
+
+	}
+	
+	void Renderer::Submit(const shared_ptr<VertexArray>& vertexArray)
+	{
+		vertexArray->Bind();
+		RenderCommand::DrawIndexed(vertexArray);
+	}
 }
