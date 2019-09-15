@@ -11,6 +11,8 @@ namespace Crystal
 	Application* Application::instance = nullptr;
 
 	Application::Application()
+	// Camera
+	: camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		CRYSTAL_CORE_ASSERT(!instance, "Application already exists!");
 		instance = this;
@@ -81,11 +83,13 @@ namespace Crystal
 			out vec3 v_position;
 			out vec4 v_color;
 
+			uniform mat4 u_viewProjection;
+
 			void main()
 			{
 				v_position = a_position;
 				v_color = a_color;
-				gl_Position = vec4(a_position, 1.0);
+				gl_Position = u_viewProjection * vec4(a_position, 1.0);
 			}
 		)";
 
@@ -112,10 +116,12 @@ namespace Crystal
 			
 			out vec3 v_position;
 
+			uniform mat4 u_viewProjection;
+
 			void main()
 			{
 				v_position = a_position;
-				gl_Position = vec4(a_position, 1.0);
+				gl_Position = u_viewProjection * vec4(a_position, 1.0);
 			}
 		)";
 
@@ -173,13 +179,13 @@ namespace Crystal
 
 			RenderCommand::Clear();
 
-			Renderer::BeginScene();
-			
-			shader_2->Bind();
-			Renderer::Submit(vertexArray_2);
+			camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+			camera.SetRotation(45.0f);
 
-			shader->Bind();
-			Renderer::Submit(vertexArray);
+			Renderer::BeginScene(camera);
+			
+			Renderer::Submit(shader_2, vertexArray_2);
+			Renderer::Submit(shader, vertexArray);
 
 			Renderer::EndScene();
 

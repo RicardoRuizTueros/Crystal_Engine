@@ -149,6 +149,7 @@
     <ClInclude Include="src\crystal\Log.h" />
     <ClInclude Include="src\crystal\MouseCodes.h" />
     <ClInclude Include="src\crystal\MouseKeycodes.h" />
+    <ClInclude Include="src\crystal\renderer\OrthographicCamera.h" />
     <ClInclude Include="src\crystal\renderer\RenderCommand.h" />
     <ClInclude Include="src\crystal\renderer\RendererAPI.h" />
     <ClInclude Include="src\crystal\Window.h" />
@@ -552,6 +553,7 @@
     <ClCompile Include="src\crystal\layers\LayerStack.cpp" />
     <ClCompile Include="src\crystal\renderer\BufferLayout.cpp" />
     <ClCompile Include="src\crystal\renderer\IndexBuffer.cpp" />
+    <ClCompile Include="src\crystal\renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\crystal\renderer\RenderCommand.cpp" />
     <ClCompile Include="src\crystal\renderer\Renderer.cpp" />
     <ClCompile Include="src\crystal\renderer\RendererAPI.cpp" />

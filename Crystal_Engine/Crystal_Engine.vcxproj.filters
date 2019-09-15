@@ -1251,6 +1251,7 @@
     <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\crystal\renderer\RendererAPI.h" />
     <ClInclude Include="src\crystal\renderer\RenderCommand.h" />
+    <ClInclude Include="src\crystal\renderer\OrthographicCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
@@ -1313,5 +1314,6 @@
     <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\crystal\renderer\RendererAPI.cpp" />
     <ClCompile Include="src\crystal\renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\crystal\renderer\OrthographicCamera.cpp" />
   </ItemGroup>
 </Project>

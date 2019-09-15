@@ -1,8 +1,10 @@
 #pragma once
 
 #include <string>
+#include <glm/glm.hpp>
 
 using namespace std;
+using namespace glm;
 
 namespace Crystal
 {
@@ -14,6 +16,8 @@ namespace Crystal
 
 		void Bind() const;
 		void Unbind() const;
+
+		void UploadUniformMat4(const string& name, const mat4& matrix);
 
 	private:
 		uint32_t rendererID;

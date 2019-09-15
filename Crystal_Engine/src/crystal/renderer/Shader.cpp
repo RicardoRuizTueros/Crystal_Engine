@@ -2,6 +2,7 @@
 #include "Shader.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Crystal
 {
@@ -123,5 +124,11 @@ namespace Crystal
 	void Shader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+	
+	void Shader::UploadUniformMat4(const string& name, const mat4& matrix)
+	{
+		GLint location = glGetUniformLocation(rendererID, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix));
 	}
 }

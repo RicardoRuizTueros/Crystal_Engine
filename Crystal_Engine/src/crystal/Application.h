@@ -11,6 +11,8 @@
 #include <crystal\renderer\IndexBuffer.h>
 #include <crystal/renderer/VertexArray.h>
 
+#include "crystal/renderer/OrthographicCamera.h"
+
 using namespace std;
 
 namespace Crystal
@@ -44,6 +46,8 @@ namespace Crystal
 
 		shared_ptr<Shader> shader_2;
 		shared_ptr<VertexArray> vertexArray_2;
+
+		OrthographicCamera camera;
 	};
 
 	Application* CreateApplication();
