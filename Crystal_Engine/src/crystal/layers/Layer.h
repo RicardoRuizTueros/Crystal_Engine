@@ -3,6 +3,8 @@
 #include "Crystal/Core.h"
 #include "Crystal/Events/Event.h"
 
+#include "crystal/core/Timestep.h"
+
 using namespace std;
 
 namespace Crystal
@@ -15,7 +17,7 @@ namespace Crystal
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep timestep) {}
 		virtual void ImGuiRender() {}
 		virtual void OnEvent(Crystal::Event& event) {}
 		

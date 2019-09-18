@@ -140,9 +140,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Desktop\Timestep.h" />
     <ClInclude Include="src\Crystal.h" />
     <ClInclude Include="src\crystal\Application.h" />
     <ClInclude Include="src\crystal\Core.h" />
+    <ClInclude Include="src\crystal\core\Timestep.h" />
     <ClInclude Include="src\crystal\EntryPoint.h" />
     <ClInclude Include="src\crystal\Input.h" />
     <ClInclude Include="src\crystal\KeyCodes.h" />

@@ -1252,6 +1252,8 @@
     <ClInclude Include="src\crystal\renderer\RendererAPI.h" />
     <ClInclude Include="src\crystal\renderer\RenderCommand.h" />
     <ClInclude Include="src\crystal\renderer\OrthographicCamera.h" />
+    <ClInclude Include="..\..\..\..\..\Desktop\Timestep.h" />
+    <ClInclude Include="src\crystal\core\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\Application.cpp">
