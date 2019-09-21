@@ -1,5 +1,7 @@
 #include <Crystal.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace Crystal;
 using namespace glm;
 
@@ -16,10 +18,10 @@ public:
 		};
 
 		float vertices_2[3 * 4] = {
-			-0.75f, -0.75f, 0.0f,
-			 0.75f, -0.75f, 0.0f,
-			 0.75f,  0.75f, 0.0f,
-			-0.75f,  0.75f, 0.0f,
+			-0.5f,  0.5f, 0.0f,
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.5f,  0.5f, 0.0f,
 		};
 
 		BufferLayout layout = {
@@ -67,12 +69,13 @@ public:
 			out vec4 v_color;
 
 			uniform mat4 u_viewProjection;
+			uniform mat4 u_transform;
 
 			void main()
 			{
 				v_position = a_position;
 				v_color = a_color;
-				gl_Position = u_viewProjection * vec4(a_position, 1.0);
+				gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
 			}
 		)";
 
@@ -100,11 +103,12 @@ public:
 			out vec3 v_position;
 
 			uniform mat4 u_viewProjection;
+			uniform mat4 u_transform;
 
 			void main()
 			{
 				v_position = a_position;
-				gl_Position = u_viewProjection * vec4(a_position, 1.0);
+				gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
 			}
 		)";
 
@@ -151,7 +155,19 @@ public:
 
 		Renderer::BeginScene(camera);
 
-		Renderer::Submit(shader_2, vertexArray_2);
+		mat4 scale = glm::scale(mat4(1.0f), vec3(0.1f));
+
+		for (int y = 0; y < 20; y++) 
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				vec3 position(x * 0.11f, y * 0.11f, 0.0f);
+				mat4 transform = translate(mat4(1.0f), position) * scale;
+
+				Renderer::Submit(shader_2, vertexArray_2, transform);
+			}
+		}
+
 		Renderer::Submit(shader, vertexArray);
 
 		Renderer::EndScene();
