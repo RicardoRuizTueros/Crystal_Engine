@@ -18,7 +18,7 @@ namespace Crystal
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate(Timestep timestep) {}
-		virtual void ImGuiRender() {}
+		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Crystal::Event& event) {}
 		
 		inline const string& GetName() const { return debugName; }

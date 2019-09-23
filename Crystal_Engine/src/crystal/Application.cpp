@@ -71,7 +71,7 @@ namespace Crystal
 
 			imGuiLayer->Begin();
 			for (Layer* layer : layerStack)
-				layer->ImGuiRender();
+				layer->OnImGuiRender();
 			imGuiLayer->End();
 
 			window->OnUpdate();

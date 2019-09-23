@@ -84,7 +84,7 @@ namespace Crystal
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::ImGuiRender()
+	void ImGuiLayer::OnImGuiRender()
 	{
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);

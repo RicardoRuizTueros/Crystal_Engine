@@ -1,6 +1,11 @@
 #include <Crystal.h>
 
+#include "platform/openGL/OpenGLShader.h"
+
+#include "imgui/imgui.h"
+
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace Crystal;
 using namespace glm;
@@ -17,7 +22,7 @@ public:
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		float vertices_2[3 * 4] = {
+		float vertices2[3 * 4] = {
 			-0.5f,  0.5f, 0.0f,
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
@@ -29,7 +34,7 @@ public:
 			{ ShaderDataType::Float4, "a_color" }
 		};
 
-		BufferLayout layout_2 = {
+		BufferLayout layout2 = {
 			{ ShaderDataType::Float3, "a_position" },
 		};
 
@@ -46,17 +51,17 @@ public:
 		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		vertexArray->SetIndexBuffer(indexBuffer);
 
-		vertexArray_2.reset(VertexArray::Create());
+		vertexArray2.reset(VertexArray::Create());
 
-		shared_ptr<VertexBuffer> vertexBuffer_2;
-		vertexBuffer_2.reset(VertexBuffer::Create(vertices_2, sizeof(vertices_2)));
-		vertexBuffer_2->SetLayout(layout_2);
-		vertexArray_2->AddVertexBuffer(vertexBuffer_2);
+		shared_ptr<VertexBuffer> vertexBuffer2;
+		vertexBuffer2.reset(VertexBuffer::Create(vertices2, sizeof(vertices2)));
+		vertexBuffer2->SetLayout(layout2);
+		vertexArray2->AddVertexBuffer(vertexBuffer2);
 
-		uint32_t indices_2[6] = { 0, 1, 2, 2, 3, 0 };
-		shared_ptr<IndexBuffer> indexBuffer_2;
-		indexBuffer_2.reset(IndexBuffer::Create(indices_2, sizeof(indices_2) / sizeof(uint32_t)));
-		vertexArray_2->SetIndexBuffer(indexBuffer_2);
+		uint32_t indices2[6] = { 0, 1, 2, 2, 3, 0 };
+		shared_ptr<IndexBuffer> indexBuffer2;
+		indexBuffer2.reset(IndexBuffer::Create(indices2, sizeof(indices2) / sizeof(uint32_t)));
+		vertexArray2->SetIndexBuffer(indexBuffer2);
 
 		// Shaders
 		string vertexSource = R"(
@@ -93,9 +98,9 @@ public:
 			}
 		)";
 
-		shader.reset(new Shader(vertexSource, fragmentSource));
+		shader.reset(Shader::Create(vertexSource, fragmentSource));
 
-		string vertexSource_2 = R"(
+		string vertexSource2 = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_position;
@@ -112,20 +117,22 @@ public:
 			}
 		)";
 
-		string fragmentSource_2 = R"(
+		string fragmentSource2 = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
 			
 			in vec3 v_position;
+			
+			uniform vec3 u_color;
 
 			void main()
 			{
-				color = vec4(0.2, 0.3, 0.8, 1.0);
+				color = vec4(u_color, 1.0);
 			}
 		)";
 
-		shader_2.reset(new Shader(vertexSource_2, fragmentSource_2));
+		shader2.reset(Shader::Create(vertexSource2, fragmentSource2));
 	}
 
 	void OnUpdate(Timestep timestep) override
@@ -133,7 +140,7 @@ public:
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
 
-		CRYSTAL_CORE_TRACE("Delta time: {0}", timestep);
+		 // CRYSTAL_CORE_TRACE("Delta time: {0}", timestep);
 
 		if (Input::IsKeyPressed(CRYSTAL_KEY_LEFT))
 			cameraPosition.x -= cameraMoveSpeed * timestep;
@@ -164,13 +171,21 @@ public:
 				vec3 position(x * 0.11f, y * 0.11f, 0.0f);
 				mat4 transform = translate(mat4(1.0f), position) * scale;
 
-				Renderer::Submit(shader_2, vertexArray_2, transform);
+				Renderer::Submit(shader2, vertexArray2, transform);
+				dynamic_pointer_cast<OpenGLShader>(shader2)->UploadUniformFloat3("u_color", shader2Color);
 			}
 		}
 
 		Renderer::Submit(shader, vertexArray);
 
 		Renderer::EndScene();
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("window name", (bool*)0, 0);
+		ImGui::ColorEdit3("Squares color", value_ptr(shader2Color));
+		ImGui::End();
 	}
 
 	void OnEvent(Crystal::Event& event) override
@@ -182,14 +197,16 @@ private:
 	shared_ptr<Shader> shader;
 	shared_ptr<VertexArray> vertexArray;
 
-	shared_ptr<Shader> shader_2;
-	shared_ptr<VertexArray> vertexArray_2;
+	shared_ptr<Shader> shader2;
+	shared_ptr<VertexArray> vertexArray2;
 
 	OrthographicCamera camera;
 	vec3 cameraPosition = { 0.0f, 0.0f, 0.0f };
 	float cameraMoveSpeed = 5.0f;
 	float cameraRotation = 0.0f;
 	float cameraRotationSpeed = 180.0f;
+	
+	vec3 shader2Color = { 0.2f, 0.3f, 0.8f };
 };
 
 class Sandbox : public Application
