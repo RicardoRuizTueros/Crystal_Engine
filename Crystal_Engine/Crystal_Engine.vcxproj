@@ -140,21 +140,17 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\Desktop\Timestep.h" />
     <ClInclude Include="src\Crystal.h" />
     <ClInclude Include="src\crystal\Application.h" />
     <ClInclude Include="src\crystal\Core.h" />
-    <ClInclude Include="src\crystal\core\Timestep.h" />
     <ClInclude Include="src\crystal\EntryPoint.h" />
     <ClInclude Include="src\crystal\Input.h" />
     <ClInclude Include="src\crystal\KeyCodes.h" />
     <ClInclude Include="src\crystal\Log.h" />
     <ClInclude Include="src\crystal\MouseCodes.h" />
     <ClInclude Include="src\crystal\MouseKeycodes.h" />
-    <ClInclude Include="src\crystal\renderer\OrthographicCamera.h" />
-    <ClInclude Include="src\crystal\renderer\RenderCommand.h" />
-    <ClInclude Include="src\crystal\renderer\RendererAPI.h" />
     <ClInclude Include="src\crystal\Window.h" />
+    <ClInclude Include="src\crystal\core\Timestep.h" />
     <ClInclude Include="src\crystal\events\ApplicationEvent.h" />
     <ClInclude Include="src\crystal\events\Event.h" />
     <ClInclude Include="src\crystal\events\KeyEvent.h" />
@@ -165,7 +161,10 @@
     <ClInclude Include="src\crystal\renderer\BufferLayout.h" />
     <ClInclude Include="src\crystal\renderer\GraphicsContext.h" />
     <ClInclude Include="src\crystal\renderer\IndexBuffer.h" />
+    <ClInclude Include="src\crystal\renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\crystal\renderer\RenderCommand.h" />
     <ClInclude Include="src\crystal\renderer\Renderer.h" />
+    <ClInclude Include="src\crystal\renderer\RendererAPI.h" />
     <ClInclude Include="src\crystal\renderer\Shader.h" />
     <ClInclude Include="src\crystal\renderer\VertexArray.h" />
     <ClInclude Include="src\crystal\renderer\VertexBuffer.h" />
@@ -173,6 +172,7 @@
     <ClInclude Include="src\platform\openGL\OpenGLContext.h" />
     <ClInclude Include="src\platform\openGL\OpenGLIndexBuffer.h" />
     <ClInclude Include="src\platform\openGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\platform\openGL\OpenGLShader.h" />
     <ClInclude Include="src\platform\openGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\platform\openGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="src\platform\windows\WindowsInput.h" />
@@ -568,6 +568,7 @@
     <ClCompile Include="src\platform\openGL\OpenGLContext.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLIndexBuffer.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\platform\openGL\OpenGLShader.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\platform\openGL\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="src\platform\windows\WindowsInput.cpp" />
