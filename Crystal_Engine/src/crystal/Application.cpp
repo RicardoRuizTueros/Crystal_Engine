@@ -21,7 +21,7 @@ namespace Crystal
 		// Window
 		window = unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_FUNCTION(OnEvent));
-		window->SetVSync(false);
+		// window->SetVSync(false);
 
 		// ImGUI layer
 		imGuiLayer = new ImGuiLayer();

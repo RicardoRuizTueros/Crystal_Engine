@@ -78,28 +78,29 @@ namespace Crystal
 		// Now time to link them together into a program.
 		// Get a program object.
 		rendererID = glCreateProgram();
+		GLuint program = rendererID;
 
 		// Attach our shaders to our program
-		glAttachShader(rendererID, vertexShader);
-		glAttachShader(rendererID, fragmentShader);
+		glAttachShader(program, vertexShader);
+		glAttachShader(program, fragmentShader);
 
 		// Link our program
-		glLinkProgram(rendererID);
+		glLinkProgram(program);
 
 		// Note the different functions here: glGetProgram* instead of glGetShader*.
 		GLint isLinked = 0;
-		glGetProgramiv(rendererID, GL_LINK_STATUS, (int*)& isLinked);
+		glGetProgramiv(program, GL_LINK_STATUS, (int*)& isLinked);
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
-			glGetProgramiv(rendererID, GL_INFO_LOG_LENGTH, &maxLength);
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
 			// The maxLength includes the NULL character
 			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(rendererID, maxLength, &maxLength, &infoLog[0]);
+			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
 
 			// We don't need the program anymore.
-			glDeleteProgram(rendererID);
+			glDeleteProgram(program);
 			// Don't leak shaders either.
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
@@ -110,8 +111,8 @@ namespace Crystal
 		}
 
 		// Always detach shaders after a successful link.
-		glDetachShader(rendererID, vertexShader);
-		glDetachShader(rendererID, fragmentShader);
+		glDetachShader(program, vertexShader);
+		glDetachShader(program, fragmentShader);
 	}
 	
 	OpenGLShader::~OpenGLShader()

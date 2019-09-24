@@ -13,7 +13,7 @@ using namespace glm;
 class ExampleLayer : public Layer
 {
 public:
-	ExampleLayer() : Layer("Example"), camera(-1.6f, 1.6f, -0.9f, 0.9f)
+	ExampleLayer() : Layer("Example"), camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0.0f)
 	{
 		// Data & Layout
 		float vertices[3 * 7] = {
@@ -21,23 +21,23 @@ public:
 			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
-
+/*
 		float vertices2[3 * 4] = {
-			-0.5f,  0.5f, 0.0f,
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.5f,  0.5f, 0.0f,
+			-0.5f,  0.5f, 0.0f
 		};
-
+*/
 		BufferLayout layout = {
 			{ ShaderDataType::Float3, "a_position" },
 			{ ShaderDataType::Float4, "a_color" }
 		};
-
+/*
 		BufferLayout layout2 = {
 			{ ShaderDataType::Float3, "a_position" },
 		};
-
+*/
 		// Buffers & arrays
 		vertexArray.reset(VertexArray::Create());
 
@@ -51,18 +51,19 @@ public:
 		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		vertexArray->SetIndexBuffer(indexBuffer);
 
-		vertexArray2.reset(VertexArray::Create());
+		// vertexArray2.reset(VertexArray::Create());
 
+/*
 		shared_ptr<VertexBuffer> vertexBuffer2;
 		vertexBuffer2.reset(VertexBuffer::Create(vertices2, sizeof(vertices2)));
 		vertexBuffer2->SetLayout(layout2);
 		vertexArray2->AddVertexBuffer(vertexBuffer2);
-
+/*
 		uint32_t indices2[6] = { 0, 1, 2, 2, 3, 0 };
 		shared_ptr<IndexBuffer> indexBuffer2;
 		indexBuffer2.reset(IndexBuffer::Create(indices2, sizeof(indices2) / sizeof(uint32_t)));
 		vertexArray2->SetIndexBuffer(indexBuffer2);
-
+*/
 		// Shaders
 		string vertexSource = R"(
 			#version 330 core
@@ -100,46 +101,43 @@ public:
 
 		shader.reset(Shader::Create(vertexSource, fragmentSource));
 
-		string vertexSource2 = R"(
-			#version 330 core
+		//string vertexSource2 = R"(
+		//	#version 330 core
 
-			layout(location = 0) in vec3 a_position;
-			
-			out vec3 v_position;
+		//	layout(location = 0) in vec3 a_position;
+		//	
+		//	out vec3 v_position;
 
-			uniform mat4 u_viewProjection;
-			uniform mat4 u_transform;
+		//	uniform mat4 u_viewProjection;
+		//	uniform mat4 u_transform;
 
-			void main()
-			{
-				v_position = a_position;
-				gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
-			}
-		)";
+		//	void main()
+		//	{
+		//		v_position = a_position;
+		//		gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
+		//	}
+		//)";
 
-		string fragmentSource2 = R"(
-			#version 330 core
+		//string fragmentSource2 = R"(
+		//	#version 330 core
 
-			layout(location = 0) out vec4 color;
-			
-			in vec3 v_position;
-			
-			uniform vec3 u_color;
+		//	layout(location = 0) out vec4 color;
+		//	
+		//	in vec3 v_position;
+		//	
+		//	uniform vec3 u_color;
 
-			void main()
-			{
-				color = vec4(u_color, 1.0);
-			}
-		)";
+		//	void main()
+		//	{
+		//		color = vec4(u_color, 1.0);
+		//	}
+		//)";
 
-		shader2.reset(Shader::Create(vertexSource2, fragmentSource2));
+		//shader2.reset(Shader::Create(vertexSource2, fragmentSource2));
 	}
 
 	void OnUpdate(Timestep timestep) override
 	{
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-		RenderCommand::Clear();
-
 		 // CRYSTAL_CORE_TRACE("Delta time: {0}", timestep);
 
 		if (Input::IsKeyPressed(CRYSTAL_KEY_LEFT))
@@ -157,24 +155,29 @@ public:
 		else if (Input::IsKeyPressed(CRYSTAL_KEY_E))
 			cameraRotation -= cameraRotationSpeed * timestep;
 
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		RenderCommand::Clear();
+
 		camera.SetPosition(cameraPosition);
 		camera.SetRotation(cameraRotation);
 
 		Renderer::BeginScene(camera);
 
-		mat4 scale = glm::scale(mat4(1.0f), vec3(0.1f));
+		//mat4 scale = glm::scale(mat4(1.0f), vec3(0.1f));
+/*
+		dynamic_pointer_cast<OpenGLShader>(shader2)->Bind();
+		dynamic_pointer_cast<OpenGLShader>(shader2)->UploadUniformFloat3("u_color", shader2Color);
+*/
+		//for (int y = 0; y < 20; y++) 
+		//{
+		//	for (int x = 0; x < 20; x++)
+		//	{
+		//		vec3 position(x * 0.11f, y * 0.11f, 0.0f);
+		//		mat4 transform = translate(mat4(1.0f), position) * scale;
 
-		for (int y = 0; y < 20; y++) 
-		{
-			for (int x = 0; x < 20; x++)
-			{
-				vec3 position(x * 0.11f, y * 0.11f, 0.0f);
-				mat4 transform = translate(mat4(1.0f), position) * scale;
-
-				Renderer::Submit(shader2, vertexArray2, transform);
-				dynamic_pointer_cast<OpenGLShader>(shader2)->UploadUniformFloat3("u_color", shader2Color);
-			}
-		}
+		//		Renderer::Submit(shader2, vertexArray2, transform);
+		//	}
+		//}
 
 		Renderer::Submit(shader, vertexArray);
 
@@ -183,9 +186,11 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("window name", (bool*)0, 0);
+	/*
+		ImGui::Begin("Settings");
 		ImGui::ColorEdit3("Squares color", value_ptr(shader2Color));
 		ImGui::End();
+	*/
 	}
 
 	void OnEvent(Crystal::Event& event) override

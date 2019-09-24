@@ -1,6 +1,8 @@
 #include "crystalpch.h"
 #include "LayerStack.h"
 
+using namespace std;
+
 namespace Crystal
 {
 	LayerStack::LayerStack()
@@ -29,9 +31,9 @@ namespace Crystal
 
 	void LayerStack::PopLayer(Layer* layer)
 	{
-		auto iterator = std::find(layers.begin() + layerInsertIndex, layers.end(), layer);
+		auto iterator = find(layers.begin(), layers.begin() + layerInsertIndex, layer);
 		
-		if (iterator != layers.end())
+		if (iterator != layers.begin() + layerInsertIndex)
 		{
 			layer->OnDetach();
 			layers.erase(iterator);
@@ -41,7 +43,7 @@ namespace Crystal
 
 	void LayerStack::PopOverlay(Layer* layer)
 	{
-		auto iterator = std::find(layers.begin() + layerInsertIndex, layers.end(), layer);
+		auto iterator = find(layers.begin() + layerInsertIndex, layers.end(), layer);
 
 		if (iterator != layers.end())
 		{
