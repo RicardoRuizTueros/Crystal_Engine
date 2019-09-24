@@ -160,13 +160,13 @@ namespace Crystal
 		glUniform4f(location, vector.x, vector.y, vector.z, vector.w);
 	}
 	
-	void OpenGLShader::UploadUniformMat3(const string& name, const mat4& matrix)
+	void OpenGLShader::UploadUniformMat3(const string& name, const mat3& matrix)
 	{
 		GLint location = glGetUniformLocation(rendererID, name.c_str());
 		glUniformMatrix3fv(location, 1, GL_FALSE, value_ptr(matrix));
 	}
 
-	void OpenGLShader::UploadUniformMat4(const string& name, const mat3& matrix)
+	void OpenGLShader::UploadUniformMat4(const string& name, const mat4& matrix)
 	{
 		GLint location = glGetUniformLocation(rendererID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix));

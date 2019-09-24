@@ -24,8 +24,8 @@ namespace Crystal
 		void UploadUniformFloat3(const string& name, const vec3& vector);
 		void UploadUniformFloat4(const string& name, const vec4& vector);
 
-		void UploadUniformMat3(const string& name, const mat4& matrix);
-		void UploadUniformMat4(const string& name, const mat3& matrix);
+		void UploadUniformMat3(const string& name, const mat3& matrix);
+		void UploadUniformMat4(const string& name, const mat4& matrix);
 
 	private:
 		uint32_t rendererID;
