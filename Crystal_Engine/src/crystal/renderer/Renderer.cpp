@@ -20,7 +20,7 @@ namespace Crystal
 
 	}
 
-	void Renderer::Submit(const shared_ptr<Shader>& shader, const shared_ptr<VertexArray>& vertexArray, const mat4& transform)
+	void Renderer::Submit(const Reference<Shader>& shader, const Reference<VertexArray>& vertexArray, const mat4& transform)
 	{
 		shader->Bind();
 		dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_viewProjection", sceneData->viewProjectionMatrix);

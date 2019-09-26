@@ -20,7 +20,7 @@ namespace Crystal
 			rendererAPI->Clear();
 		}
 
-		inline static void DrawIndexed(const shared_ptr<VertexArray>& vertexArray)
+		inline static void DrawIndexed(const Reference<VertexArray>& vertexArray)
 		{
 			rendererAPI->DrawIndexed(vertexArray);
 		}

@@ -41,25 +41,25 @@ public:
 		// Buffers & arrays
 		vertexArray.reset(VertexArray::Create());
 
-		shared_ptr<VertexBuffer> vertexBuffer;
+		Reference<VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		vertexBuffer->SetLayout(layout);
 		vertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		shared_ptr<IndexBuffer> indexBuffer;
+		Reference<IndexBuffer> indexBuffer;
 		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		vertexArray->SetIndexBuffer(indexBuffer);
 
 		vertexArray2.reset(VertexArray::Create());
 
-		shared_ptr<VertexBuffer> vertexBuffer2;
+		Reference<VertexBuffer> vertexBuffer2;
 		vertexBuffer2.reset(VertexBuffer::Create(vertices2, sizeof(vertices2)));
 		vertexBuffer2->SetLayout(layout2);
 		vertexArray2->AddVertexBuffer(vertexBuffer2);
 
 		uint32_t indices2[6] = { 0, 1, 2, 2, 3, 0 };
-		shared_ptr<IndexBuffer> indexBuffer2;
+		Reference<IndexBuffer> indexBuffer2;
 		indexBuffer2.reset(IndexBuffer::Create(indices2, sizeof(indices2) / sizeof(uint32_t)));
 		vertexArray2->SetIndexBuffer(indexBuffer2);
 
@@ -194,11 +194,11 @@ public:
 	}
 
 private:
-	shared_ptr<Shader> shader;
-	shared_ptr<VertexArray> vertexArray;
+	Reference<Shader> shader;
+	Reference<VertexArray> vertexArray;
 
-	shared_ptr<Shader> shader2;
-	shared_ptr<VertexArray> vertexArray2;
+	Reference<Shader> shader2;
+	Reference<VertexArray> vertexArray2;
 
 	OrthographicCamera camera;
 	vec3 cameraPosition = { 0.0f, 0.0f, 0.0f };

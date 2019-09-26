@@ -21,7 +21,7 @@ namespace Crystal
 		virtual void SetClearColor(const vec4& color) = 0;
 		virtual void Clear() = 0;
 
-		virtual void DrawIndexed(const shared_ptr <VertexArray>& vertexArray) = 0;
+		virtual void DrawIndexed(const Reference<VertexArray>& vertexArray) = 0;
 
 		inline static API GetAPI() { return api; }
 

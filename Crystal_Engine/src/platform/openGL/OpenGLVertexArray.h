@@ -15,15 +15,15 @@ namespace Crystal
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 		
-		virtual void AddVertexBuffer(const shared_ptr<VertexBuffer>& vertexBuffer) override;
-		virtual void SetIndexBuffer(const shared_ptr<IndexBuffer>& indexBuffer) override;
+		virtual void AddVertexBuffer(const Reference<VertexBuffer>& vertexBuffer) override;
+		virtual void SetIndexBuffer(const Reference<IndexBuffer>& indexBuffer) override;
 		
-		virtual const vector<shared_ptr<VertexBuffer>>& GetVertexBuffers() const { return vertexBuffers; }
-		virtual const shared_ptr<IndexBuffer>& GetIndexBuffer() const { return indexBuffer; }
+		virtual const vector<Reference<VertexBuffer>>& GetVertexBuffers() const { return vertexBuffers; }
+		virtual const Reference<IndexBuffer>& GetIndexBuffer() const { return indexBuffer; }
 
 	private:
 		uint32_t rendererID;
-		vector<shared_ptr<VertexBuffer>> vertexBuffers;
-		shared_ptr<IndexBuffer> indexBuffer;
+		vector<Reference<VertexBuffer>> vertexBuffers;
+		Reference<IndexBuffer> indexBuffer;
 	};
 }
