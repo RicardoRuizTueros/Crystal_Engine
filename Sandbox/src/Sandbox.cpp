@@ -6,6 +6,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <crystal/renderer/Texture2D.h>
 
 using namespace Crystal;
 using namespace glm;
@@ -17,9 +18,10 @@ public:
 	{
 		// Data & Layout
 		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
 		float vertices2[3 * 4] = {
@@ -31,7 +33,7 @@ public:
 
 		BufferLayout layout = {
 			{ ShaderDataType::Float3, "a_position" },
-			{ ShaderDataType::Float4, "a_color" }
+			{ ShaderDataType::Float2, "a_textureCoordinates" }
 		};
 
 		BufferLayout layout2 = {
@@ -46,7 +48,7 @@ public:
 		vertexBuffer->SetLayout(layout);
 		vertexArray->AddVertexBuffer(vertexBuffer);
 
-		uint32_t indices[3] = { 0, 1, 2 };
+		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0};
 		Reference<IndexBuffer> indexBuffer;
 		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		vertexArray->SetIndexBuffer(indexBuffer);
@@ -68,18 +70,16 @@ public:
 			#version 330 core
 
 			layout(location = 0) in vec3 a_position;
-			layout(location = 1) in vec4 a_color;
+			layout(location = 1) in vec2 a_textureCoordinates;
 			
-			out vec3 v_position;
-			out vec4 v_color;
+			out vec2 v_textureCoordinates;
 
 			uniform mat4 u_viewProjection;
 			uniform mat4 u_transform;
 
 			void main()
 			{
-				v_position = a_position;
-				v_color = a_color;
+				v_textureCoordinates = a_textureCoordinates;
 				gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
 			}
 		)";
@@ -89,16 +89,21 @@ public:
 
 			layout(location = 0) out vec4 color;
 			
-			in vec3 v_position;
-			in vec4 v_color;
+			in vec2 v_textureCoordinates;
+
+			uniform sampler2D u_texture;
 
 			void main()
 			{
-				color = v_color;
+				color = texture(u_texture, v_textureCoordinates);
 			}
 		)";
 
 		shader.reset(Shader::Create(vertexSource, fragmentSource));
+		texture = Texture2D::Create("assets/textures/checkerboard.png");
+
+		dynamic_pointer_cast<OpenGLShader>(shader)->Bind();
+		dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformInt("u_texture", 0);
 
 		string vertexSource2 = R"(
 			#version 330 core
@@ -176,7 +181,8 @@ public:
 			}
 		}
 
-		Renderer::Submit(shader, vertexArray);
+		texture->Bind();
+		Renderer::Submit(shader, vertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
 
 		Renderer::EndScene();
 	}
@@ -196,6 +202,7 @@ public:
 private:
 	Reference<Shader> shader;
 	Reference<VertexArray> vertexArray;
+	Reference<Texture2D> texture;
 
 	Reference<Shader> shader2;
 	Reference<VertexArray> vertexArray2;

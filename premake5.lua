@@ -16,6 +16,7 @@ IncludeDir["GLFW"] = "Crystal_Engine/vendor/GLFW/include"
 IncludeDir["Glad"] = "Crystal_Engine/vendor/Glad/include"
 IncludeDir["imgui"] = "Crystal_Engine/vendor/imgui"
 IncludeDir["glm"] = "Crystal_Engine/vendor/glm"
+IncludeDir["stb_image"] = "Crystal_Engine/vendor/stb_image"
 
 group "Dependencies"
 	include "Crystal_Engine/vendor/GLFW"
@@ -42,6 +43,8 @@ project "Crystal_Engine"
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/stb_image/stb_image.h",
+		"%{prj.name}/vendor/stb_image/stb_image.cpp",
 	}
 
 	defines
@@ -56,7 +59,8 @@ project "Crystal_Engine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.imgui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links
