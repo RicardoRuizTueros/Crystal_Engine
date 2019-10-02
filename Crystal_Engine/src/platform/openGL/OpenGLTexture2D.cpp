@@ -19,13 +19,20 @@ namespace Crystal
 		this->height = height;
 		this->width = width;
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
-		glTextureStorage2D(rendererID, 1, GL_RGB8, width, height);
-		
-		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		// glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
+		glGenTextures(1, &rendererID);
+		glBindTexture(GL_TEXTURE_2D, rendererID);
 
-		glTextureSubImage2D(rendererID, 0, 0, 0, width, height, GL_RGB8, GL_UNSIGNED_BYTE, data);
+		// glTextureStorage2D(rendererID, 1, GL_RGB8, width, height);
+		
+		// glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		// glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// glTextureSubImage2D(rendererID, 0, 0, 0, width, height, GL_RGB8, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
 	}
@@ -37,7 +44,8 @@ namespace Crystal
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
-		glBindTextureUnit(slot, rendererID);
+		// glBindTextureUnit(slot, rendererID);
+		glBindTexture(slot, rendererID);
 	}
 
 }
