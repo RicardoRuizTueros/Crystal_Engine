@@ -22,7 +22,7 @@ namespace Crystal
 		virtual const Reference<IndexBuffer>& GetIndexBuffer() const { return indexBuffer; }
 
 	private:
-		uint32_t rendererID;
+		uint32_t rendererID, vertexBufferIndex = 0;
 		vector<Reference<VertexBuffer>> vertexBuffers;
 		Reference<IndexBuffer> indexBuffer;
 	};

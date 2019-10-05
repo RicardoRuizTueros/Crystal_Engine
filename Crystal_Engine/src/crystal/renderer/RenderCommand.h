@@ -10,6 +10,11 @@ namespace Crystal
 	class RenderCommand
 	{
 	public:
+		inline static void Init()
+		{
+			rendererAPI->Init();
+		}
+
 		inline static void SetClearColor(const vec4& color)
 		{
 			rendererAPI->SetClearColor(color);

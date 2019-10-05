@@ -101,6 +101,8 @@ public:
 
 		shader.reset(Shader::Create(vertexSource, fragmentSource));
 		texture = Texture2D::Create("assets/textures/checkerboard.png");
+		logoTexture = Texture2D::Create("assets/textures/logo.png");
+
 
 		dynamic_pointer_cast<OpenGLShader>(shader)->Bind();
 		dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformInt("u_texture", 0);
@@ -183,6 +185,9 @@ public:
 
 		texture->Bind();
 		Renderer::Submit(shader, vertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
+		
+		logoTexture->Bind();
+		Renderer::Submit(shader, vertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
 
 		Renderer::EndScene();
 	}
@@ -202,7 +207,7 @@ public:
 private:
 	Reference<Shader> shader;
 	Reference<VertexArray> vertexArray;
-	Reference<Texture2D> texture;
+	Reference<Texture2D> texture, logoTexture;
 
 	Reference<Shader> shader2;
 	Reference<VertexArray> vertexArray2;
