@@ -19,17 +19,6 @@ namespace Crystal
 		this->height = height;
 		this->width = width;
 
-		// glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
-		glGenTextures(1, &rendererID);
-		glBindTexture(GL_TEXTURE_2D, rendererID);
-
-		// glTextureStorage2D(rendererID, 1, GL_RGB8, width, height);
-		
-		// glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		// glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
 		GLenum internalFormat = 0, dataFormat = 0;
 
 		switch (channels) {
@@ -40,12 +29,26 @@ namespace Crystal
 		case 3:
 			internalFormat = GL_RGB8;
 			dataFormat = GL_RGB;
+			break;
 		}
 
 		CRYSTAL_CORE_ASSERT(internalFormat && dataFormat, "Format not supported!");
 
-		// glTexturecSubImage2D(rendererID, 0, 0, 0, width, height, GL_RGB8, GL_UNSIGNED_BYTE, data);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, data);
+		// glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
+		glGenTextures(1, &rendererID);
+		glBindTexture(GL_TEXTURE_2D, rendererID);
+
+		// glTextureStorage2D(rendererID, 1, GL_RGB8, width, height);
+
+		// glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		// glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// glTextureSubImage2D(rendererID, 0, 0, 0, width, height, GL_RGB8, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
