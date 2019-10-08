@@ -17,56 +17,56 @@ public:
 	ExampleLayer() : Layer("Example"), camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0.0f)
 	{
 		// Data & Layout
-		float vertices[3 * 7] = {
+		float textureVertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		float vertices2[3 * 4] = {
+		float squareVertices[3 * 4] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.5f,  0.5f, 0.0f,
 			-0.5f,  0.5f, 0.0f
 		};
 
-		BufferLayout layout = {
+		BufferLayout textureLayout = {
 			{ ShaderDataType::Float3, "a_position" },
 			{ ShaderDataType::Float2, "a_textureCoordinates" }
 		};
 
-		BufferLayout layout2 = {
+		BufferLayout squareLayout = {
 			{ ShaderDataType::Float3, "a_position" },
 		};
 
 		// Buffers & arrays
-		vertexArray.reset(VertexArray::Create());
+		textureVertexArray.reset(VertexArray::Create());
 
-		Reference<VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		vertexBuffer->SetLayout(layout);
-		vertexArray->AddVertexBuffer(vertexBuffer);
+		Reference<VertexBuffer> textureVertexBuffer;
+		textureVertexBuffer.reset(VertexBuffer::Create(textureVertices, sizeof(textureVertices)));
+		textureVertexBuffer->SetLayout(textureLayout);
+		textureVertexArray->AddVertexBuffer(textureVertexBuffer);
 
-		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0};
-		Reference<IndexBuffer> indexBuffer;
-		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		vertexArray->SetIndexBuffer(indexBuffer);
+		uint32_t textureIndices[6] = { 0, 1, 2, 2, 3, 0};
+		Reference<IndexBuffer> textureIndexBuffer;
+		textureIndexBuffer.reset(IndexBuffer::Create(textureIndices, sizeof(textureIndices) / sizeof(uint32_t)));
+		textureVertexArray->SetIndexBuffer(textureIndexBuffer);
 
-		vertexArray2.reset(VertexArray::Create());
+		squareVertexArray.reset(VertexArray::Create());
 
-		Reference<VertexBuffer> vertexBuffer2;
-		vertexBuffer2.reset(VertexBuffer::Create(vertices2, sizeof(vertices2)));
-		vertexBuffer2->SetLayout(layout2);
-		vertexArray2->AddVertexBuffer(vertexBuffer2);
+		Reference<VertexBuffer> squareVertexBuffer;
+		squareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVertexBuffer->SetLayout(squareLayout);
+		squareVertexArray->AddVertexBuffer(squareVertexBuffer);
 
-		uint32_t indices2[6] = { 0, 1, 2, 2, 3, 0 };
-		Reference<IndexBuffer> indexBuffer2;
-		indexBuffer2.reset(IndexBuffer::Create(indices2, sizeof(indices2) / sizeof(uint32_t)));
-		vertexArray2->SetIndexBuffer(indexBuffer2);
+		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+		Reference<IndexBuffer> squareIndexBuffer;
+		squareIndexBuffer.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		squareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		// Shaders
-		string vertexSource = R"(
+		string textureVertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_position;
@@ -84,7 +84,7 @@ public:
 			}
 		)";
 
-		string fragmentSource = R"(
+		string textureFragmentSource = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
@@ -99,13 +99,14 @@ public:
 			}
 		)";
 
-		shader.reset(Shader::Create(vertexSource, fragmentSource));
-		texture = Texture2D::Create("assets/textures/checkerboard.png");
+		textureShader.reset(Shader::Create(textureVertexSource, textureFragmentSource));
+		checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
+		logoTexture = Texture2D::Create("assets/textures/logo.png");
 
-		dynamic_pointer_cast<OpenGLShader>(shader)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformInt("u_texture", 0);
+		dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
+		dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformInt("u_texture", 0);
 
-		string vertexSource2 = R"(
+		string squareVertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_position;
@@ -122,7 +123,7 @@ public:
 			}
 		)";
 
-		string fragmentSource2 = R"(
+		string squareFragmentSource = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
@@ -137,7 +138,7 @@ public:
 			}
 		)";
 
-		shader2.reset(Shader::Create(vertexSource2, fragmentSource2));
+		squareShader.reset(Shader::Create(squareVertexSource, squareFragmentSource));
 	}
 
 	void OnUpdate(Timestep timestep) override
@@ -167,8 +168,8 @@ public:
 
 		mat4 scale = glm::scale(mat4(1.0f), vec3(0.1f));
 
-		dynamic_pointer_cast<OpenGLShader>(shader2)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(shader2)->UploadUniformFloat3("u_color", shader2Color);
+		dynamic_pointer_cast<OpenGLShader>(squareShader)->Bind();
+		dynamic_pointer_cast<OpenGLShader>(squareShader)->UploadUniformFloat3("u_color", squareShaderColor);
 
 		for (int y = 0; y < 20; y++) 
 		{
@@ -177,12 +178,15 @@ public:
 				vec3 position(x * 0.11f, y * 0.11f, 0.0f);
 				mat4 transform = translate(mat4(1.0f), position) * scale;
 
-				Renderer::Submit(shader2, vertexArray2, transform);
+				Renderer::Submit(squareShader, squareVertexArray, transform);
 			}
 		}
 
-		texture->Bind();
-		Renderer::Submit(shader, vertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
+		checkerTexture->Bind();
+		Renderer::Submit(textureShader, textureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
+		
+		logoTexture->Bind(1);
+		Renderer::Submit(textureShader, textureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
 
 		Renderer::EndScene();
 	}
@@ -190,7 +194,7 @@ public:
 	virtual void OnImGuiRender() override
 	{
 		ImGui::Begin("Settings");
-		ImGui::ColorEdit3("Squares color", value_ptr(shader2Color));
+		ImGui::ColorEdit3("Squares color", value_ptr(squareShaderColor));
 		ImGui::End();
 	}
 
@@ -200,20 +204,19 @@ public:
 	}
 
 private:
-	Reference<Shader> shader;
-	Reference<VertexArray> vertexArray;
-	Reference<Texture2D> texture;
+	Reference<Shader> textureShader;
+	Reference<VertexArray> textureVertexArray;
+	Reference<Texture2D> checkerTexture, logoTexture;
 
-	Reference<Shader> shader2;
-	Reference<VertexArray> vertexArray2;
+	Reference<Shader> squareShader;
+	Reference<VertexArray> squareVertexArray;
+	vec3 squareShaderColor = { 0.2f, 0.3f, 0.8f };
 
 	OrthographicCamera camera;
 	vec3 cameraPosition = { 0.0f, 0.0f, 0.0f };
 	float cameraMoveSpeed = 5.0f;
 	float cameraRotation = 0.0f;
 	float cameraRotationSpeed = 180.0f;
-	
-	vec3 shader2Color = { 0.2f, 0.3f, 0.8f };
 };
 
 class Sandbox : public Application

@@ -23,6 +23,8 @@ namespace Crystal
 		window->SetEventCallback(BIND_FUNCTION(OnEvent));
 		// window->SetVSync(false);
 
+		Renderer::Init();
+
 		// ImGUI layer
 		imGuiLayer = new ImGuiLayer();
 		PushOverlay(imGuiLayer);
