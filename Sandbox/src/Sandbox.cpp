@@ -17,14 +17,14 @@ public:
 	ExampleLayer() : Layer("Example"), camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0.0f)
 	{
 		// Data & Layout
-		float textureVertices[4 * 5] = {
+		float textureVertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		float squareVertices[4 * 3] = {
+		float squareVertices[3 * 4] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.5f,  0.5f, 0.0f,
@@ -66,7 +66,7 @@ public:
 		squareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		// Shaders
-		string vertexSourceTexture = R"(
+		string textureVertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_position;
@@ -84,7 +84,7 @@ public:
 			}
 		)";
 
-		string fragmentSourceTexture = R"(
+		string textureFragmentSource = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
@@ -99,14 +99,14 @@ public:
 			}
 		)";
 
-		textureShader.reset(Shader::Create(vertexSourceTexture, fragmentSourceTexture));
-		texture = Texture2D::Create("assets/textures/checkerboard.png");
-		// logoTexture = Texture2D::Create("assets/textures/logo.png");
+		textureShader.reset(Shader::Create(textureVertexSource, textureFragmentSource));
+		checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
+		logoTexture = Texture2D::Create("assets/textures/logo.png");
 
 		dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
 		dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformInt("u_texture", 0);
 
-		string vertexSourceSquare = R"(
+		string squareVertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_position;
@@ -123,7 +123,7 @@ public:
 			}
 		)";
 
-		string fragmentSourceSquare = R"(
+		string squareFragmentSource = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
@@ -138,7 +138,7 @@ public:
 			}
 		)";
 
-		squareShader.reset(Shader::Create(vertexSourceSquare, fragmentSourceSquare));
+		squareShader.reset(Shader::Create(squareVertexSource, squareFragmentSource));
 	}
 
 	void OnUpdate(Timestep timestep) override
@@ -182,11 +182,11 @@ public:
 			}
 		}
 
-		texture->Bind();
+		checkerTexture->Bind();
 		Renderer::Submit(textureShader, textureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
 		
-		// logoTexture->Bind();
-		// Renderer::Submit(shader, vertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
+		logoTexture->Bind(1);
+		Renderer::Submit(textureShader, textureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
 
 		Renderer::EndScene();
 	}
@@ -206,8 +206,7 @@ public:
 private:
 	Reference<Shader> textureShader;
 	Reference<VertexArray> textureVertexArray;
-	Reference<Texture2D> texture;
-	// Reference<Texture2D> logoTexture;
+	Reference<Texture2D> checkerTexture, logoTexture;
 
 	Reference<Shader> squareShader;
 	Reference<VertexArray> squareVertexArray;
