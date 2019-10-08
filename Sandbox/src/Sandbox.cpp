@@ -37,7 +37,7 @@ public:
 		};
 
 		BufferLayout squareLayout = {
-			{ ShaderDataType::Float3, "a_position" },
+			{ ShaderDataType::Float3, "a_position" }
 		};
 
 		// Buffers & arrays
