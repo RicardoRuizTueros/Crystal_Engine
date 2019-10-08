@@ -17,14 +17,14 @@ public:
 	ExampleLayer() : Layer("Example"), camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0.0f)
 	{
 		// Data & Layout
-		float textureVertices[3 * 7] = {
+		float textureVertices[4 * 5] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		float squareVertices[3 * 4] = {
+		float squareVertices[4 * 3] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.5f,  0.5f, 0.0f,
@@ -37,7 +37,7 @@ public:
 		};
 
 		BufferLayout squareLayout = {
-			{ ShaderDataType::Float3, "a_position" }
+			{ ShaderDataType::Float3, "a_position" },
 		};
 
 		// Buffers & arrays
@@ -100,8 +100,7 @@ public:
 		)";
 
 		textureShader.reset(Shader::Create(textureVertexSource, textureFragmentSource));
-		checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
-		logoTexture = Texture2D::Create("assets/textures/logo.png");
+		texture = Texture2D::Create("assets/textures/logo.png");
 
 		dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
 		dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformInt("u_texture", 0);
@@ -182,10 +181,7 @@ public:
 			}
 		}
 
-		checkerTexture->Bind();
-		Renderer::Submit(textureShader, textureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
-		
-		logoTexture->Bind(1);
+		texture->Bind();
 		Renderer::Submit(textureShader, textureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
 
 		Renderer::EndScene();
@@ -206,7 +202,7 @@ public:
 private:
 	Reference<Shader> textureShader;
 	Reference<VertexArray> textureVertexArray;
-	Reference<Texture2D> checkerTexture, logoTexture;
+	Reference<Texture2D> texture;
 
 	Reference<Shader> squareShader;
 	Reference<VertexArray> squareVertexArray;

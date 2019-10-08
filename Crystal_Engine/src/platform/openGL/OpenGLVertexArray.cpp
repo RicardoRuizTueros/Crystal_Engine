@@ -70,21 +70,20 @@ namespace Crystal
 
 		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(vertexBufferIndex);
+			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(
-				vertexBufferIndex,
+				index,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLType(element.type),
 				element.normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(const void*)(intptr_t)element.offset
+				(const void*)element.offset
 			);
 
 			index++;
 		}
 
 		vertexBuffers.push_back(vertexBuffer);
-		vertexBufferIndex++;
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const Reference<IndexBuffer>& indexBuffer)
