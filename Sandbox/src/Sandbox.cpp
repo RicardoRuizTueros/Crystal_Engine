@@ -17,7 +17,14 @@ public:
 	ExampleLayer() : Layer("Example"), camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0.0f)
 	{
 		// Data & Layout
-		float textureVertices[4 * 5] = {
+		float logoTextureVertices[4 * 5] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
+		};
+
+		float checkerTextureVertices[4 * 5] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
@@ -31,7 +38,12 @@ public:
 			-0.5f,  0.5f, 0.0f
 		};
 
-		BufferLayout textureLayout = {
+		BufferLayout logoTextureLayout = {
+			{ ShaderDataType::Float3, "a_position" },
+			{ ShaderDataType::Float2, "a_textureCoordinates" }
+		};
+
+		BufferLayout checkerTextureLayout = {
 			{ ShaderDataType::Float3, "a_position" },
 			{ ShaderDataType::Float2, "a_textureCoordinates" }
 		};
@@ -41,17 +53,28 @@ public:
 		};
 
 		// Buffers & arrays
-		textureVertexArray.reset(VertexArray::Create());
+		logoTextureVertexArray.reset(VertexArray::Create());
+		checkerTextureVertexArray.reset(VertexArray::Create());
 
-		Reference<VertexBuffer> textureVertexBuffer;
-		textureVertexBuffer.reset(VertexBuffer::Create(textureVertices, sizeof(textureVertices)));
-		textureVertexBuffer->SetLayout(textureLayout);
-		textureVertexArray->AddVertexBuffer(textureVertexBuffer);
+		Reference<VertexBuffer> logoTextureVertexBuffer;
+		logoTextureVertexBuffer.reset(VertexBuffer::Create(logoTextureVertices, sizeof(logoTextureVertices)));
+		logoTextureVertexBuffer->SetLayout(logoTextureLayout);
+		logoTextureVertexArray->AddVertexBuffer(logoTextureVertexBuffer);
 
-		uint32_t textureIndices[6] = { 0, 1, 2, 2, 3, 0};
-		Reference<IndexBuffer> textureIndexBuffer;
-		textureIndexBuffer.reset(IndexBuffer::Create(textureIndices, sizeof(textureIndices) / sizeof(uint32_t)));
-		textureVertexArray->SetIndexBuffer(textureIndexBuffer);
+		Reference<VertexBuffer> checkerTextureVertexBuffer;
+		checkerTextureVertexBuffer.reset(VertexBuffer::Create(checkerTextureVertices, sizeof(checkerTextureVertices)));
+		checkerTextureVertexBuffer->SetLayout(checkerTextureLayout);
+		checkerTextureVertexArray->AddVertexBuffer(checkerTextureVertexBuffer);
+
+		uint32_t logoTextureIndices[6] = { 0, 1, 2, 2, 3, 0 };
+		Reference<IndexBuffer> logoTextureIndexBuffer;
+		logoTextureIndexBuffer.reset(IndexBuffer::Create(logoTextureIndices, sizeof(logoTextureIndices) / sizeof(uint32_t)));
+		logoTextureVertexArray->SetIndexBuffer(logoTextureIndexBuffer);
+
+		uint32_t checkerTextureIndices[6] = { 0, 1, 2, 2, 3, 0 };
+		Reference<IndexBuffer> checkerTextureIndexBuffer;
+		checkerTextureIndexBuffer.reset(IndexBuffer::Create(checkerTextureIndices, sizeof(checkerTextureIndices) / sizeof(uint32_t)));
+		checkerTextureVertexArray->SetIndexBuffer(checkerTextureIndexBuffer);
 
 		squareVertexArray.reset(VertexArray::Create());
 
@@ -66,7 +89,7 @@ public:
 		squareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		// Shaders
-		string textureVertexSource = R"(
+		string logoTextureVertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_position;
@@ -84,7 +107,7 @@ public:
 			}
 		)";
 
-		string textureFragmentSource = R"(
+		string logoTextureFragmentSource = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 color;
@@ -99,11 +122,50 @@ public:
 			}
 		)";
 
-		textureShader.reset(Shader::Create(textureVertexSource, textureFragmentSource));
-		texture = Texture2D::Create("assets/textures/logo.png");
+		string checkerTextureVertexSource = R"(
+			#version 330 core
 
-		dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformInt("u_texture", 0);
+			layout(location = 0) in vec3 a_position;
+			layout(location = 1) in vec2 a_textureCoordinates;
+			
+			out vec2 v_textureCoordinates;
+
+			uniform mat4 u_viewProjection;
+			uniform mat4 u_transform;
+
+			void main()
+			{
+				v_textureCoordinates = a_textureCoordinates;
+				gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
+			}
+		)";
+
+		string checkerTextureFragmentSource = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+			
+			in vec2 v_textureCoordinates;
+
+			uniform sampler2D u_texture;
+
+			void main()
+			{
+				color = texture(u_texture, v_textureCoordinates);
+			}
+		)";
+
+		logoTextureShader.reset(Shader::Create(logoTextureVertexSource, logoTextureFragmentSource));
+		logoTexture = Texture2D::Create("assets/textures/logo.png");
+
+		dynamic_pointer_cast<OpenGLShader>(logoTextureShader)->Bind();
+		dynamic_pointer_cast<OpenGLShader>(logoTextureShader)->UploadUniformInt("u_texture", 0);
+
+		checkerTextureShader.reset(Shader::Create(checkerTextureVertexSource, checkerTextureFragmentSource));
+		// checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
+
+		//dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->Bind();
+		//dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->UploadUniformInt("u_texture", 0);
 
 		string squareVertexSource = R"(
 			#version 330 core
@@ -170,7 +232,7 @@ public:
 		dynamic_pointer_cast<OpenGLShader>(squareShader)->Bind();
 		dynamic_pointer_cast<OpenGLShader>(squareShader)->UploadUniformFloat3("u_color", squareShaderColor);
 
-		for (int y = 0; y < 20; y++) 
+		for (int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
 			{
@@ -181,8 +243,11 @@ public:
 			}
 		}
 
-		texture->Bind();
-		Renderer::Submit(textureShader, textureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
+		// checkerTexture->Bind();
+		// Renderer::Submit(checkerTextureShader, checkerTextureVertexArray, glm::scale(mat4(1.0f), vec3(0.5f)));
+
+		logoTexture->Bind();
+		Renderer::Submit(logoTextureShader, logoTextureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));
 
 		Renderer::EndScene();
 	}
@@ -196,13 +261,17 @@ public:
 
 	void OnEvent(Crystal::Event& event) override
 	{
-		
+
 	}
 
 private:
-	Reference<Shader> textureShader;
-	Reference<VertexArray> textureVertexArray;
-	Reference<Texture2D> texture;
+	Reference<Shader> logoTextureShader;
+	Reference<VertexArray> logoTextureVertexArray;
+	Reference<Texture2D> logoTexture;
+
+	Reference<Shader> checkerTextureShader;
+	Reference<VertexArray> checkerTextureVertexArray;
+	Reference<Texture2D> checkerTexture;
 
 	Reference<Shader> squareShader;
 	Reference<VertexArray> squareVertexArray;
@@ -217,16 +286,16 @@ private:
 
 class Sandbox : public Application
 {
-	public:
-		Sandbox()
-		{
-			PushLayer(new ExampleLayer());
-		}
+public:
+	Sandbox()
+	{
+		PushLayer(new ExampleLayer());
+	}
 
-		~Sandbox()
-		{
+	~Sandbox()
+	{
 
-		}
+	}
 };
 
 Crystal::Application* Crystal::CreateApplication()

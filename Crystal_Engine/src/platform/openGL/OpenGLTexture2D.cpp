@@ -35,7 +35,7 @@ namespace Crystal
 
 		// glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
 		glGenTextures(1, &rendererID);
-		glBindTexture(GL_TEXTURE_2D, rendererID);
+		// glBindTexture(GL_TEXTURE_2D, rendererID);
 
 		// glTextureStorage2D(rendererID, 1, internalFormat, width, height);
 		
@@ -46,7 +46,6 @@ namespace Crystal
 
 		// glTextureSubImage2D(rendererID, 0, 0, 0, width, height, GL_RGB8, GL_UNSIGNED_BYTE, data);
 		glTexImage2D(GL_TEXTURE_2D, 0, dataFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
 	}
