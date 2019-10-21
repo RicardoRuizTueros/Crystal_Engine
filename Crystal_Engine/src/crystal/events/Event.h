@@ -51,15 +51,15 @@ namespace Crystal
 
 	class EventDispatcher
 	{
-		template<typename T> using EventFunction = function<bool(T&)>;
 	public:
 		EventDispatcher(Event& event) : event(event) {}
 
-		template<typename T> bool Dispatch(EventFunction<T> function)
+		template<typename T, typename F>
+		bool Dispatch(const F& function)
 		{
 			if (event.GetEventType() == T::GetStaticType())
 			{
-				event.handled = function(*(T*)&event);
+				event.handled = function(static_cast<T&>(event));
 				return true;
 			}
 

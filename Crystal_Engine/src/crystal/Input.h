@@ -16,6 +16,11 @@ namespace Crystal
 		inline float GetMouseYPosition() { return instance->GetMouseYPositionImplementation(); }
 
 	protected:
+		Input() = default;
+
+		Input(const Input&) = delete;
+		Input& operator = (const Input&) = delete;
+
 		virtual bool IsKeyPressedImplementation(int keycode) = 0;
 		virtual bool IsMouseButtonPressedImplementation(int button) = 0;
 		virtual pair<float, float> GetMousePositionImplementation() = 0;
