@@ -14,7 +14,8 @@ namespace Crystal
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
-		static Shader* Create(string& vertexSource, string& fragmentSource);
+		static Shader* Create(const string& filepath);
+		static Shader* Create(const string& vertexSource, const string& fragmentSource);
 	};
 }
 	

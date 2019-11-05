@@ -89,39 +89,6 @@ public:
 		squareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		// Shaders
-		string logoTextureVertexSource = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_position;
-			layout(location = 1) in vec2 a_textureCoordinates;
-			
-			out vec2 v_textureCoordinates;
-
-			uniform mat4 u_viewProjection;
-			uniform mat4 u_transform;
-
-			void main()
-			{
-				v_textureCoordinates = a_textureCoordinates;
-				gl_Position = u_viewProjection * u_transform * vec4(a_position, 1.0);
-			}
-		)";
-
-		string logoTextureFragmentSource = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-			
-			in vec2 v_textureCoordinates;
-
-			uniform sampler2D u_texture;
-
-			void main()
-			{
-				color = texture(u_texture, v_textureCoordinates);
-			}
-		)";
-
 		string checkerTextureVertexSource = R"(
 			#version 330 core
 
@@ -155,7 +122,7 @@ public:
 			}
 		)";
 
-		logoTextureShader.reset(Shader::Create(logoTextureVertexSource, logoTextureFragmentSource));
+		logoTextureShader.reset(Shader::Create("assets/shaders/Texture.glsl"));
 		logoTexture = Texture2D::Create("assets/textures/logo.png");
 
 		dynamic_pointer_cast<OpenGLShader>(logoTextureShader)->Bind();

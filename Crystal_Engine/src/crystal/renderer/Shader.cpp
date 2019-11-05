@@ -4,11 +4,24 @@
 #include "Renderer.h"
 #include "platform/openGL/OpenGLShader.h"
 
-
-
 namespace Crystal
 {
-	Shader* Shader::Create(string& vertexSource, string& fragmentSource)
+	Shader* Shader::Create(const string& filepath)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case RendererAPI::API::None:
+			CRYSTAL_CORE_ASSERT(false, "RendererAPI::None is not supported!")
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return new OpenGLShader(filepath);
+		}
+
+		CRYSTAL_CORE_ASSERT(false, "Unknown RendererAPI");
+		return nullptr;
+	}
+
+	Shader* Shader::Create(const string& vertexSource, const string& fragmentSource)
 	{
 		switch (Renderer::GetAPI())
 		{

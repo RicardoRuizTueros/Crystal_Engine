@@ -6,11 +6,14 @@
 using namespace std;
 using namespace glm;
 
+typedef unsigned int GLenum;
+
 namespace Crystal
 {
 	class OpenGLShader : public Shader
 	{
 	public:
+		OpenGLShader(const string& filepath);
 		OpenGLShader(const string& vertexSource, const string& fragmentSource);
 		~OpenGLShader();
 
@@ -29,6 +32,10 @@ namespace Crystal
 
 	private:
 		uint32_t rendererID;
+
+		string ReadFile(const string& filepath);
+		unordered_map<GLenum, string> Preprocess(const string& source);
+		void Compile(const unordered_map<GLenum, string>& shaderSources);
 	};
 }
 
