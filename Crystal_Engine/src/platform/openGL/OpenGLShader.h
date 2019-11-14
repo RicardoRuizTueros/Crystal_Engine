@@ -14,11 +14,14 @@ namespace Crystal
 	{
 	public:
 		OpenGLShader(const string& filepath);
-		OpenGLShader(const string& vertexSource, const string& fragmentSource);
+		OpenGLShader(const string& name, const string& filepath);
+		OpenGLShader(const string& name, const string& vertexSource, const string& fragmentSource);
 		~OpenGLShader();
 
 		void Bind() const override;
 		void Unbind() const override;
+
+		virtual const string& GetName() const override { return name; }
 
 		void UploadUniformInt(const string& name, int value);
 
@@ -32,6 +35,7 @@ namespace Crystal
 
 	private:
 		uint32_t rendererID;
+		string name;
 
 		string ReadFile(const string& filepath);
 		unordered_map<GLenum, string> Preprocess(const string& source);

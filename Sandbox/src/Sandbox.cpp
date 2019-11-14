@@ -122,13 +122,13 @@ public:
 			}
 		)";
 
-		logoTextureShader.reset(Shader::Create("assets/shaders/Texture.glsl"));
+		logoTextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		logoTexture = Texture2D::Create("assets/textures/logo.png");
 
 		dynamic_pointer_cast<OpenGLShader>(logoTextureShader)->Bind();
 		dynamic_pointer_cast<OpenGLShader>(logoTextureShader)->UploadUniformInt("u_texture", 0);
 
-		checkerTextureShader.reset(Shader::Create(checkerTextureVertexSource, checkerTextureFragmentSource));
+		checkerTextureShader = Shader::Create("CheckerTexture", checkerTextureVertexSource, checkerTextureFragmentSource);
 		// checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
 
 		//dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->Bind();
@@ -166,7 +166,7 @@ public:
 			}
 		)";
 
-		squareShader.reset(Shader::Create(squareVertexSource, squareFragmentSource));
+		squareShader = Shader::Create("SquaresColorShader", squareVertexSource, squareFragmentSource);
 	}
 
 	void OnUpdate(Timestep timestep) override

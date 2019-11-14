@@ -25,9 +25,23 @@ namespace Crystal
 		string source = ReadFile(filepath);
 		auto shaderSources = Preprocess(source);
 		Compile(shaderSources);
+
+		// Extract name from filepath
+		auto lastSlash = filepath.find_last_of("/\\");
+		lastSlash = lastSlash == string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filepath.rfind('.');
+		auto count = lastDot == string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+		name = filepath.substr(lastSlash, count);
 	}
 
-	OpenGLShader::OpenGLShader(const string& vertexSource, const string& fragmentSource)
+	OpenGLShader::OpenGLShader(const string& name, const string& filepath) : name(name)
+	{
+		string source = ReadFile(filepath);
+		auto shaderSources = Preprocess(source);
+		Compile(shaderSources);
+	}
+
+	OpenGLShader::OpenGLShader(const string& name, const string& vertexSource, const string& fragmentSource) : name(name)
 	{
 		// Create an empty vertex shader handle
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -193,7 +207,7 @@ namespace Crystal
 	string OpenGLShader::ReadFile(const string& filepath)
 	{
 		string result;
-		ifstream filestream(filepath, ios::in, ios::binary);
+		ifstream filestream(filepath, ios::in | ios::binary);
 		
 		if (filestream)
 		{
@@ -235,8 +249,10 @@ namespace Crystal
 	void OpenGLShader::Compile(const unordered_map<GLenum, string>& shaderSources)
 	{
 		GLuint program = glCreateProgram();
-		vector<GLenum> glShadersIDs(shaderSources.size());
-		
+		CRYSTAL_CORE_ASSERT(shaderSources.size() > 2, "We only support 2 shaders");
+		array<GLenum, 2> glShadersIDs;
+		int glShaderIDIndex = 0;
+
 		for (auto& keyValue : shaderSources)
 		{
 			GLenum type = keyValue.first;
@@ -266,7 +282,7 @@ namespace Crystal
 			}
 
 			glAttachShader(program, shader);
-			glShadersIDs.push_back(shader);
+			glShadersIDs[glShaderIDIndex++] = shader;
 		}
 
 		rendererID = program;
