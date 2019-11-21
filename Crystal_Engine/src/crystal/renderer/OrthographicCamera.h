@@ -15,6 +15,7 @@ namespace Crystal
 		
 		inline float GetRotation() const { return rotation; }
 		void SetRotation(float rotation);
+		void SetProjection(float left, float right, float bottom, float top);
 		inline const mat4& GetProjectionMatrix() const { return projectionMatrix; }
 		inline const mat4& GetViewMatrix() const { return viewMatrix; }
 		inline const mat4& GetViewProjectionMatrix() const { return viewProjectionMatrix; }

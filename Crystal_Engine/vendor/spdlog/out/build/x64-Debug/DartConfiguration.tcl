@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine_v2/Crystal_Engine_v2/vendor/spdlog
-BuildDirectory: C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine_v2/Crystal_Engine_v2/vendor/spdlog/out/build/x64-Debug
+SourceDirectory: C:/Users/Ricardo/source/repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/spdlog
+BuildDirectory: C:/Users/Ricardo/source/repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/spdlog/out/build/x64-Debug
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: DESKTOP-4VC6503
+Site: DESKTOP-C33JUDQ
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Win32-ninja
@@ -26,7 +26,7 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe" "C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine_v2/Crystal_Engine_v2/vendor/spdlog"
+ConfigureCommand: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe" "C:/Users/Ricardo/source/repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/spdlog"
 MakeCommand: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
@@ -57,13 +57,13 @@ P4UpdateOptions:
 P4UpdateCustom: 
 
 # Generic update command
-UpdateCommand: C:/Program Files/Git/cmd/git.exe
+UpdateCommand: 
 UpdateOptions: 
-UpdateType: git
+UpdateType: 
 
 # Compiler info
-Compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.22.27905/bin/HostX64/x64/cl.exe
-CompilerVersion: 19.22.27905.0
+Compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.23.28105/bin/HostX64/x64/cl.exe
+CompilerVersion: 19.23.28107.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

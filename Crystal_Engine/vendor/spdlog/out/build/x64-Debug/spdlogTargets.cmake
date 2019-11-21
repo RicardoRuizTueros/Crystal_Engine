@@ -49,7 +49,7 @@ unset(_expectedTargets)
 add_library(spdlog::spdlog INTERFACE IMPORTED)
 
 set_target_properties(spdlog::spdlog PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine_v2/Crystal_Engine_v2/vendor/spdlog/include"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/Ricardo/source/repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/spdlog/include"
 )
 
 # This file does not depend on other imported targets which have

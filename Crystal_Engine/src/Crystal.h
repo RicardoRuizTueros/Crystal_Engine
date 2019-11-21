@@ -10,6 +10,7 @@
 #include "crystal/Input.h"
 #include "crystal/KeyCodes.h"
 #include "crystal/MouseCodes.h"
+#include "crystal/OrthographicCameraController.h"
 
 #include "crystal/Application.h"
 #include "crystal/EntryPoint.h"

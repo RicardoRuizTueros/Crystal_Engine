@@ -1,4 +1,4 @@
-prefix=C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine_v2/Crystal_Engine_v2/vendor/spdlog/out/install/x64-Debug
+prefix=C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/spdlog/out/install/x64-Debug
 includedir=${prefix}/include
 
 Name: spdlog

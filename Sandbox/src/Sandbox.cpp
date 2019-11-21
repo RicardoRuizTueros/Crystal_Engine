@@ -14,7 +14,7 @@ using namespace glm;
 class ExampleLayer : public Layer
 {
 public:
-	ExampleLayer() : Layer("Example"), camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0.0f)
+	ExampleLayer() : Layer("Example"), cameraController(1920.0f / 1080.0f, true)
 	{
 		// Data & Layout
 		float logoTextureVertices[4 * 5] = {
@@ -171,28 +171,12 @@ public:
 
 	void OnUpdate(Timestep timestep) override
 	{
-		if (Input::IsKeyPressed(CRYSTAL_KEY_LEFT))
-			cameraPosition.x -= cameraMoveSpeed * timestep;
-		else if (Input::IsKeyPressed(CRYSTAL_KEY_RIGHT))
-			cameraPosition.x += cameraMoveSpeed * timestep;
-
-		if (Input::IsKeyPressed(CRYSTAL_KEY_DOWN))
-			cameraPosition.y -= cameraMoveSpeed * timestep;
-		else if (Input::IsKeyPressed(CRYSTAL_KEY_UP))
-			cameraPosition.y += cameraMoveSpeed * timestep;
-
-		if (Input::IsKeyPressed(CRYSTAL_KEY_Q))
-			cameraRotation += cameraRotationSpeed * timestep;
-		else if (Input::IsKeyPressed(CRYSTAL_KEY_E))
-			cameraRotation -= cameraRotationSpeed * timestep;
+		cameraController.OnUpdate(timestep);
 
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
 
-		camera.SetPosition(cameraPosition);
-		camera.SetRotation(cameraRotation);
-
-		Renderer::BeginScene(camera);
+		Renderer::BeginScene(cameraController.GetCamera());
 
 		mat4 scale = glm::scale(mat4(1.0f), vec3(0.1f));
 
@@ -219,16 +203,16 @@ public:
 		Renderer::EndScene();
 	}
 
+	void OnEvent(Event& event) override
+	{
+		cameraController.OnEvent(event);
+	}
+
 	virtual void OnImGuiRender() override
 	{
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit3("Squares color", value_ptr(squareShaderColor));
 		ImGui::End();
-	}
-
-	void OnEvent(Crystal::Event& event) override
-	{
-
 	}
 
 private:
@@ -244,11 +228,7 @@ private:
 	Reference<VertexArray> squareVertexArray;
 	vec3 squareShaderColor = { 0.2f, 0.3f, 0.8f };
 
-	OrthographicCamera camera;
-	vec3 cameraPosition = { 0.0f, 0.0f, 0.0f };
-	float cameraMoveSpeed = 5.0f;
-	float cameraRotation = 0.0f;
-	float cameraRotationSpeed = 180.0f;
+	OrthographicCameraController cameraController;
 };
 
 class Sandbox : public Application

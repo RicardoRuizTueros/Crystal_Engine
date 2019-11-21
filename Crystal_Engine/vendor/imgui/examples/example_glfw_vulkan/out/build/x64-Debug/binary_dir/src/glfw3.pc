@@ -1,7 +1,7 @@
-prefix=C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine_v2/Crystal_Engine_v2/vendor/imgui/examples/example_glfw_vulkan/out/install/x64-Debug
+prefix=C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/imgui/examples/example_glfw_vulkan/out/install/x64-Debug
 exec_prefix=${prefix}
-includedir=C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine_v2/Crystal_Engine_v2/vendor/imgui/examples/example_glfw_vulkan/out/install/x64-Debug/include
-libdir=C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine_v2/Crystal_Engine_v2/vendor/imgui/examples/example_glfw_vulkan/out/install/x64-Debug/lib
+includedir=C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/imgui/examples/example_glfw_vulkan/out/install/x64-Debug/include
+libdir=C:/Users/Ricardo/Source/Repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/imgui/examples/example_glfw_vulkan/out/install/x64-Debug/lib
 
 Name: GLFW
 Description: A multi-platform library for OpenGL, window and input
