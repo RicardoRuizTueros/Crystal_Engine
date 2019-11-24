@@ -14,7 +14,7 @@ using namespace glm;
 class ExampleLayer : public Layer
 {
 public:
-	ExampleLayer() : Layer("Example"), cameraController(1920.0f / 1080.0f, true)
+	ExampleLayer() : Layer("Example"), cameraController(400.0f / 400.0f, true)
 	{
 		// Data & Layout
 		float logoTextureVertices[4 * 5] = {

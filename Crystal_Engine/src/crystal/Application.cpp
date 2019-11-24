@@ -45,6 +45,7 @@ namespace Crystal
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_FUNCTION(OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_FUNCTION(OnWindowResize));
 
 		for (auto iterator = layerStack.end(); iterator != layerStack.begin(); )
 		{
@@ -60,6 +61,20 @@ namespace Crystal
 		return true;
 	}
 
+	bool Application::OnWindowResize(WindowResizeEvent& event)
+	{
+		if (event.GetWidth() == 0 || event.GetHeight() == 0)
+		{
+			minimized = true;
+			return false;
+		}
+
+		minimized = false;
+		Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+
+		return false;
+	}
+
 	void Application::Run() 
 	{
 		while (running)
@@ -68,8 +83,11 @@ namespace Crystal
 			Timestep timestep = time - lastFrameTime;
 			lastFrameTime = time;
 
-			for (Layer* layer : layerStack)
-				layer->OnUpdate(timestep);
+			if (!minimized)
+			{
+				for (Layer* layer : layerStack)
+					layer->OnUpdate(timestep);
+			}
 
 			imGuiLayer->Begin();
 			for (Layer* layer : layerStack)

@@ -19,6 +19,9 @@ namespace Crystal
 
 		OrthographicCamera& GetCamera() { return camera; }
 		const OrthographicCamera& GetCamera() const { return camera; }
+
+		float GetZoomLevel() const { return zoomLevel; }
+		void SetZoomLevel(float level) { zoomLevel = level; }
 	private:
 		float aspectRatio;
 		float zoomLevel = 1.0f;

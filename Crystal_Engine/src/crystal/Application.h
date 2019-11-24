@@ -21,6 +21,7 @@ namespace Crystal
 			
 			void OnEvent(Event& event);
 			bool OnWindowClose(WindowCloseEvent& event);
+			bool OnWindowResize(WindowResizeEvent& event);
 
 			void PushLayer(Layer* layer);
 			void PushOverlay(Layer* layer);
@@ -33,6 +34,7 @@ namespace Crystal
 		static Application* instance;
 
 		bool running = true;
+		bool minimized = false;
 		unique_ptr<Window> window;
 		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
