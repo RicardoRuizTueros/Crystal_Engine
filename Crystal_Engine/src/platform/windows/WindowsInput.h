@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Crystal/Input.h"
+#include "crystal/core/Input.h"
 
 namespace Crystal
 {

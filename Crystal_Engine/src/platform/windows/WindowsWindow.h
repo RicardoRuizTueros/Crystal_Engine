@@ -1,6 +1,6 @@
 #pragma once
 
-#include "crystal/Window.h"
+#include "crystal/core/Window.h"
 #include "crystal/renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>

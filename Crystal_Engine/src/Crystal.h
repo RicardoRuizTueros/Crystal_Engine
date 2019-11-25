@@ -3,17 +3,17 @@
 #include "crystal/layers/Layer.h"
 #include "crystal/imgui/ImGuiLayer.h"
 
-#include "crystal/Log.h"
+#include "crystal/core/Log.h"
 
 #include "crystal/core/Timestep.h"
 
-#include "crystal/Input.h"
-#include "crystal/KeyCodes.h"
-#include "crystal/MouseCodes.h"
-#include "crystal/OrthographicCameraController.h"
+#include "crystal/core/Input.h"
+#include "crystal/core/KeyCodes.h"
+#include "crystal/core/MouseCodes.h"
+#include "crystal/core/Application.h"
+#include "crystal/core/EntryPoint.h"
 
-#include "crystal/Application.h"
-#include "crystal/EntryPoint.h"
+#include "crystal/renderer/OrthographicCameraController.h"
 
 #include "crystal/renderer/Renderer.h"
 #include "crystal/renderer/RenderCommand.h"

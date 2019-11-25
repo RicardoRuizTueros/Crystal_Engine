@@ -5,7 +5,7 @@
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_opengl3.h"
 
-#include "crystal/Application.h"
+#include "crystal/core/Application.h"
 
 // To do: Substitute this hack
 #include "GLFW/glfw3.h"

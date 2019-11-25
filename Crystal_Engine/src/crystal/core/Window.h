@@ -2,7 +2,7 @@
 
 #include "crystalpch.h"
 
-#include "crystal/Core.h"
+#include "crystal/core/Core.h"
 #include "crystal/events/Event.h"
 
 using namespace std;

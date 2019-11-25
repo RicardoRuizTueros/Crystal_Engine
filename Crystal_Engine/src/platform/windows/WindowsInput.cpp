@@ -1,7 +1,7 @@
 #include "crystalpch.h"
 #include "WindowsInput.h"
 
-#include "crystal/Application.h"
+#include "crystal/core/Application.h"
 #include "GLFW/glfw3.h"
 
 namespace Crystal

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <crystal\renderer\OrthographicCamera.h>
-#include <crystal\core\Timestep.h>
-#include <crystal\events\ApplicationEvent.h>
-#include <crystal\events\MouseEvent.h>
-#include <crystal\KeyCodes.h>
-#include <crystal\Input.h>
+#include "crystal/renderer/OrthographicCamera.h"
+#include "crystal/core/Timestep.h"
+#include "crystal/events/ApplicationEvent.h"
+#include "crystal/events/MouseEvent.h"
+#include "crystal/core/KeyCodes.h"
+#include "crystal/core/Input.h"
 
 namespace Crystal
 {

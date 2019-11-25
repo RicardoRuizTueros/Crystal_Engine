@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "crystal/Log.h"
+#include "crystal/core/Log.h"
 
 #ifdef CRYSTAL_PLATFORM_WINDOWS
 	#include <Windows.h>
