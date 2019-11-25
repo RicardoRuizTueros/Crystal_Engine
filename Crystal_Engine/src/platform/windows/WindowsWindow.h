@@ -26,7 +26,7 @@ namespace Crystal {
 	
 	private:
 		GLFWwindow* window;
-		GraphicsContext* context;
+		Scope<GraphicsContext> context;
 
 		struct WindowData
 		{

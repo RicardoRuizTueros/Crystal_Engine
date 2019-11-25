@@ -50,7 +50,7 @@ namespace Crystal
 		}
 		
 		window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
-		context = new OpenGLContext(window);
+		context = CreateScope<OpenGLContext>(window);
 		context->Init();
 
 		glfwSetWindowUserPointer(window, &data);

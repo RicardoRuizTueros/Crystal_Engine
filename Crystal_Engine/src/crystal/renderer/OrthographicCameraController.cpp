@@ -10,15 +10,27 @@ namespace Crystal
 
 	void OrthographicCameraController::OnUpdate(Timestep timestep)
 	{
-		if (Input::IsKeyPressed(CRYSTAL_KEY_A))
-			cameraPosition.x -= cameraTranslationSpeed * timestep;
+		if (Input::IsKeyPressed(CRYSTAL_KEY_A)) 
+		{
+			cameraPosition.x -= cos(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
+			cameraPosition.y -= sin(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
+		}
 		else if (Input::IsKeyPressed(CRYSTAL_KEY_D))
-			cameraPosition.x += cameraTranslationSpeed * timestep;
+		{
+			cameraPosition.x += cos(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
+			cameraPosition.y += sin(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
+		}
 
 		if (Input::IsKeyPressed(CRYSTAL_KEY_S))
-			cameraPosition.y -= cameraTranslationSpeed * timestep;
+		{
+			cameraPosition.x -= -sin(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
+			cameraPosition.y -= cos(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
+		}
 		else if (Input::IsKeyPressed(CRYSTAL_KEY_W))
-			cameraPosition.y += cameraTranslationSpeed * timestep;
+		{
+			cameraPosition.x += -sin(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
+			cameraPosition.y += cos(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
+		}
 
 		if (enableRotation)
 		{
@@ -26,6 +38,11 @@ namespace Crystal
 				cameraRotation += cameraRotationSpeed * timestep;
 			else if (Input::IsKeyPressed(CRYSTAL_KEY_E))
 				cameraRotation -= cameraRotationSpeed * timestep;
+
+			if (cameraRotation > 180.0f)
+				cameraRotation -= 360.0f;
+			else if (cameraRotation <= -180.0f)
+				cameraRotation += 360.0f;
 
 			camera.SetRotation(cameraRotation);
 		}

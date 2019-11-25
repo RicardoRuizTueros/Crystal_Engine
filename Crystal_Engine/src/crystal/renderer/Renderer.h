@@ -28,6 +28,6 @@ namespace Crystal
 			mat4 viewProjectionMatrix;
 		};
 
-		static SceneData* sceneData;
+		static Scope<SceneData> sceneData;
 	};
 }

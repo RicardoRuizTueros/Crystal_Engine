@@ -5,5 +5,5 @@
 
 namespace Crystal
 {
-	RendererAPI* RenderCommand::rendererAPI = new OpenGLRendererAPI();
+	Scope<RendererAPI> RenderCommand::rendererAPI = CreateScope<OpenGLRendererAPI>();
 }

@@ -28,6 +28,6 @@ namespace Crystal
 		virtual float GetMouseYPositionImplementation() = 0;
 
 	private:
-		static Input* instance;
+		static Scope<Input> instance;
 	};
 }

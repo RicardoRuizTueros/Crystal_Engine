@@ -240,7 +240,7 @@ namespace Crystal
 
 			size_t nextLinePos = source.find_first_not_of("\r\n", endOfLine);
 			position = source.find(typeToken, nextLinePos);
-			shaderSources[ShaderTypeFromString(type)] = source.substr(nextLinePos, position - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos));
+			shaderSources[ShaderTypeFromString(type)] = (position == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, position - nextLinePos);
 		}
 
 		return shaderSources;
@@ -310,7 +310,9 @@ namespace Crystal
 			return;
 		}
 
-		for (auto id : glShadersIDs)
+		for (auto id : glShadersIDs) {
 			glDetachShader(program, id);
+			glDeleteShader(id);
+		}
 	}
 }

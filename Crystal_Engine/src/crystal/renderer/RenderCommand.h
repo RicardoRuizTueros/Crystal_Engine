@@ -9,6 +9,7 @@ namespace Crystal
 {
 	class RenderCommand
 	{
+
 	public:
 		inline static void Init()
 		{
@@ -36,6 +37,6 @@ namespace Crystal
 		}
 
 	private:
-		static RendererAPI* rendererAPI;
+		static Scope<RendererAPI> rendererAPI;
 	};
 }

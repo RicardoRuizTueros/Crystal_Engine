@@ -6,7 +6,7 @@
 
 namespace Crystal
 {
-	Input* Input::instance = new WindowsInput();
+	Scope<Input> Input::instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImplementation(int keycode)
 	{

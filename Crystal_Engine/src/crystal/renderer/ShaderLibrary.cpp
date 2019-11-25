@@ -15,27 +15,27 @@ namespace Crystal
 		Add(name, shader);
 	}
 
-	Reference<Shader> Crystal::ShaderLibrary::Load(const string& filepath)
+	Reference<Shader> ShaderLibrary::Load(const string& filepath)
 	{
 		auto shader = Shader::Create(filepath);
 		Add(shader);
 		return shader;
 	}
 
-	Reference<Shader> Crystal::ShaderLibrary::Load(const string& name, const string& filepath)
+	Reference<Shader> ShaderLibrary::Load(const string& name, const string& filepath)
 	{
 		auto shader = Shader::Create(filepath);
 		Add(name, shader);
 		return shader;
 	}
 
-	Reference<Shader> Crystal::ShaderLibrary::Get(const string& name)
+	Reference<Shader> ShaderLibrary::Get(const string& name)
 	{
 		CRYSTAL_CORE_ASSERT(Exists(name), "Shader not found");
 		return shaders[name];
 	}
 
-	bool Crystal::ShaderLibrary::Exists(const string& name) const
+	bool ShaderLibrary::Exists(const string& name) const
 	{
 		return shaders.find(name) != shaders.end();
 	}
