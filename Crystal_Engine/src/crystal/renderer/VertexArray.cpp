@@ -6,12 +6,12 @@
 
 namespace Crystal
 {
-	VertexArray* VertexArray::Create()
+	Reference<VertexArray> VertexArray::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::OpenGL:
-			return new OpenGLVertexArray();
+			return make_shared<OpenGLVertexArray>();
 		case RendererAPI::API::None:
 			CRYSTAL_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return 0;

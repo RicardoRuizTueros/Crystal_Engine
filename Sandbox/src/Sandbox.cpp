@@ -1,4 +1,5 @@
 #include "Crystal.h"
+#include "crystal/core/EntryPoint.h"
 
 #include "platform/openGL/OpenGLShader.h"
 
@@ -7,6 +8,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "crystal/renderer/Texture2D.h"
+
+#include "Sandbox2D.h"
 
 using namespace Crystal;
 using namespace glm;
@@ -53,8 +56,8 @@ public:
 		};
 
 		// Buffers & arrays
-		logoTextureVertexArray.reset(VertexArray::Create());
-		checkerTextureVertexArray.reset(VertexArray::Create());
+		logoTextureVertexArray = VertexArray::Create();
+		checkerTextureVertexArray = VertexArray::Create();
 
 		Reference<VertexBuffer> logoTextureVertexBuffer;
 		logoTextureVertexBuffer.reset(VertexBuffer::Create(logoTextureVertices, sizeof(logoTextureVertices)));
@@ -76,7 +79,7 @@ public:
 		checkerTextureIndexBuffer.reset(IndexBuffer::Create(checkerTextureIndices, sizeof(checkerTextureIndices) / sizeof(uint32_t)));
 		checkerTextureVertexArray->SetIndexBuffer(checkerTextureIndexBuffer);
 
-		squareVertexArray.reset(VertexArray::Create());
+		squareVertexArray = VertexArray::Create();
 
 		Reference<VertexBuffer> squareVertexBuffer;
 		squareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
@@ -236,7 +239,8 @@ class Sandbox : public Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		// PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox()
