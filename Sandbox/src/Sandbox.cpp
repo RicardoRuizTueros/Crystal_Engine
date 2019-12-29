@@ -132,10 +132,10 @@ public:
 		dynamic_pointer_cast<OpenGLShader>(logoTextureShader)->UploadUniformInt("u_texture", 0);
 
 		checkerTextureShader = Shader::Create("CheckerTexture", checkerTextureVertexSource, checkerTextureFragmentSource);
-		// checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
+		checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
 
-		//dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->Bind();
-		//dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->UploadUniformInt("u_texture", 0);
+		dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->Bind();
+		dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->UploadUniformInt("u_texture", 0);
 
 		string squareVertexSource = R"(
 			#version 330 core
@@ -197,8 +197,8 @@ public:
 			}
 		}
 
-		// checkerTexture->Bind();
-		// Renderer::Submit(checkerTextureShader, checkerTextureVertexArray, glm::scale(mat4(1.0f), vec3(0.5f)));
+		checkerTexture->Bind();
+		Renderer::Submit(checkerTextureShader, checkerTextureVertexArray, glm::scale(mat4(1.0f), vec3(0.5f)));
 
 		logoTexture->Bind();
 		Renderer::Submit(logoTextureShader, logoTextureVertexArray, glm::scale(mat4(1.0f), vec3(1.5f)));

@@ -33,19 +33,16 @@ namespace Crystal
 
 		CRYSTAL_CORE_ASSERT(internalFormat && dataFormat, "Texture format not supported!");
 
-		// glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
-		glGenTextures(1, &rendererID);
-		// glBindTexture(GL_TEXTURE_2D, rendererID);
+		glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
+		glTextureStorage2D(rendererID, 1, internalFormat, width, height);
 
-		// glTextureStorage2D(rendererID, 1, internalFormat, width, height);
-		
-		// glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		// glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		// glTextureSubImage2D(rendererID, 0, 0, 0, width, height, GL_RGB8, GL_UNSIGNED_BYTE, data);
-		glTexImage2D(GL_TEXTURE_2D, 0, dataFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTextureSubImage2D(rendererID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
 	}
@@ -57,8 +54,7 @@ namespace Crystal
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
-		// glBindTextureUnit(slot, rendererID);
-		glBindTexture(slot, rendererID);
+		glBindTextureUnit(slot, rendererID);
 	}
 
 }
