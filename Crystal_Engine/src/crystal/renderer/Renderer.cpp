@@ -2,6 +2,7 @@
 #include "Renderer.h"
 
 #include "platform/openGL/OpenGLShader.h"
+#include "crystal/renderer/Renderer2D.h"
 
 using namespace glm;
 using namespace std;
@@ -13,6 +14,7 @@ namespace Crystal
 	void Renderer::Init()
 	{
 		RenderCommand::Init();
+		Renderer2D::Init();
 	}
 
 	void Renderer::BeginScene(OrthographicCamera& camera)

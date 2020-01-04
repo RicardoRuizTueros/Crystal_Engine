@@ -15,6 +15,7 @@
 #include "crystal/renderer/OrthographicCameraController.h"
 
 #include "crystal/renderer/Renderer.h"
+#include "crystal/renderer/Renderer2D.h"
 #include "crystal/renderer/RenderCommand.h"
 
 #include "crystal/renderer/VertexArray.h"

@@ -16,30 +16,7 @@ namespace Crystal
 	
 	void Sandbox2D::OnAttach()
 	{
-		squareVertexArray = VertexArray::Create();
-
-		float squareVertices[4 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
-		};
-
-		Reference<VertexBuffer> squareVertexBuffer;
-		squareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		squareVertexBuffer->SetLayout
-		({
-			{ ShaderDataType::Float3, "a_Position" },
-		});
-		
-		squareVertexArray->AddVertexBuffer(squareVertexBuffer);
-
-		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Reference<IndexBuffer> squareIndexBuffer;
-		squareIndexBuffer.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
-		squareVertexArray->SetIndexBuffer(squareIndexBuffer);
-
-		flatColorShader = Shader::Create("assets/shaders/FlatColor.glsl");
+	
 	}
 	
 	void Sandbox2D::OnDetach()
@@ -54,12 +31,14 @@ namespace Crystal
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
 
-		Renderer::BeginScene(cameraController.GetCamera());
-		dynamic_pointer_cast<OpenGLShader>(flatColorShader)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(flatColorShader)->UploadUniformFloat4("u_color", squareColor);
+		Renderer2D::BeginScene(cameraController.GetCamera());
+		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+
+		// TODO: Add these functions - Shader::SetMat4, Shader::SetFloat4
+		/*dynamic_pointer_cast<OpenGLShader>(flatColorShader)->Bind();*/
+		//dynamic_pointer_cast<OpenGLShader>(flatColorShader)->UploadUniformFloat4("u_color", squareColor);
 		
-		Renderer::Submit(flatColorShader, squareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-		Renderer::EndScene();
+		Renderer2D::EndScene();
 	}
 	
 	void Sandbox2D::OnImGuiRender()

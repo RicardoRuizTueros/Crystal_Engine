@@ -144,6 +144,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\crystal\renderer\Renderer2D.h" />
     <ClInclude Include="src\Crystal.h" />
     <ClInclude Include="src\crystal\core\Application.h" />
     <ClInclude Include="src\crystal\core\Core.h" />
@@ -557,6 +558,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\crystal\renderer\Renderer2D.cpp" />
     <ClCompile Include="src\crystal\core\Application.cpp" />
     <ClCompile Include="src\crystal\core\Log.cpp" />
     <ClCompile Include="src\crystal\imgui\ImGuiBuild.cpp" />
