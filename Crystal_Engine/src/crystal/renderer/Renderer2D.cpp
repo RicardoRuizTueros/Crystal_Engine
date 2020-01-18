@@ -5,7 +5,7 @@
 #include "crystal/renderer/Shader.h"
 #include "crystal/renderer/RenderCommand.h"
 
-#include "platform/openGL/OpenGLShader.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 using namespace std;
 
@@ -55,9 +55,8 @@ namespace Crystal
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->UploadUniformMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-		dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->UploadUniformMat4("u_transform", mat4(1.0f));
+		data->flatColorShader->Bind();
+		data->flatColorShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene()
@@ -72,8 +71,11 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const vec4& color)
 	{
-		dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->UploadUniformFloat4("u_color", color);
+		data->flatColorShader->Bind();
+		data->flatColorShader->SetFloat4("u_color", color);
+
+		mat4 transform = translate(mat4(1.0f), position) * /* rotation - to do*/ scale(mat4(1.0f), { size.x, size.y, 1.0f });
+		data->flatColorShader->SetMat4("u_transform", transform);
 
 		data->quadVertexArray->Bind();
 		RenderCommand::DrawIndexed(data->quadVertexArray);

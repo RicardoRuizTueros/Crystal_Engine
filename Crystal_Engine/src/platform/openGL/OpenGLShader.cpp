@@ -162,6 +162,21 @@ namespace Crystal
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::SetMat4(const string& name, const mat4& matrix)
+	{
+		UploadUniformMat4(name, matrix);
+	}
+
+	void OpenGLShader::SetFloat4(const string& name, const vec4& vector)
+	{
+		UploadUniformFloat4(name, vector);
+	}
+
+	void OpenGLShader::SetFloat3(const string& name, const vec3& vector)
+	{
+		UploadUniformFloat3(name, vector);
+	}
+
 	void OpenGLShader::UploadUniformInt(const string& name, int value)
 	{
 		GLint location = glGetUniformLocation(rendererID, name.c_str());

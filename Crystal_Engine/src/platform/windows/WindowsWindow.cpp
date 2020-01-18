@@ -9,7 +9,7 @@
 
 namespace Crystal 
 {
-	static bool GLFWInitialized = false;
+	static uint8_t GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
@@ -39,17 +39,16 @@ namespace Crystal
 
 		CRYSTAL_CORE_INFO("Creatinge window {0} ({1}, {2})", properties.title, properties.width, properties.height);
 
-		if (!GLFWInitialized)
+		if (GLFWWindowCount == 0)
 		{
-			// TODO: glfwTerminate on system shutdown
+			CRYSTAL_CORE_INFO("Initializing GLFW");
 			int success = glfwInit();
 			CRYSTAL_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
-
-			GLFWInitialized = true;
 		}
 		
 		window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
+		GLFWWindowCount++;
 		context = CreateScope<OpenGLContext>(window);
 		context->Init();
 
@@ -150,6 +149,12 @@ namespace Crystal
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(window);
+
+		if (--GLFWWindowCount == 0)
+		{
+			CRYSTAL_CORE_INFO("Terminating GLFW");
+			glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate()

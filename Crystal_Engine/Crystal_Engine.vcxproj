@@ -144,7 +144,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\crystal\renderer\Renderer2D.h" />
     <ClInclude Include="src\Crystal.h" />
     <ClInclude Include="src\crystal\core\Application.h" />
     <ClInclude Include="src\crystal\core\Core.h" />
@@ -170,6 +169,7 @@
     <ClInclude Include="src\crystal\renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\crystal\renderer\RenderCommand.h" />
     <ClInclude Include="src\crystal\renderer\Renderer.h" />
+    <ClInclude Include="src\crystal\renderer\Renderer2D.h" />
     <ClInclude Include="src\crystal\renderer\RendererAPI.h" />
     <ClInclude Include="src\crystal\renderer\Shader.h" />
     <ClInclude Include="src\crystal\renderer\ShaderLibrary.h" />
@@ -558,7 +558,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\crystal\renderer\Renderer2D.cpp" />
     <ClCompile Include="src\crystal\core\Application.cpp" />
     <ClCompile Include="src\crystal\core\Log.cpp" />
     <ClCompile Include="src\crystal\imgui\ImGuiBuild.cpp" />
@@ -571,6 +570,7 @@
     <ClCompile Include="src\crystal\renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\crystal\renderer\RenderCommand.cpp" />
     <ClCompile Include="src\crystal\renderer\Renderer.cpp" />
+    <ClCompile Include="src\crystal\renderer\Renderer2D.cpp" />
     <ClCompile Include="src\crystal\renderer\RendererAPI.cpp" />
     <ClCompile Include="src\crystal\renderer\Shader.cpp" />
     <ClCompile Include="src\crystal\renderer\ShaderLibrary.cpp" />

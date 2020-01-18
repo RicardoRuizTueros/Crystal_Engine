@@ -12,6 +12,7 @@ namespace Crystal
 {
 	Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), cameraController(1920.0f / 1080.0f)
 	{
+
 	}
 	
 	void Sandbox2D::OnAttach()
@@ -32,11 +33,9 @@ namespace Crystal
 		RenderCommand::Clear();
 
 		Renderer2D::BeginScene(cameraController.GetCamera());
-		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 
-		// TODO: Add these functions - Shader::SetMat4, Shader::SetFloat4
-		/*dynamic_pointer_cast<OpenGLShader>(flatColorShader)->Bind();*/
-		//dynamic_pointer_cast<OpenGLShader>(flatColorShader)->UploadUniformFloat4("u_color", squareColor);
+		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+		Renderer2D::DrawQuad({ 0.5f, 0.5f }, { 1.0f, 1.5f }, { 0.2f, 0.2f, 0.8f, 1.0f });
 		
 		Renderer2D::EndScene();
 	}

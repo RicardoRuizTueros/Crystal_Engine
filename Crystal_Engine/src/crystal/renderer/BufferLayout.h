@@ -51,7 +51,7 @@ namespace Crystal
 		string name;
 		ShaderDataType type;
 		uint32_t size;
-		uint32_t offset;
+		size_t offset;
 		bool normalized;
 
 		BufferElement() = default;
