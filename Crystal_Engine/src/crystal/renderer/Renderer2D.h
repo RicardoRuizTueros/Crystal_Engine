@@ -1,6 +1,7 @@
 #pragma once
 
 #include "crystal/renderer/OrthographicCamera.h"
+#include "crystal/renderer/Texture2D.h"
 
 using namespace glm;
 
@@ -17,5 +18,7 @@ namespace Crystal
 
 		static void DrawQuad(const vec2& position, const vec2& size, const vec4& color);
 		static void DrawQuad(const vec3& position, const vec2& size, const vec4& color);
+		static void DrawQuad(const vec2& position, const vec2& size, const Reference<Texture2D>& texture);
+		static void DrawQuad(const vec3& position, const vec2& size, const Reference<Texture2D>& texture);
 	};
 }

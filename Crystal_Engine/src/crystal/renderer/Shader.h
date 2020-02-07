@@ -16,6 +16,7 @@ namespace Crystal
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
+		virtual void SetInt(const string& name, const int& value) = 0;
 		virtual void SetMat4(const string& name, const mat4& matrix) = 0;
 		virtual void SetFloat4(const string& name, const vec4& vector) = 0;
 		virtual void SetFloat3(const string& name, const vec3& vector) = 0;

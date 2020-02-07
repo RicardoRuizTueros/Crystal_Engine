@@ -20,6 +20,8 @@ namespace Crystal
 	private:
 		OrthographicCameraController cameraController;
 
+		Reference<Texture2D> checkerTexture;
+
 		// To do: Remove this!
 		Reference<VertexArray> squareVertexArray;
 		Reference<Shader> flatColorShader;
