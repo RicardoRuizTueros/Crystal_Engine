@@ -14,8 +14,8 @@ namespace Crystal
 	struct Renderer2DStorage
 	{
 		Reference<VertexArray> quadVertexArray;
-		Reference<Shader> flatColorShader;
 		Reference<Shader> textureShader;
+		Reference<Texture2D> whiteTexture;
 	};
 
 	static Renderer2DStorage* data;
@@ -48,7 +48,10 @@ namespace Crystal
 		squareIndexBuffer.reset(IndexBuffer::Create(quadIndices, sizeof(quadIndices) / sizeof(uint32_t)));
 		data->quadVertexArray->SetIndexBuffer(squareIndexBuffer);
 
-		data->flatColorShader = Shader::Create("assets/shaders/FlatColor.glsl");
+		data->whiteTexture = Texture2D::Create(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+		data->whiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
+
 		data->textureShader = Shader::Create("assets/shaders/Texture.glsl");
 		data->textureShader->Bind();
 		data->textureShader->SetInt("u_texture", 0);
@@ -61,11 +64,8 @@ namespace Crystal
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		data->flatColorShader->Bind();
-		data->flatColorShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-
 		data->textureShader->Bind();
-		data->flatColorShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
+		data->textureShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene()
@@ -80,11 +80,11 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const vec4& color)
 	{
-		data->flatColorShader->Bind();
-		data->flatColorShader->SetFloat4("u_color", color);
+		data->whiteTexture->Bind();
 
-		mat4 transform = translate(mat4(1.0f), position) * /* rotation - to do*/ scale(mat4(1.0f), { size.x, size.y, 1.0f });
-		data->flatColorShader->SetMat4("u_transform", transform);
+		mat4 transform = translate(mat4(1.0f), position) * /* rotation - to do */ scale(mat4(1.0f), { size.x, size.y, 1.0f });
+		data->textureShader->SetFloat4("u_color", color);
+		data->textureShader->SetMat4("u_transform", transform);
 
 		data->quadVertexArray->Bind();
 		RenderCommand::DrawIndexed(data->quadVertexArray);
@@ -97,12 +97,12 @@ namespace Crystal
 	
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const Reference<Texture2D>& texture)
 	{
-		data->textureShader->Bind();
+		texture->Bind();
 
 		mat4 transform = translate(mat4(1.0f), position) * /* rotation - to do*/ scale(mat4(1.0f), { size.x, size.y, 1.0f });
+		data->textureShader->SetFloat4("u_color", vec4(1.0f));
 		data->textureShader->SetMat4("u_transform", transform);
 
-		texture->Bind();
 		data->quadVertexArray->Bind();
 		RenderCommand::DrawIndexed(data->quadVertexArray);
 	}
