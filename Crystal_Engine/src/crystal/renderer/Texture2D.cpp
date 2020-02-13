@@ -1,8 +1,9 @@
-#include "Texture2D.h"
-#include <crystalpch.h>
+#include "crystalpch.h"
 
-#include "Renderer.h"
-#include <platform/openGL/OpenGLTexture2D.h>
+#include "crystal/renderer/Texture2D.h"
+#include "crystal/renderer/Renderer.h"
+
+#include "platform/openGL/OpenGLTexture2D.h"
 
 namespace Crystal
 {

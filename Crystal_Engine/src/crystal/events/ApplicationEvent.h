@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Event.h"
+#include "crystal/events/Event.h"
 
 namespace Crystal
 {
-	class CRYSTAL_API WindowResizeEvent : public Event
+	class WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
@@ -30,37 +30,37 @@ namespace Crystal
 		unsigned int width, height;
 	};
 
-	class CRYSTAL_API WindowCloseEvent : public Event
+	class WindowCloseEvent : public Event
 	{
 	public:
-		WindowCloseEvent() {}
+		WindowCloseEvent() = default;
 
 		EVENT_CLASS_TYPE(WindowClose)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class CRYSTAL_API AppTickEvent : public Event
+	class AppTickEvent : public Event
 	{
 	public:
-		AppTickEvent() {}
+		AppTickEvent() = default;
 
 		EVENT_CLASS_TYPE(Tick)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class CRYSTAL_API AppUpdateEvent : public Event
+	class AppUpdateEvent : public Event
 	{
 	public:
-		AppUpdateEvent() {}
+		AppUpdateEvent() = default;
 
 		EVENT_CLASS_TYPE(Update)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class CRYSTAL_API AppRenderEvent : public Event
+	class AppRenderEvent : public Event
 	{
 	public:
-		AppRenderEvent() {}
+		AppRenderEvent() = default;
 
 		EVENT_CLASS_TYPE(Render)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)

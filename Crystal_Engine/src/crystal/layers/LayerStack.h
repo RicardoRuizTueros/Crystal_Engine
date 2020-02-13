@@ -1,7 +1,7 @@
 #pragma once
 
 #include "crystal/core/Core.h"
-#include "Layer.h"
+#include "crystal/layers/Layer.h"
 
 #include <vector>
 
@@ -9,10 +9,10 @@ using namespace std;
 
 namespace Crystal
 {
-	class CRYSTAL_API LayerStack : Layer
+	class LayerStack : Layer
 	{
 	public:
-		LayerStack();
+		LayerStack() = default;
 		~LayerStack();
 
 		void PushLayer(Layer* layer);

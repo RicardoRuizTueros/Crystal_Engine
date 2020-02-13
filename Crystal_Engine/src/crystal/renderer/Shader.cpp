@@ -1,7 +1,8 @@
 #include "crystalpch.h"
-#include "Shader.h"
 
-#include "Renderer.h"
+#include "crystal/renderer/Shader.h"
+#include "crystal/renderer/Renderer.h"
+
 #include "platform/openGL/OpenGLShader.h"
 
 using namespace std;
@@ -16,7 +17,7 @@ namespace Crystal
 			CRYSTAL_CORE_ASSERT(false, "RendererAPI::None is not supported!")
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return make_shared<OpenGLShader>(filepath);
+			return CreateReference<OpenGLShader>(filepath);
 		}
 
 		CRYSTAL_CORE_ASSERT(false, "Unknown RendererAPI");
@@ -30,7 +31,7 @@ namespace Crystal
 		case RendererAPI::API::None:
 			CRYSTAL_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 		case RendererAPI::API::OpenGL:
-			return make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
+			return CreateReference<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
 
 		CRYSTAL_CORE_ASSERT(false, "Unknown RendererAPI!");

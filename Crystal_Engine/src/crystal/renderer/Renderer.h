@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RenderCommand.h"
-#include "OrthographicCamera.h"
-#include "Shader.h"
+#include "crystal/renderer/RenderCommand.h"
+#include "crystal/renderer/OrthographicCamera.h"
+#include "crystal/renderer/Shader.h"
 
 using namespace std;
 using namespace glm;
@@ -13,6 +13,8 @@ namespace Crystal
 	{
 	public:
 		static void Init();
+		static void Shutdown();
+
 		static void BeginScene(OrthographicCamera& camera);
 		static void EndScene();
 

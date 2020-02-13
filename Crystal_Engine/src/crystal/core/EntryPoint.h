@@ -1,5 +1,7 @@
 #pragma once
 
+#include "crystal/core/Core.h"
+
 #ifdef CRYSTAL_PLATFORM_WINDOWS
 
 extern Crystal::Application* Crystal::CreateApplication();

@@ -1,15 +1,10 @@
 #include "crystalpch.h"
-#include "LayerStack.h"
+#include "crystal/layers/LayerStack.h"
 
 using namespace std;
 
 namespace Crystal
 {
-	LayerStack::LayerStack()
-	{
-
-	}
-
 	LayerStack::~LayerStack()
 	{
 		for (Layer* layer : layers) {

@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-#include "VertexArray.h"
+#include "crystal/renderer/VertexArray.h"
 
 using namespace glm;
 using namespace std;
@@ -26,6 +26,7 @@ namespace Crystal
 		virtual void DrawIndexed(const Reference<VertexArray>& vertexArray) = 0;
 
 		inline static API GetAPI() { return api; }
+		static Scope<RendererAPI> Create();
 
 	private:
 		static API api;

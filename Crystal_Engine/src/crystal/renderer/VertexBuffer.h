@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+
 #include "crystal/renderer/BufferLayout.h"
 
 namespace Crystal
@@ -10,7 +11,7 @@ namespace Crystal
 	public:
 		virtual ~VertexBuffer() = default;
 
-		static VertexBuffer* Create(float* vertices, uint32_t size);
+		static Reference<VertexBuffer> Create(float* vertices, uint32_t size);
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;

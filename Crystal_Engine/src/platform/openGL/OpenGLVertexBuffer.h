@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Crystal/renderer/VertexBuffer.h"
+#include "crystal/renderer/VertexBuffer.h"
 #include "crystal/renderer/BufferLayout.h"
 
 namespace Crystal

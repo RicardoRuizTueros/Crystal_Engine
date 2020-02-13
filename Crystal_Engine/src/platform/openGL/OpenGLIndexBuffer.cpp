@@ -1,6 +1,7 @@
 #include "crystalpch.h"
-#include "OpenGLIndexBuffer.h"
-#include <glad\glad.h>
+#include "platform/openGL/OpenGLIndexBuffer.h"
+
+#include <glad/glad.h>
 
 namespace Crystal 
 {

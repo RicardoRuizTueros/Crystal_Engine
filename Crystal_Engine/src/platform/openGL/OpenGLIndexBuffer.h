@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Crystal/renderer/IndexBuffer.h"
+#include "crystal/renderer/IndexBuffer.h"
 
 namespace Crystal
 {

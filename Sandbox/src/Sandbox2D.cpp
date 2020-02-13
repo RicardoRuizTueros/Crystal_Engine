@@ -1,8 +1,8 @@
 #include "Sandbox2D.h"
 
 #include "platform/openGL/OpenGLShader.h"
-#include "imgui/imgui.h"
 
+#include <imgui/imgui.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 

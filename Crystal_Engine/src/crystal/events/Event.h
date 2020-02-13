@@ -34,7 +34,7 @@ namespace Crystal
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategory() const override { return category; }
 
-	class CRYSTAL_API Event 
+	class Event 
 	{	
 	public:
 		bool handled = false;

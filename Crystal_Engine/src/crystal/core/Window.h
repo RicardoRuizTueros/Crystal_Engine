@@ -23,10 +23,10 @@ namespace Crystal
 		}
 	};
 
-	class CRYSTAL_API Window
+	class Window
 	{
 	public:
-		using EventCallbackFunction = function<void(Event&)>;
+		using EventCallbackFunction = function<void(Crystal::Event&)>;
 
 		virtual ~Window() = default;
 
@@ -41,6 +41,6 @@ namespace Crystal
 
 		virtual void* GetNativeWindow() const = 0;
 
-		static Window* Create(const WindowProperties& properties = WindowProperties());
+		static Scope<Window> Create(const WindowProperties& properties = WindowProperties());
 	};
 }

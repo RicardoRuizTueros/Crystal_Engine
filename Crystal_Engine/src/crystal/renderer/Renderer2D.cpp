@@ -32,8 +32,7 @@ namespace Crystal
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		Reference<VertexBuffer> quadVertexBuffer;
-		quadVertexBuffer.reset(VertexBuffer::Create(quadVertices, sizeof(quadVertices)));
+		Reference<VertexBuffer> quadVertexBuffer = VertexBuffer::Create(quadVertices, sizeof(quadVertices));
 		quadVertexBuffer->SetLayout
 		({
 			{ ShaderDataType::Float3, "a_Position" },
@@ -44,8 +43,7 @@ namespace Crystal
 		data->quadVertexArray->AddVertexBuffer(quadVertexBuffer);
 
 		uint32_t quadIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Reference<IndexBuffer> squareIndexBuffer;
-		squareIndexBuffer.reset(IndexBuffer::Create(quadIndices, sizeof(quadIndices) / sizeof(uint32_t)));
+		Reference<IndexBuffer> squareIndexBuffer = IndexBuffer::Create(quadIndices, sizeof(quadIndices) / sizeof(uint32_t));
 		data->quadVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		data->whiteTexture = Texture2D::Create(1, 1);

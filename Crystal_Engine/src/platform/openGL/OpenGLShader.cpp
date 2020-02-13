@@ -1,9 +1,9 @@
 #include "crystalpch.h"
-#include "OpenGLShader.h"
+
+#include "platform/openGL/OpenGLShader.h"
 
 #include <fstream>
 #include <glad/glad.h>
-
 #include <glm/gtc/type_ptr.hpp>
 
 using namespace std;

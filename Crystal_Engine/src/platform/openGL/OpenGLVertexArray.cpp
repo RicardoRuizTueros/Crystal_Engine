@@ -1,5 +1,6 @@
 #include "crystalpch.h"
-#include "OpenGLVertexArray.h"
+
+#include "platform/openGL/OpenGLVertexArray.h"
 
 #include <glad/glad.h>
 

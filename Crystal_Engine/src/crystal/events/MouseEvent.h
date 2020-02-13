@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Event.h"
+#include "crystal/events/Event.h"
 
 using namespace std;
 
 namespace Crystal
 {
 
-	class CRYSTAL_API MouseMovedEvent : public Event
+	class MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float x, float y)
@@ -33,7 +33,7 @@ namespace Crystal
 		float x, y;
 	};
 
-	class CRYSTAL_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset)
@@ -59,7 +59,7 @@ namespace Crystal
 		float xOffset, yOffset;
 	};
 
-	class CRYSTAL_API MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
 		inline int GetMouseButton() const { return button; }
@@ -74,7 +74,7 @@ namespace Crystal
 		}
 	};
 
-	class CRYSTAL_API MouseButtonPressedEvent : public MouseButtonEvent
+	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonPressedEvent(int button) : MouseButtonEvent(button)
@@ -93,7 +93,7 @@ namespace Crystal
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class CRYSTAL_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button)

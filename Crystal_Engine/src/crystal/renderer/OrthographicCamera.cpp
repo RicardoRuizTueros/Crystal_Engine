@@ -1,5 +1,5 @@
-#include <crystalpch.h>
-#include "OrthographicCamera.h"
+#include "crystalpch.h"
+#include "crystal/renderer/OrthographicCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 

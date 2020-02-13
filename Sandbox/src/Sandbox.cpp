@@ -1,13 +1,12 @@
 #include "Crystal.h"
+
 #include "crystal/core/EntryPoint.h"
+#include "crystal/renderer/Texture2D.h"
 
-#include "platform/openGL/OpenGLShader.h"
-
-#include "imgui/imgui.h"
+#include <imgui/imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "crystal/renderer/Texture2D.h"
 
 #include "Sandbox2D.h"
 
@@ -59,36 +58,30 @@ public:
 		logoTextureVertexArray = VertexArray::Create();
 		checkerTextureVertexArray = VertexArray::Create();
 
-		Reference<VertexBuffer> logoTextureVertexBuffer;
-		logoTextureVertexBuffer.reset(VertexBuffer::Create(logoTextureVertices, sizeof(logoTextureVertices)));
+		Reference<VertexBuffer> logoTextureVertexBuffer = VertexBuffer::Create(logoTextureVertices, sizeof(logoTextureVertices));
 		logoTextureVertexBuffer->SetLayout(logoTextureLayout);
 		logoTextureVertexArray->AddVertexBuffer(logoTextureVertexBuffer);
 
-		Reference<VertexBuffer> checkerTextureVertexBuffer;
-		checkerTextureVertexBuffer.reset(VertexBuffer::Create(checkerTextureVertices, sizeof(checkerTextureVertices)));
+		Reference<VertexBuffer> checkerTextureVertexBuffer = VertexBuffer::Create(checkerTextureVertices, sizeof(checkerTextureVertices));
 		checkerTextureVertexBuffer->SetLayout(checkerTextureLayout);
 		checkerTextureVertexArray->AddVertexBuffer(checkerTextureVertexBuffer);
 
 		uint32_t logoTextureIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Reference<IndexBuffer> logoTextureIndexBuffer;
-		logoTextureIndexBuffer.reset(IndexBuffer::Create(logoTextureIndices, sizeof(logoTextureIndices) / sizeof(uint32_t)));
+		Reference<IndexBuffer> logoTextureIndexBuffer = IndexBuffer::Create(logoTextureIndices, sizeof(logoTextureIndices) / sizeof(uint32_t));
 		logoTextureVertexArray->SetIndexBuffer(logoTextureIndexBuffer);
 
 		uint32_t checkerTextureIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Reference<IndexBuffer> checkerTextureIndexBuffer;
-		checkerTextureIndexBuffer.reset(IndexBuffer::Create(checkerTextureIndices, sizeof(checkerTextureIndices) / sizeof(uint32_t)));
+		Reference<IndexBuffer> checkerTextureIndexBuffer = IndexBuffer::Create(checkerTextureIndices, sizeof(checkerTextureIndices) / sizeof(uint32_t));
 		checkerTextureVertexArray->SetIndexBuffer(checkerTextureIndexBuffer);
 
 		squareVertexArray = VertexArray::Create();
 
-		Reference<VertexBuffer> squareVertexBuffer;
-		squareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		Reference<VertexBuffer> squareVertexBuffer = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		squareVertexBuffer->SetLayout(squareLayout);
 		squareVertexArray->AddVertexBuffer(squareVertexBuffer);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Reference<IndexBuffer> squareIndexBuffer;
-		squareIndexBuffer.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		Reference<IndexBuffer> squareIndexBuffer = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		squareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		// Shaders
@@ -128,14 +121,14 @@ public:
 		logoTextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		logoTexture = Texture2D::Create("assets/textures/logo.png");
 
-		dynamic_pointer_cast<OpenGLShader>(logoTextureShader)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(logoTextureShader)->UploadUniformInt("u_texture", 0);
+		logoTextureShader->Bind();
+		logoTextureShader->SetInt("u_texture", 0);
 
 		checkerTextureShader = Shader::Create("CheckerTexture", checkerTextureVertexSource, checkerTextureFragmentSource);
 		checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
 
-		dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(checkerTextureShader)->UploadUniformInt("u_texture", 0);
+		checkerTextureShader->Bind();
+		checkerTextureShader->SetInt("u_texture", 0);
 
 		string squareVertexSource = R"(
 			#version 330 core
@@ -183,8 +176,8 @@ public:
 
 		mat4 scale = glm::scale(mat4(1.0f), vec3(0.1f));
 
-		dynamic_pointer_cast<OpenGLShader>(squareShader)->Bind();
-		dynamic_pointer_cast<OpenGLShader>(squareShader)->UploadUniformFloat3("u_color", squareShaderColor);
+		squareShader->Bind();
+		squareShader->SetFloat3("u_color", squareShaderColor);
 
 		for (int y = 0; y < 20; y++)
 		{

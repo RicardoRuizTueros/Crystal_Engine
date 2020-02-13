@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Window.h"
-#include "Core.h"
+#include "crystal/core/Window.h"
+#include "crystal/core/Core.h"
 
-#include "Crystal/Events/Event.h"
-#include "Crystal/Events/ApplicationEvent.h"
+#include "crystal/events/Event.h"
+#include "crystal/events/ApplicationEvent.h"
 
-#include "Crystal/Layers/LayerStack.h"
+#include "crystal/layers/LayerStack.h"
 #include "crystal/imgui/ImGuiLayer.h"
 
 using namespace std;
@@ -17,7 +17,7 @@ namespace Crystal
 	{
 		public:
 			Application();
-			virtual ~Application() = default;
+			virtual ~Application();
 			
 			void OnEvent(Event& event);
 			bool OnWindowClose(WindowCloseEvent& event);

@@ -1,10 +1,10 @@
 #include "crystalpch.h"
-#include "Log.h"
+#include "crystal/core/Log.h"
 
 namespace Crystal
 {
-	shared_ptr<logger> Log::coreLogger;
-	shared_ptr<logger> Log::clientLogger;
+	Reference<logger> Log::coreLogger;
+	Reference<logger> Log::clientLogger;
 
 	void Log::Init()
 	{

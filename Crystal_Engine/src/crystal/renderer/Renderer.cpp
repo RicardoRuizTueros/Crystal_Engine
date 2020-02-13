@@ -1,7 +1,6 @@
 #include "crystalpch.h"
-#include "Renderer.h"
 
-#include "platform/openGL/OpenGLShader.h"
+#include "crystal/renderer/Renderer.h"
 #include "crystal/renderer/Renderer2D.h"
 
 using namespace glm;
@@ -17,6 +16,11 @@ namespace Crystal
 		Renderer2D::Init();
 	}
 
+	void Renderer::Shutdown()
+	{
+		Renderer2D::Shutdown();
+	}
+
 	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
 		sceneData->viewProjectionMatrix = camera.GetViewProjectionMatrix();
@@ -30,8 +34,8 @@ namespace Crystal
 	void Renderer::Submit(const Reference<Shader>& shader, const Reference<VertexArray>& vertexArray, const mat4& transform)
 	{
 		shader->Bind();
-		dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_viewProjection", sceneData->viewProjectionMatrix);
-		dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_transform", transform);
+		shader->SetMat4("u_viewProjection", sceneData->viewProjectionMatrix);
+		shader->SetMat4("u_transform", transform);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

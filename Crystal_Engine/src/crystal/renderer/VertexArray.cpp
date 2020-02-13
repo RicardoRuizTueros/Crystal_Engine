@@ -1,7 +1,8 @@
 #include "crystalpch.h"
-#include "VertexArray.h"
 
-#include "Renderer.h"
+#include "crystal/renderer/VertexArray.h"
+#include "crystal/renderer/Renderer.h"
+
 #include "platform/openGL/OpenGLVertexArray.h"
 
 namespace Crystal
@@ -11,7 +12,7 @@ namespace Crystal
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::OpenGL:
-			return make_shared<OpenGLVertexArray>();
+			return CreateReference<OpenGLVertexArray>();
 		case RendererAPI::API::None:
 			CRYSTAL_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return 0;

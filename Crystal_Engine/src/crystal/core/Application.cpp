@@ -1,16 +1,15 @@
 #include "crystalpch.h"
-#include "Application.h"
+
+#include "crystal/core/Application.h"
+#include "crystal/core/Log.h"
+#include "crystal/core/Input.h"
 
 #include "crystal/renderer/Renderer.h"
 
 #include <GLFW\glfw3.h>
-#include <crystal\core\Timestep.h>
 
 namespace Crystal
 {
-
-#define BIND_FUNCTION(fn) std::bind(&Application::fn, this, std::placeholders::_1)
-
 	Application* Application::instance = nullptr;
 
 	Application::Application()
@@ -19,8 +18,9 @@ namespace Crystal
 		instance = this;
 
 		// Window
-		window = unique_ptr<Window>(Window::Create());
-		window->SetEventCallback(BIND_FUNCTION(OnEvent));
+		window = Window::Create();
+		window->SetEventCallback(CRYSTAL_BIND_EVENT_FN(Application::OnEvent));
+
 		// window->SetVSync(false);
 
 		Renderer::Init();
@@ -28,6 +28,11 @@ namespace Crystal
 		// ImGUI layer
 		imGuiLayer = new ImGuiLayer();
 		PushOverlay(imGuiLayer);
+	}
+
+	Application::~Application()
+	{
+		Renderer::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)
@@ -44,8 +49,8 @@ namespace Crystal
 	void Application::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_FUNCTION(OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_FUNCTION(OnWindowResize));
+		dispatcher.Dispatch<WindowCloseEvent>(CRYSTAL_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(CRYSTAL_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto iterator = layerStack.end(); iterator != layerStack.begin(); )
 		{

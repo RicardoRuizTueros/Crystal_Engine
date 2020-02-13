@@ -6,7 +6,7 @@ using namespace std;
 
 namespace Crystal
 {
-	class CRYSTAL_API Input
+	class Input
 	{
 	public:
 		inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImplementation(keycode); }

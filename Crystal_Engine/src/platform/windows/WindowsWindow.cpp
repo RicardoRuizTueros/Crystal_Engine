@@ -1,9 +1,10 @@
 #include "crystalpch.h"
-#include "WindowsWindow.h"
 
-#include "Crystal/Events/ApplicationEvent.h"
-#include "Crystal/Events/MouseEvent.h"
-#include "Crystal/Events/KeyEvent.h"
+#include "platform/windows/WindowsWindow.h"
+
+#include "crystal/events/ApplicationEvent.h"
+#include "crystal/events/MouseEvent.h"
+#include "crystal/events/KeyEvent.h"
 
 #include "platform/openGL/OpenGLContext.h"
 
@@ -16,9 +17,9 @@ namespace Crystal
 		CRYSTAL_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProperties& properties)
+	Scope<Window> Window::Create(const WindowProperties& properties)
 	{
-		return new WindowsWindow(properties);
+		return CreateScope<WindowsWindow>(properties);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProperties& properties)
@@ -41,7 +42,6 @@ namespace Crystal
 
 		if (GLFWWindowCount == 0)
 		{
-			CRYSTAL_CORE_INFO("Initializing GLFW");
 			int success = glfwInit();
 			CRYSTAL_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -49,7 +49,7 @@ namespace Crystal
 		
 		window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
 		GLFWWindowCount++;
-		context = CreateScope<OpenGLContext>(window);
+		context = GraphicsContext::Create(window);
 		context->Init();
 
 		glfwSetWindowUserPointer(window, &data);
@@ -149,10 +149,10 @@ namespace Crystal
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(window);
+		GLFWWindowCount--;
 
-		if (--GLFWWindowCount == 0)
+		if (GLFWWindowCount == 0)
 		{
-			CRYSTAL_CORE_INFO("Terminating GLFW");
 			glfwTerminate();
 		}
 	}

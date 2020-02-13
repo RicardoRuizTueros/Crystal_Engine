@@ -1,9 +1,8 @@
 #include "crystalpch.h"
-#include "OpenGLTexture2D.h"
+
+#include "platform/openGL/OpenGLTexture2D.h"
 
 #include <stb_image.h>
-
-#include <glad/glad.h>
 
 namespace Crystal
 {

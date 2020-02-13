@@ -45,21 +45,6 @@
 	#error "Unknown platform!"
 #endif 
 
-// DLL support
-#ifdef CRYSTAL_PLATFORM_WINDOWS
-	#if CRYSTAL_DYNAMIC_LINK
-		#ifdef CRYSTAL_BUILD_DLL
-			#define CRYSTAL_API __declspec(dllexport)
-		#else
-			#define CRYSTAL_API __declspec(dllimport)
-		#endif
-	#else
-		#define CRYSTAL_API
-#endif
-#else
-	#error "Crystal Engine only supports Windows!"
-#endif
-
 #ifdef CRYSTAL_DEBUG
 	#define CRYSTAL_ENABLE_ASSERTS
 #endif

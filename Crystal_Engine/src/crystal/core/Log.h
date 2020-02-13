@@ -1,25 +1,25 @@
 #pragma once
 
-#include "Core.h"
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/fmt/ostr.h"
+#include "crystal/core/Core.h"
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/fmt/ostr.h>
 
 using namespace std;
 using namespace spdlog;
 
 namespace Crystal {
-	class CRYSTAL_API Log
+	class Log
 	{
 	public:
 		static void Init();
 
-		inline static shared_ptr<logger>& GetCoreLogger() { return coreLogger; }
-		inline static shared_ptr<logger>& GetClientLogger() { return clientLogger; }
+		inline static Reference<logger>& GetCoreLogger() { return coreLogger; }
+		inline static Reference<logger>& GetClientLogger() { return clientLogger; }
 	
 	private:
-		static shared_ptr<logger> clientLogger;
-		static shared_ptr<logger> coreLogger;
+		static Reference<logger> clientLogger;
+		static Reference<logger> coreLogger;
 	};
 }
 

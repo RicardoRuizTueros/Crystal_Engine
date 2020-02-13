@@ -1,9 +1,8 @@
 #include <crystalpch.h>
-#include "RenderCommand.h"
 
-#include "platform/openGL/OpenGLRendererAPI.h"
+#include "crystal/renderer/RenderCommand.h"
 
 namespace Crystal
 {
-	Scope<RendererAPI> RenderCommand::rendererAPI = CreateScope<OpenGLRendererAPI>();
+	Scope<RendererAPI> RenderCommand::rendererAPI = RendererAPI::Create();
 }

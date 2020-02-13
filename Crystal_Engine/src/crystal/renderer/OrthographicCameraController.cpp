@@ -1,5 +1,6 @@
 #include "crystalpch.h"
-#include "OrthographicCameraController.h"
+
+#include "crystal/renderer/OrthographicCameraController.h"
 
 namespace Crystal
 {
