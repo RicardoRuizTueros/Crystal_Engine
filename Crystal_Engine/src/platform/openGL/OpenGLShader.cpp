@@ -232,10 +232,20 @@ namespace Crystal
 		if (filestream)
 		{
 			filestream.seekg(0, ios::end);
-			result.resize(filestream.tellg());
-			filestream.seekg(0, ios::beg);
-			filestream.read(&result[0], result.size());
-			filestream.close();
+			
+			size_t size = filestream.tellg();
+
+			if (size != -1)
+			{
+				result.resize(size);
+				filestream.seekg(0, ios::beg);
+				filestream.read(&result[0], size);
+				filestream.close();
+			}
+			else
+			{
+				CRYSTAL_CORE_ERROR("Could not read from file '{0}'", filepath);
+			}
 		}
 		else
 		{
