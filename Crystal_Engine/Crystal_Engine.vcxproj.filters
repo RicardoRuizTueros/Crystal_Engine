@@ -1386,5 +1386,6 @@
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\crystal\renderer\GraphicsContext.cpp" />
+    <ClCompile Include="src\crystal\core\Timer.cpp" />
   </ItemGroup>
 </Project>

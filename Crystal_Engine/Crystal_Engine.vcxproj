@@ -560,6 +560,7 @@
   <ItemGroup>
     <ClCompile Include="src\crystal\core\Application.cpp" />
     <ClCompile Include="src\crystal\core\Log.cpp" />
+    <ClCompile Include="src\crystal\core\Timer.cpp" />
     <ClCompile Include="src\crystal\imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\crystal\imgui\ImGuiLayer.cpp" />
     <ClCompile Include="src\crystal\layers\Layer.cpp" />
