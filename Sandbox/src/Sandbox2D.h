@@ -2,9 +2,6 @@
 
 #include "Crystal.h"
 
-// Todo: Remove Timer include!
-#include "crystal/core/Timer.cpp"
-
 namespace Crystal 
 {
 	class Sandbox2D : public Layer
@@ -31,7 +28,5 @@ namespace Crystal
 		Reference<Shader> flatColorShader;
 
 		vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
-
-		vector<ProfileResult> profileResults;
 	};
 }

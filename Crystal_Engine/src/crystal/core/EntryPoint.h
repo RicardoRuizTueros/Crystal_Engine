@@ -10,13 +10,17 @@ int main(int argc, char** argv)
 {
 	Crystal::Log::Init();
 
-	CRYSTAL_CORE_WARN("Initialized log!");
-	int a = 5;
-	CRYSTAL_INFO("Hello var={0}", a);
-
+	CRYSTAL_PROFILE_BEGIN_SESSION("Startup", "CrystalProfile-Startup.json");
 	auto sandbox = Crystal::CreateApplication();
+	CRYSTAL_PROFILE_END_SESSION();
+
+	CRYSTAL_PROFILE_BEGIN_SESSION("Run", "CrystalProfile-Run.json");
 	sandbox->Run();
+	CRYSTAL_PROFILE_END_SESSION();
+
+	CRYSTAL_PROFILE_BEGIN_SESSION("Startup", "CrystalProfile-Shutdown.json");
 	delete sandbox;
+	CRYSTAL_PROFILE_END_SESSION();
 }
 
 #endif

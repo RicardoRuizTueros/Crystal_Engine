@@ -10,8 +10,6 @@
 
 using namespace glm;
 
-
-
 namespace Crystal
 {
 	Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), cameraController(1920.0f / 1080.0f)
@@ -31,21 +29,21 @@ namespace Crystal
 	
 	void Sandbox2D::OnUpdate(Timestep timestep)
 	{
-		PROFILE_SCOPE("Sandbox2D::OnUpdate");
-		
+		CRYSTAL_PROFILE_FUNCTION();
+
 		{
-			PROFILE_SCOPE("CameraController::OnUpdate");
+			CRYSTAL_PROFILE_SCOPE("CameraController::OnUpdate");
 			cameraController.OnUpdate(timestep);
 		}
 		
 		{
-			PROFILE_SCOPE("RenderCommand::OnUpdate");
+			CRYSTAL_PROFILE_SCOPE("RenderCommand::OnUpdate");
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 			RenderCommand::Clear();
 		}
 
 		{
-			PROFILE_SCOPE("Draw::OnUpdate");
+			CRYSTAL_PROFILE_SCOPE("DrawQuad::OnUpdate");
 			Renderer2D::BeginScene(cameraController.GetCamera());
 
 			Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
@@ -58,20 +56,10 @@ namespace Crystal
 	
 	void Sandbox2D::OnImGuiRender()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		ImGui::Begin("Settings");
-
 		ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor));
-
-		for (auto& result : profileResults)
-		{
-			char label[50];
-			strcpy(label, "%.3fms ");
-			strcat(label, result.name);
-			ImGui::Text(label, result.time);
-		}
-
-		profileResults.clear();
-
 		ImGui::End();
 	}
 

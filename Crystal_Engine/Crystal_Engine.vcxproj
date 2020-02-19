@@ -155,6 +155,8 @@
     <ClInclude Include="src\crystal\core\MouseKeycodes.h" />
     <ClInclude Include="src\crystal\core\Timestep.h" />
     <ClInclude Include="src\crystal\core\Window.h" />
+    <ClInclude Include="src\crystal\debug\InstrumentationTimer.h" />
+    <ClInclude Include="src\crystal\debug\Instrumentor.h" />
     <ClInclude Include="src\crystal\events\ApplicationEvent.h" />
     <ClInclude Include="src\crystal\events\Event.h" />
     <ClInclude Include="src\crystal\events\KeyEvent.h" />
@@ -560,12 +562,14 @@
   <ItemGroup>
     <ClCompile Include="src\crystal\core\Application.cpp" />
     <ClCompile Include="src\crystal\core\Log.cpp" />
-    <ClCompile Include="src\crystal\core\Timer.cpp" />
+    <ClCompile Include="src\crystal\debug\InstrumentationTimer.cpp" />
+    <ClCompile Include="src\crystal\debug\Instrumentor.cpp" />
     <ClCompile Include="src\crystal\imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\crystal\imgui\ImGuiLayer.cpp" />
     <ClCompile Include="src\crystal\layers\Layer.cpp" />
     <ClCompile Include="src\crystal\layers\LayerStack.cpp" />
     <ClCompile Include="src\crystal\renderer\BufferLayout.cpp" />
+    <ClCompile Include="src\crystal\renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\crystal\renderer\IndexBuffer.cpp" />
     <ClCompile Include="src\crystal\renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\crystal\renderer\OrthographicCameraController.cpp" />
@@ -575,7 +579,6 @@
     <ClCompile Include="src\crystal\renderer\RendererAPI.cpp" />
     <ClCompile Include="src\crystal\renderer\Shader.cpp" />
     <ClCompile Include="src\crystal\renderer\ShaderLibrary.cpp" />
-    <ClCompile Include="src\crystal\renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\crystal\renderer\Texture2D.cpp" />
     <ClCompile Include="src\crystal\renderer\VertexArray.cpp" />
     <ClCompile Include="src\crystal\renderer\VertexBuffer.cpp" />

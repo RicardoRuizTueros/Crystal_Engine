@@ -10,6 +10,9 @@
     <Filter Include="src\crystal\core">
       <UniqueIdentifier>{F6E92B32-E2E2-4A84-0B15-3009F76C2A90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\crystal\debug">
+      <UniqueIdentifier>{D483B577-409A-B30D-8911-3F2FF5668495}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\crystal\events">
       <UniqueIdentifier>{0251F071-EE34-B1C7-5795-AB1A43989B49}</UniqueIdentifier>
     </Filter>
@@ -89,6 +92,12 @@
     </ClInclude>
     <ClInclude Include="src\crystal\core\Window.h">
       <Filter>src\crystal\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\debug\InstrumentationTimer.h">
+      <Filter>src\crystal\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crystal\debug\Instrumentor.h">
+      <Filter>src\crystal\debug</Filter>
     </ClInclude>
     <ClInclude Include="src\crystal\events\ApplicationEvent.h">
       <Filter>src\crystal\events</Filter>
@@ -1301,6 +1310,12 @@
     <ClCompile Include="src\crystal\core\Log.cpp">
       <Filter>src\crystal\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\crystal\debug\InstrumentationTimer.cpp">
+      <Filter>src\crystal\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crystal\debug\Instrumentor.cpp">
+      <Filter>src\crystal\debug</Filter>
+    </ClCompile>
     <ClCompile Include="src\crystal\imgui\ImGuiBuild.cpp">
       <Filter>src\crystal\imgui</Filter>
     </ClCompile>
@@ -1314,6 +1329,9 @@
       <Filter>src\crystal\layers</Filter>
     </ClCompile>
     <ClCompile Include="src\crystal\renderer\BufferLayout.cpp">
+      <Filter>src\crystal\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crystal\renderer\GraphicsContext.cpp">
       <Filter>src\crystal\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\crystal\renderer\IndexBuffer.cpp">
@@ -1385,7 +1403,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\crystal\renderer\GraphicsContext.cpp" />
-    <ClCompile Include="src\crystal\core\Timer.cpp" />
   </ItemGroup>
 </Project>
