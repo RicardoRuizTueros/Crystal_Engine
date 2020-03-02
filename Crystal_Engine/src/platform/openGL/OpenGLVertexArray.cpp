@@ -41,21 +41,29 @@ namespace Crystal
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		 glGenVertexArrays(1, &rendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &rendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glBindVertexArray(rendererID);
 	}
 
 	void OpenGLVertexArray::Unbind() const
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 
@@ -89,6 +97,8 @@ namespace Crystal
 
 	void OpenGLVertexArray::SetIndexBuffer(const Reference<IndexBuffer>& indexBuffer)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glBindVertexArray(rendererID);
 		indexBuffer->Bind();
 		this->indexBuffer = indexBuffer;

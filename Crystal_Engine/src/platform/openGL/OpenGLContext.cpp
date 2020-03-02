@@ -14,6 +14,8 @@ namespace Crystal
 
 	void OpenGLContext::Init()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(windowHandle);
 
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -27,6 +29,8 @@ namespace Crystal
 	
 	void OpenGLContext::SwapBuffers()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(windowHandle);
 	}
 }

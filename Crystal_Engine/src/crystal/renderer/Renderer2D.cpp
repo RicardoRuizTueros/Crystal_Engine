@@ -22,6 +22,8 @@ namespace Crystal
 
 	void Renderer2D::Init()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		data = new Renderer2DStorage;
 		data->quadVertexArray = VertexArray::Create();
 
@@ -57,18 +59,22 @@ namespace Crystal
 
 	void Renderer2D::Shutdown()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		delete data;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		data->textureShader->Bind();
 		data->textureShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene()
 	{
-
+		CRYSTAL_PROFILE_FUNCTION();
 	}
 
 	void Renderer2D::DrawQuad(const vec2& position, const vec2& size, const vec4& color)
@@ -78,6 +84,8 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const vec4& color)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		data->whiteTexture->Bind();
 
 		mat4 transform = translate(mat4(1.0f), position) * /* rotation - to do */ scale(mat4(1.0f), { size.x, size.y, 1.0f });
@@ -95,6 +103,8 @@ namespace Crystal
 	
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const Reference<Texture2D>& texture)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		texture->Bind();
 
 		mat4 transform = translate(mat4(1.0f), position) * /* rotation - to do*/ scale(mat4(1.0f), { size.x, size.y, 1.0f });

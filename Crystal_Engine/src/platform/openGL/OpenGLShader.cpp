@@ -21,7 +21,10 @@ namespace Crystal
 		return 0;
 	}
 
-	OpenGLShader::OpenGLShader(const string& filepath) {
+	OpenGLShader::OpenGLShader(const string& filepath) 
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		string source = ReadFile(filepath);
 		auto shaderSources = Preprocess(source);
 		Compile(shaderSources);
@@ -36,6 +39,8 @@ namespace Crystal
 
 	OpenGLShader::OpenGLShader(const string& name, const string& filepath) : name(name)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		string source = ReadFile(filepath);
 		auto shaderSources = Preprocess(source);
 		Compile(shaderSources);
@@ -43,6 +48,8 @@ namespace Crystal
 
 	OpenGLShader::OpenGLShader(const string& name, const string& vertexSource, const string& fragmentSource) : name(name)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		// Create an empty vertex shader handle
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -121,7 +128,7 @@ namespace Crystal
 
 		// Note the different functions here: glGetProgram* instead of glGetShader*.
 		GLint isLinked = 0;
-		glGetProgramiv(program, GL_LINK_STATUS, (int*)& isLinked);
+		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
@@ -146,39 +153,53 @@ namespace Crystal
 		glDetachShader(program, vertexShader);
 		glDetachShader(program, fragmentShader);
 	}
-	
+
 	OpenGLShader::~OpenGLShader()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glDeleteProgram(rendererID);
 	}
-	
+
 	void OpenGLShader::Bind() const
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glUseProgram(rendererID);
 	}
-	
+
 	void OpenGLShader::Unbind() const
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glUseProgram(0);
 	}
 
 	void OpenGLShader::SetInt(const string& name, const int& value)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		UploadUniformInt(name, value);
 	}
 
 	void OpenGLShader::SetMat4(const string& name, const mat4& matrix)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		UploadUniformMat4(name, matrix);
 	}
 
 	void OpenGLShader::SetFloat4(const string& name, const vec4& vector)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		UploadUniformFloat4(name, vector);
 	}
 
 	void OpenGLShader::SetFloat3(const string& name, const vec3& vector)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		UploadUniformFloat3(name, vector);
 	}
 
@@ -211,7 +232,7 @@ namespace Crystal
 		GLint location = glGetUniformLocation(rendererID, name.c_str());
 		glUniform4f(location, vector.x, vector.y, vector.z, vector.w);
 	}
-	
+
 	void OpenGLShader::UploadUniformMat3(const string& name, const mat3& matrix)
 	{
 		GLint location = glGetUniformLocation(rendererID, name.c_str());
@@ -223,16 +244,18 @@ namespace Crystal
 		GLint location = glGetUniformLocation(rendererID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix));
 	}
-	
+
 	string OpenGLShader::ReadFile(const string& filepath)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		string result;
 		ifstream filestream(filepath, ios::in | ios::binary);
-		
+
 		if (filestream)
 		{
 			filestream.seekg(0, ios::end);
-			
+
 			size_t size = filestream.tellg();
 
 			if (size != -1)
@@ -256,6 +279,8 @@ namespace Crystal
 	}
 	unordered_map<GLenum, string> OpenGLShader::Preprocess(const string& source)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -275,9 +300,11 @@ namespace Crystal
 
 		return shaderSources;
 	}
-	
+
 	void OpenGLShader::Compile(const unordered_map<GLenum, string>& shaderSources)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		GLuint program = glCreateProgram();
 		CRYSTAL_CORE_ASSERT(shaderSources.size() > 2, "We only support 2 shaders");
 		array<GLenum, 2> glShadersIDs;
@@ -300,10 +327,10 @@ namespace Crystal
 			{
 				GLint maxLength = 0;
 				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
-				
+
 				vector<GLchar> infoLog(maxLength);
 				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
-				
+
 				glDeleteShader(shader);
 
 				CRYSTAL_CORE_ERROR("{0}", infoLog.data());
@@ -329,7 +356,7 @@ namespace Crystal
 
 			vector<GLchar> infoLog(maxLength);
 			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-			
+
 			glDeleteProgram(program);
 
 			for (auto id : glShadersIDs)

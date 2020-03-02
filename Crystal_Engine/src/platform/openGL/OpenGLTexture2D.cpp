@@ -9,6 +9,8 @@ namespace Crystal
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 		: width(width), height(height)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		internalFormat = GL_RGBA8;
 		dataFormat = GL_RGBA;
 
@@ -24,10 +26,17 @@ namespace Crystal
 
 	OpenGLTexture2D::OpenGLTexture2D(const string& path) : path(path)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		int width, height, channels;
 
 		stbi_set_flip_vertically_on_load(1);
-		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		stbi_uc* data = nullptr;
+		
+		{
+			CRYSTAL_PROFILE_SCOPE("stbi_load")
+			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		}
 
 		CRYSTAL_CORE_ASSERT(data, "Failed to load texture!");
 
@@ -63,11 +72,15 @@ namespace Crystal
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glDeleteTextures(1, &rendererID);
 	}
 
 	void OpenGLTexture2D::SetData(void* data, uint32_t size)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		uint32_t bytesPerPixel = dataFormat == GL_RGBA ? 4 : 3;
 		CRYSTAL_CORE_ASSERT(size == width * height * bytesPerPixel, "Data size must match the texture size!");
 		glTextureSubImage2D(rendererID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
@@ -75,7 +88,8 @@ namespace Crystal
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glBindTextureUnit(slot, rendererID);
 	}
-
 }

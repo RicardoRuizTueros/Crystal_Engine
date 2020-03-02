@@ -24,16 +24,22 @@ namespace Crystal
 
 	WindowsWindow::WindowsWindow(const WindowProperties& properties)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		Init(properties);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProperties& properties)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		data.title = properties.title;
 		data.width = properties.width;
 		data.height = properties.height;
@@ -42,13 +48,18 @@ namespace Crystal
 
 		if (GLFWWindowCount == 0)
 		{
+			CRYSTAL_PROFILE_SCOPE("glfwInit");
 			int success = glfwInit();
 			CRYSTAL_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 		
-		window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
-		GLFWWindowCount++;
+		{
+			CRYSTAL_PROFILE_SCOPE("glfwCreateWindow");
+			window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.title.c_str(), nullptr, nullptr);
+			GLFWWindowCount++;
+		}
+
 		context = GraphicsContext::Create(window);
 		context->Init();
 
@@ -148,6 +159,8 @@ namespace Crystal
 
 	void WindowsWindow::Shutdown()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(window);
 		GLFWWindowCount--;
 
@@ -159,12 +172,16 @@ namespace Crystal
 
 	void WindowsWindow::OnUpdate()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		glfwPollEvents();
 		context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		if (enabled) 
 			glfwSwapInterval(1);
 		else

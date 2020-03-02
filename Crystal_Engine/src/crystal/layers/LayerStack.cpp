@@ -17,13 +17,11 @@ namespace Crystal
 	{
 		layers.emplace(layers.begin() + layerInsertIndex, layer);
 		layerInsertIndex++;
-		layer->OnAttach();
 	}
 
 	void LayerStack::PushOverlay(Layer* layer)
 	{
 		layers.emplace_back(layer);
-		layer->OnAttach();
 	}
 
 	void LayerStack::PopLayer(Layer* layer)

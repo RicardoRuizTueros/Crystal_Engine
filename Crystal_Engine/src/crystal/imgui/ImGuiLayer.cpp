@@ -20,6 +20,8 @@ namespace Crystal
 
 	void ImGuiLayer::Begin()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -27,6 +29,8 @@ namespace Crystal
 
 	void ImGuiLayer::End()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		ImGuiIO& io = ImGui::GetIO();
 		Application& application = Application::Get();
 		io.DisplaySize = ImVec2((float) application.GetWindow().GetWidth(), (float) application.GetWindow().GetHeight());
@@ -46,6 +50,8 @@ namespace Crystal
 
 	void ImGuiLayer::OnAttach()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -79,6 +85,8 @@ namespace Crystal
 
 	void ImGuiLayer::OnDetach()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();

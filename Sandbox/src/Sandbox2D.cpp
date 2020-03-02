@@ -19,22 +19,21 @@ namespace Crystal
 	
 	void Sandbox2D::OnAttach()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		checkerTexture = Texture2D::Create("assets/textures/checkerboard.png");
 	}
 	
 	void Sandbox2D::OnDetach()
 	{
-	
+		CRYSTAL_PROFILE_FUNCTION();
 	}
 	
 	void Sandbox2D::OnUpdate(Timestep timestep)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		{
-			CRYSTAL_PROFILE_SCOPE("CameraController::OnUpdate");
-			cameraController.OnUpdate(timestep);
-		}
+		cameraController.OnUpdate(timestep);
 		
 		{
 			CRYSTAL_PROFILE_SCOPE("RenderCommand::OnUpdate");

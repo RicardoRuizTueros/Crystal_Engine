@@ -14,6 +14,8 @@ namespace Crystal
 
 	Application::Application()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		CRYSTAL_CORE_ASSERT(!instance, "Application already exists!");
 		instance = this;
 
@@ -32,22 +34,32 @@ namespace Crystal
 
 	Application::~Application()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		Renderer::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		layerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		layerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 
 	void Application::OnEvent(Event& event)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(CRYSTAL_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(CRYSTAL_BIND_EVENT_FN(Application::OnWindowResize));
@@ -68,6 +80,8 @@ namespace Crystal
 
 	bool Application::OnWindowResize(WindowResizeEvent& event)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		if (event.GetWidth() == 0 || event.GetHeight() == 0)
 		{
 			minimized = true;
@@ -80,24 +94,36 @@ namespace Crystal
 		return false;
 	}
 
-	void Application::Run() 
+	void Application::Run()
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		while (running)
 		{
+			CRYSTAL_PROFILE_SCOPE("Run loop");
+
 			float time = (float)glfwGetTime();
 			Timestep timestep = time - lastFrameTime;
 			lastFrameTime = time;
 
 			if (!minimized)
 			{
-				for (Layer* layer : layerStack)
-					layer->OnUpdate(timestep);
-			}
+				{
+					CRYSTAL_PROFILE_SCOPE("Layers OnUpdate");
 
-			imGuiLayer->Begin();
-			for (Layer* layer : layerStack)
-				layer->OnImGuiRender();
-			imGuiLayer->End();
+					for (Layer* layer : layerStack)
+						layer->OnUpdate(timestep);
+				}
+
+				imGuiLayer->Begin();
+				{
+					CRYSTAL_PROFILE_SCOPE("Layers OnImGuiRender")
+
+					for (Layer* layer : layerStack)
+						layer->OnImGuiRender();
+				}
+				imGuiLayer->End();
+			}
 
 			window->OnUpdate();
 		}
