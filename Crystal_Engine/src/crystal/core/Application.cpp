@@ -18,7 +18,7 @@ namespace Crystal
 
 		CRYSTAL_CORE_ASSERT(!instance, "Application already exists!");
 		instance = this;
-
+		
 		// Window
 		window = Window::Create();
 		window->SetEventCallback(CRYSTAL_BIND_EVENT_FN(Application::OnEvent));
@@ -64,9 +64,9 @@ namespace Crystal
 		dispatcher.Dispatch<WindowCloseEvent>(CRYSTAL_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(CRYSTAL_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (auto iterator = layerStack.end(); iterator != layerStack.begin(); )
+		for (auto iterator = layerStack.reverse_begin(); iterator != layerStack.reverse_end(); ++iterator)
 		{
-			(*--iterator)->OnEvent(event);
+			(*iterator)->OnEvent(event);
 			if (event.handled)
 				break;
 		}
