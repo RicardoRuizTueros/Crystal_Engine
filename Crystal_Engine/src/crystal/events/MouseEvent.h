@@ -1,6 +1,7 @@
 #pragma once
 
 #include "crystal/events/Event.h"
+#include "crystal/core/Input.h"
 
 using namespace std;
 
@@ -62,13 +63,13 @@ namespace Crystal
 	class MouseButtonEvent : public Event
 	{
 	public:
-		inline int GetMouseButton() const { return button; }
+		inline MouseCode GetMouseButton() const { return button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		int button;
+		MouseCode button;
 
-		MouseButtonEvent(int button)
+		MouseButtonEvent(MouseCode button)
 		{
 			this->button = button;
 		}
@@ -77,7 +78,7 @@ namespace Crystal
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int button) : MouseButtonEvent(button)
+		MouseButtonPressedEvent(MouseCode button) : MouseButtonEvent(button)
 		{
 			this->button = button;
 		}
@@ -96,7 +97,7 @@ namespace Crystal
 	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button)
+		MouseButtonReleasedEvent(MouseCode button) : MouseButtonEvent(button)
 		{
 			this->button = button;
 		}

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "crystalpch.h"
-#include "Event.h"
+#include "crystal/Events/Event.h"
+#include "crystal/core/Input.h"
 
 using namespace std;
 
@@ -10,13 +11,13 @@ namespace Crystal
 	class KeyEvent : public Event
 	{
 	public:
-		inline int GetKeyCode() const { return keycode; }
+		inline KeyCode GetKeyCode() const { return keycode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		int keycode;
+		KeyCode keycode;
 
-		KeyEvent(int keycode)
+		KeyEvent(KeyCode keycode)
 		{
 			this->keycode = keycode;
 		}
@@ -25,7 +26,7 @@ namespace Crystal
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode)
+		KeyPressedEvent(KeyCode keycode, int repeatCount) : KeyEvent(keycode)
 		{
 			this->keycode = keycode;
 			this->repeatCount = repeatCount;
@@ -49,7 +50,7 @@ namespace Crystal
 	class KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(int keycode) : KeyEvent(keycode)
+		KeyTypedEvent(KeyCode keycode) : KeyEvent(keycode)
 		{
 			this->keycode = keycode;
 		}
@@ -70,7 +71,7 @@ namespace Crystal
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int keycode) : KeyEvent(keycode)
+		KeyReleasedEvent(KeyCode keycode) : KeyEvent(keycode)
 		{
 			this->keycode = keycode;
 		}

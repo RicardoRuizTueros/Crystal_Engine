@@ -8,20 +8,18 @@
 
 namespace Crystal
 {
-	Scope<Input> Input::instance = CreateScope<WindowsInput>();
-
-	bool WindowsInput::IsKeyPressedImplementation(int keycode)
+	bool WindowsInput::IsKeyPressedImplementation(KeyCode keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		auto state = glfwGetKey(window, keycode);
+		auto state = glfwGetKey(window, static_cast<int32_t>(keycode));
 
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImplementation(int button)
+	bool WindowsInput::IsMouseButtonPressedImplementation(MouseCode button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		auto state = glfwGetMouseButton(window, button);
+		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
 
 		return state == GLFW_PRESS;
 	}
@@ -35,13 +33,13 @@ namespace Crystal
 		return { (float)xpos, (float)ypos };
 	}
 
-	float WindowsInput::GetMouseXPositionImplementation()
+	float WindowsInput::GetMouseXImplementation()
 	{
 		auto [x, y] = GetMousePositionImplementation();
 		return x;
 	}
 
-	float WindowsInput::GetMouseYPositionImplementation()
+	float WindowsInput::GetMouseYImplementation()
 	{
 		auto [x, y] = GetMousePositionImplementation();
 		return y;

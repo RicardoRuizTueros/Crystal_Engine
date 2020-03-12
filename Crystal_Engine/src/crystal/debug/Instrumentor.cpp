@@ -4,46 +4,71 @@
 namespace Crystal
 {
 	Instrumentor::Instrumentor()
-		: currentSession(nullptr), profileCount(0)
+		: currentSession(nullptr)
 	{
 
 	}
 
 	void Instrumentor::BeginSession(const string& name, const string& filepath)
 	{
+		lock_guard lock(mutex);
+
+		if (currentSession)
+		{
+			if (Log::GetCoreLogger())
+			{
+				CRYSTAL_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name, currentSession->name);
+			}
+
+			InternalEndSession();
+		}
+
 		outputStream.open(filepath);
-		WriteHeader();
-		currentSession = new InstrumentationSession{ name };
+
+		if (outputStream.is_open())
+		{
+			currentSession = new InstrumentationSession({ name });
+			WriteHeader();
+		}
+		else
+		{
+			if (Log::GetCoreLogger())
+			{
+				CRYSTAL_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
+			}
+		}
 	}
 
 	void Instrumentor::EndSession()
 	{
-		WriteFooter();
-		outputStream.close();
-		delete currentSession;
-		currentSession = nullptr;
-		profileCount = 0;
+		lock_guard lock(mutex);
+		InternalEndSession();
 	}
 
 	void Instrumentor::WriteProfile(const ProfileResult& result)
 	{
-		if (profileCount++ > 0)
-			outputStream << ",";
+		stringstream json;
 
 		string name = result.name;
 		replace(name.begin(), name.end(), '"', '\'');
 
-		outputStream << "{";
-		outputStream << "\"cat\":\"function\",";
-		outputStream << "\"dur\":" << (result.end - result.start) << ',';
-		outputStream << "\"name\":\"" << name << "\",";
-		outputStream << "\"ph\":\"X\",";
-		outputStream << "\"pid\":0,";
-		outputStream << "\"tid\":" << result.threadID << ",";
-		outputStream << "\"ts\":" << result.start;
-		outputStream << "}";
+		json << ",{";
+		json << "\"cat\":\"function\",";
+		json << "\"dur\":" << (result.end - result.start) << ',';
+		json << "\"name\":\"" << name << "\",";
+		json << "\"ph\":\"X\",";
+		json << "\"pid\":0,";
+		json << "\"tid\":" << result.threadID << ",";
+		json << "\"ts\":" << result.start;
+		json << "}";
 
-		outputStream.flush();
+		lock_guard lock(mutex);
+		
+		if (currentSession)
+		{
+			outputStream << json.str();
+			outputStream.flush();
+		}
 	}
 
 	void Instrumentor::WriteHeader()
@@ -56,5 +81,16 @@ namespace Crystal
 	{
 		outputStream << "]}";
 		outputStream.flush();
+	}
+
+	void Instrumentor::InternalEndSession()
+	{
+		if (currentSession)
+		{
+			WriteFooter();
+			outputStream.close();
+			delete currentSession;
+			currentSession = nullptr;
+		}
 	}
 }

@@ -561,7 +561,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crystal\core\Application.cpp" />
+    <ClCompile Include="src\crystal\core\Input.cpp" />
     <ClCompile Include="src\crystal\core\Log.cpp" />
+    <ClCompile Include="src\crystal\core\Window.cpp" />
     <ClCompile Include="src\crystal\debug\InstrumentationTimer.cpp" />
     <ClCompile Include="src\crystal\debug\Instrumentor.cpp" />
     <ClCompile Include="src\crystal\imgui\ImGuiBuild.cpp" />

@@ -24,7 +24,7 @@ namespace Crystal {
 }
 
 #define CRYSTAL_CORE_ERROR(...)	Crystal::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define CRYSTAL_CORE_WARN(...)	Crystal::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define CRYSTAL_CORE_WARNING(...)	Crystal::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define CRYSTAL_CORE_INFO(...)	Crystal::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define CRYSTAL_CORE_TRACE(...) Crystal::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define CRYSTAL_CORE_CRITICAL(...) Crystal::Log::GetCoreLogger()->critical(__VA_ARGS__)

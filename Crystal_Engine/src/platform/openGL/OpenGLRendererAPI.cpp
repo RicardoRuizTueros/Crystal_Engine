@@ -6,9 +6,38 @@
 
 namespace Crystal
 {
+	void OpenGLMessageCallback(unsigned source, unsigned type, unsigned id, 
+		unsigned severity, int length, const char* message, const void* userParameters)
+	{
+		switch (severity)
+		{
+		case GL_DEBUG_SEVERITY_HIGH:
+			CRYSTAL_CORE_CRITICAL(message);
+			return;
+		case GL_DEBUG_SEVERITY_MEDIUM:
+			CRYSTAL_CORE_ERROR(message);
+			return;
+		case GL_DEBUG_SEVERITY_LOW:
+			CRYSTAL_CORE_WARNING(message);
+			return;
+		case GL_DEBUG_SEVERITY_NOTIFICATION:
+			CRYSTAL_CORE_TRACE(message);
+			return;
+		}
+
+		CRYSTAL_CORE_ASSERT(false, "Unknown severity level");
+	}
+
 	void OpenGLRendererAPI::Init()
 	{
 		CRYSTAL_PROFILE_FUNCTION();
+
+#ifdef CRYSTAL_DEBUG
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(OpenGLMessageCallback, nullptr);
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
+#endif
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

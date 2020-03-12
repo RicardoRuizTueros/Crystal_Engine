@@ -21,9 +21,8 @@ namespace Crystal
 
 		long long start = time_point_cast<microseconds>(startTime).time_since_epoch().count();
 		long long end = time_point_cast<microseconds>(endTime).time_since_epoch().count();
-		uint32_t threadID = hash<thread::id>{}(this_thread::get_id());
 
-		Instrumentor::Get().WriteProfile({ name, start, end, threadID });
+		Instrumentor::Get().WriteProfile({ name, start, end, this_thread::get_id() });
 
 		stopped = true;
 	}
