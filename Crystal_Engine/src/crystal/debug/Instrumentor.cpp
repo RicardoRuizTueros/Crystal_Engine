@@ -4,9 +4,8 @@
 namespace Crystal
 {
 	Instrumentor::Instrumentor()
-		: currentSession(nullptr)
+		: currentSession(nullptr), firstProfile(true)
 	{
-
 	}
 
 	void Instrumentor::BeginSession(const string& name, const string& filepath)
@@ -52,14 +51,24 @@ namespace Crystal
 		string name = result.name;
 		replace(name.begin(), name.end(), '"', '\'');
 
-		json << ",{";
+		if (!firstProfile)
+		{
+			json << ",";
+		}
+		else 
+		{
+			firstProfile = false;
+		}
+
+		json << setprecision(3) << fixed;
+		json << "{";
 		json << "\"cat\":\"function\",";
-		json << "\"dur\":" << (result.end - result.start) << ',';
+		json << "\"dur\":" << result.elapsed.count() << ',';
 		json << "\"name\":\"" << name << "\",";
 		json << "\"ph\":\"X\",";
 		json << "\"pid\":0,";
 		json << "\"tid\":" << result.threadID << ",";
-		json << "\"ts\":" << result.start;
+		json << "\"ts\":" << result.start.count();
 		json << "}";
 
 		lock_guard lock(mutex);
@@ -91,6 +100,7 @@ namespace Crystal
 			outputStream.close();
 			delete currentSession;
 			currentSession = nullptr;
+			firstProfile = true;
 		}
 	}
 }

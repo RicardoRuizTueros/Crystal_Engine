@@ -11,6 +11,8 @@
 
 using namespace std;
 
+int main(int argc, char** argv);
+
 namespace Crystal
 {
 	class Application
@@ -24,9 +26,7 @@ namespace Crystal
 			bool OnWindowResize(WindowResizeEvent& event);
 
 			void PushLayer(Layer* layer);
-			void PushOverlay(Layer* layer);
-			
-			void Run();
+			void PushOverlay(Layer* layer);	
 
 			inline static Application& Get() { return *instance; }
 			inline Window& GetWindow() { return *window; }
@@ -38,8 +38,10 @@ namespace Crystal
 		unique_ptr<Window> window;
 		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
-
 		float lastFrameTime = 0.0f;
+		
+		friend int ::main(int argc, char** argv);
+		void Run();
 	};
 
 	Application* CreateApplication();

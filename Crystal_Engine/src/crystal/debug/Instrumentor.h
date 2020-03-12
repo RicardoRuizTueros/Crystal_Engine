@@ -3,15 +3,19 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
 namespace Crystal
 {
+	using floatingPointMicroseconds = chrono::duration<double, micro>;
+
 	struct ProfileResult
 	{
 		string name;
-		long long start, end;
+		floatingPointMicroseconds start;
+		chrono::microseconds elapsed;
 		thread::id threadID;
 	};
 
@@ -41,6 +45,8 @@ namespace Crystal
 		}
 
 	private:
+		bool firstProfile;
+
 		void WriteHeader();
 		void WriteFooter();
 		void InternalEndSession();
