@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: C:/Users/Ricardo/source/repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/spdlog
-BuildDirectory: C:/Users/Ricardo/source/repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/spdlog/out/build/x64-Debug
+SourceDirectory: C:/Users/Ricky/source/repos/Crystal_Engine/Crystal_Engine/vendor/spdlog
+BuildDirectory: C:/Users/Ricky/source/repos/Crystal_Engine/Crystal_Engine/vendor/spdlog/out/build/x64-Debug
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: DESKTOP-C33JUDQ
+Site: DESKTOP-4544Q3V
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Win32-ninja
@@ -26,7 +26,7 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe" "C:/Users/Ricardo/source/repos/RicardoRuizTueros/Crystal_Engine/Crystal_Engine/vendor/spdlog"
+ConfigureCommand: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe" "C:/Users/Ricky/source/repos/Crystal_Engine/Crystal_Engine/vendor/spdlog"
 MakeCommand: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
@@ -62,8 +62,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.23.28105/bin/HostX64/x64/cl.exe
-CompilerVersion: 19.23.28107.0
+Compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.24.28314/bin/HostX64/x64/cl.exe
+CompilerVersion: 19.24.28319.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

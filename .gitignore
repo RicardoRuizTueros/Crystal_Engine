@@ -2,6 +2,9 @@
 **/bin/
 bin-int/
 
+# Crystal Engine files
+*.log
+
 # Visual Studio files and folder
 .vs/
 **.sln
