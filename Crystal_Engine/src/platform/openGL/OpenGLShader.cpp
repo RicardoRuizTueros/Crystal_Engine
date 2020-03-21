@@ -182,6 +182,13 @@ namespace Crystal
 		UploadUniformInt(name, value);
 	}
 
+	void OpenGLShader::SetFloat(const string& name, const float& value)
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		UploadUniformFloat(name, value);
+	}
+
 	void OpenGLShader::SetMat4(const string& name, const mat4& matrix)
 	{
 		CRYSTAL_PROFILE_FUNCTION();

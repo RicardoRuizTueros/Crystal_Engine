@@ -24,6 +24,7 @@ namespace Crystal
 		virtual const string& GetName() const override { return name; }
 
 		virtual void SetInt(const string& name, const int& value) override;
+		virtual void SetFloat(const string& name, const float& value) override;
 		virtual void SetMat4(const string& name, const mat4& matrix) override;
 		virtual void SetFloat4(const string& name, const vec4& vector) override;
 		virtual void SetFloat3(const string& name, const vec3& vector) override;

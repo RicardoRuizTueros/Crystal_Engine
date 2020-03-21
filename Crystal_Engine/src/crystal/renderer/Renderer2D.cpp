@@ -88,7 +88,7 @@ namespace Crystal
 
 		data->whiteTexture->Bind();
 
-		mat4 transform = translate(mat4(1.0f), position) * /* rotation - to do */ scale(mat4(1.0f), { size.x, size.y, 1.0f });
+		mat4 transform = translate(mat4(1.0f), position) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
 		data->textureShader->SetFloat4("u_color", color);
 		data->textureShader->SetMat4("u_transform", transform);
 
@@ -96,20 +96,60 @@ namespace Crystal
 		RenderCommand::DrawIndexed(data->quadVertexArray);
 	}
 	
-	void Renderer2D::DrawQuad(const vec2& position, const vec2& size, const Reference<Texture2D>& texture)
+	void Renderer2D::DrawQuad(const vec2& position, const vec2& size, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
 	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
+		DrawQuad({ position.x, position.y, 0.0f }, size, texture, tilingFactor, tintColor);
 	}
-	
-	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const Reference<Texture2D>& texture)
+
+	void Renderer2D::DrawRotatedQuad(const vec2& position, const vec2& size, float rotation, const vec4& color)
+	{
+		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, color);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const vec3& position, const vec2& size, float rotation, const vec4& color)
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		data->whiteTexture->Bind();
+
+		mat4 transform = translate(mat4(1.0f), position) * rotate(mat4(1.0f), rotation, {0.0f, 0.0f, 1.0f}) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
+		data->textureShader->SetFloat4("u_color", color);
+		data->textureShader->SetMat4("u_transform", transform);
+
+		data->quadVertexArray->Bind();
+		RenderCommand::DrawIndexed(data->quadVertexArray);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const vec3& position, const vec2& size, float rotation, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
 		texture->Bind();
 
-		mat4 transform = translate(mat4(1.0f), position) * /* rotation - to do*/ scale(mat4(1.0f), { size.x, size.y, 1.0f });
-		data->textureShader->SetFloat4("u_color", vec4(1.0f));
+		mat4 transform = translate(mat4(1.0f), position) * rotate(mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
+		data->textureShader->SetFloat4("u_color", tintColor);
 		data->textureShader->SetMat4("u_transform", transform);
+		data->textureShader->SetFloat("u_tilingFactor", tilingFactor);
+
+		data->quadVertexArray->Bind();
+		RenderCommand::DrawIndexed(data->quadVertexArray);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const vec2& position, const vec2& size, float rotation, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
+	{
+		DrawRotatedQuad({ position.x, position.y, 0.0f}, size, rotation, texture, tilingFactor, tintColor);
+	}
+	
+	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		texture->Bind();
+
+		mat4 transform = translate(mat4(1.0f), position) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
+		data->textureShader->SetFloat4("u_color", tintColor);
+		data->textureShader->SetMat4("u_transform", transform);
+		data->textureShader->SetFloat("u_tilingFactor", tilingFactor);
 
 		data->quadVertexArray->Bind();
 		RenderCommand::DrawIndexed(data->quadVertexArray);
