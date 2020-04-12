@@ -26,9 +26,9 @@ namespace Crystal
 			rendererAPI->Clear();
 		}
 
-		inline static void DrawIndexed(const Reference<VertexArray>& vertexArray)
+		inline static void DrawIndexed(const Reference<VertexArray>& vertexArray, uint32_t count = 0)
 		{
-			rendererAPI->DrawIndexed(vertexArray);
+			rendererAPI->DrawIndexed(vertexArray, count);
 		}
 
 		inline static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)

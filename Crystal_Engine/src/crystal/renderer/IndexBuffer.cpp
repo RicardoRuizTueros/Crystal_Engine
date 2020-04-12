@@ -9,7 +9,7 @@
 
 namespace Crystal
 {
-	Reference<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
+	Reference<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -17,7 +17,7 @@ namespace Crystal
 			CRYSTAL_CORE_ASSERT(false, "RendererAPI::None is not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return CreateReference<OpenGLIndexBuffer>(indices, size);
+			return CreateReference<OpenGLIndexBuffer>(indices, count);
 		}
 
 		CRYSTAL_CORE_ASSERT(false, "Unknown API!");

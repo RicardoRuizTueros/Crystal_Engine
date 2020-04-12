@@ -1307,7 +1307,13 @@
     <ClCompile Include="src\crystal\core\Application.cpp">
       <Filter>src\crystal\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\crystal\core\Input.cpp">
+      <Filter>src\crystal\core</Filter>
+    </ClCompile>
     <ClCompile Include="src\crystal\core\Log.cpp">
+      <Filter>src\crystal\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crystal\core\Window.cpp">
       <Filter>src\crystal\core</Filter>
     </ClCompile>
     <ClCompile Include="src\crystal\debug\InstrumentationTimer.cpp">
@@ -1403,7 +1409,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\crystal\core\Input.cpp" />
-    <ClCompile Include="src\crystal\core\Window.cpp" />
   </ItemGroup>
 </Project>

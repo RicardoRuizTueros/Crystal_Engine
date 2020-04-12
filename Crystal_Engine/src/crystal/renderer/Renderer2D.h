@@ -16,6 +16,8 @@ namespace Crystal
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
 
+		static void Flush();
+
 		static void DrawQuad(const vec2& position, const vec2& size, const vec4& color);
 		static void DrawQuad(const vec3& position, const vec2& size, const vec4& color);
 		static void DrawQuad(const vec3& position, const vec2& size, const Reference<Texture2D>& texture, float tilingFactor = 1.0f, const vec4& tintColor = vec4(1.0f));

@@ -11,7 +11,7 @@ BuildDirectory: C:/Users/Ricky/source/repos/Crystal_Engine/Crystal_Engine/vendor
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: DESKTOP-4544Q3V
+Site: DESKTOP-NNCMF9J
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Win32-ninja
@@ -62,8 +62,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.24.28314/bin/HostX64/x64/cl.exe
-CompilerVersion: 19.24.28319.0
+Compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX64/x64/cl.exe
+CompilerVersion: 19.25.28612.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
