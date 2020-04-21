@@ -182,6 +182,13 @@ namespace Crystal
 		UploadUniformInt(name, value);
 	}
 
+	void OpenGLShader::SetIntArray(const string& name, int* values, uint32_t count)
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		UploadUniformIntArray(name, values, count);
+	}
+
 	void OpenGLShader::SetFloat(const string& name, const float& value)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
@@ -214,6 +221,12 @@ namespace Crystal
 	{
 		GLint location = glGetUniformLocation(rendererID, name.c_str());
 		glUniform1i(location, value);
+	}
+
+	void OpenGLShader::UploadUniformIntArray(const string& name, int* values, uint32_t count)
+	{
+		GLint location = glGetUniformLocation(rendererID, name.c_str());
+		glUniform1iv(location, count, values);
 	}
 
 	void OpenGLShader::UploadUniformFloat(const string& name, float value)

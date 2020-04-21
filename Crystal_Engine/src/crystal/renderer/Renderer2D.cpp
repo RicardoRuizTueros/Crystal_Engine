@@ -16,6 +16,8 @@ namespace Crystal
 		vec3 position;
 		vec4 color;
 		vec2 textureCoordinates;
+		float textureIndex;
+		float tilingFactor;
 	};
 
 	struct Renderer2DData
@@ -23,6 +25,7 @@ namespace Crystal
 		const uint32_t MAX_QUADS = 10000;
 		const uint32_t MAX_VERTICES = MAX_QUADS * 4;
 		const uint32_t MAX_INDICES = MAX_QUADS * 6;
+		static const uint32_t MAX_TEXTURE_SLOTS = 32;
 
 		Reference<VertexArray> quadVertexArray;
 		Reference<VertexBuffer> quadVertexBuffer;
@@ -32,6 +35,9 @@ namespace Crystal
 		uint32_t quadIndexCount = 0;
 		QuadVertex* quadVertexBufferBase = nullptr;
 		QuadVertex* quadVertexBufferPointer = nullptr;
+
+		array<Reference<Texture2D>, MAX_TEXTURE_SLOTS> textureSlots;
+		uint32_t textureSlotIndex = 1;
 	};
 
 	static Renderer2DData data;
@@ -48,7 +54,8 @@ namespace Crystal
 			{ ShaderDataType::Float3, "a_position" },
 			{ ShaderDataType::Float4, "a_color"},
 			{ ShaderDataType::Float2, "a_textureCoordinates" },
-
+			{ ShaderDataType::Float, "a_textureIndex" },
+			{ ShaderDataType::Float, "a_tilingFactor" }
 		});
 
 		data.quadVertexArray->AddVertexBuffer(data.quadVertexBuffer);
@@ -79,9 +86,15 @@ namespace Crystal
 		uint32_t whiteTextureData = 0xffffffff;
 		data.whiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
+		int32_t samplers[data.MAX_TEXTURE_SLOTS];
+		for (uint32_t index = 0; index < data.MAX_TEXTURE_SLOTS; index++)
+			samplers[index] = index;
+
 		data.textureShader = Shader::Create("assets/shaders/Texture.glsl");
 		data.textureShader->Bind();
-		data.textureShader->SetInt("u_texture", 0);
+		data.textureShader->SetIntArray("u_textures", samplers, data.MAX_TEXTURE_SLOTS);
+
+		data.textureSlots[0] = data.whiteTexture;
 	}
 
 	void Renderer2D::Shutdown()
@@ -98,6 +111,8 @@ namespace Crystal
 
 		data.quadIndexCount = 0;
 		data.quadVertexBufferPointer = data.quadVertexBufferBase;
+
+		data.textureSlotIndex = 1;
 	}
 
 	void Renderer2D::EndScene()
@@ -112,6 +127,9 @@ namespace Crystal
 
 	void Renderer2D::Flush()
 	{
+		for (uint32_t index = 0; index < data.textureSlotIndex; index++)
+			data.textureSlots[index]->Bind(index);
+
 		RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
 	}
 
@@ -124,29 +142,38 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
+		const float textureIndex = 0.0f;
+		const float tilingFactor = 1.0f;
+
 		data.quadVertexBufferPointer->position = position;
 		data.quadVertexBufferPointer->color = color;
 		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 0.0f };
+		data.quadVertexBufferPointer->textureIndex = textureIndex;
+		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
 		data.quadVertexBufferPointer++;
 
 		data.quadVertexBufferPointer->position = { position.x + size.x, position.y, position.z };
 		data.quadVertexBufferPointer->color = color;
 		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 0.0f };
+		data.quadVertexBufferPointer->textureIndex = textureIndex;
+		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
 		data.quadVertexBufferPointer++;
 
 		data.quadVertexBufferPointer->position = { position.x + size.x, position.y + size.y, position.z };
 		data.quadVertexBufferPointer->color = color;
 		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 1.0f };
+		data.quadVertexBufferPointer->textureIndex = textureIndex;
+		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
 		data.quadVertexBufferPointer++;
 
 		data.quadVertexBufferPointer->position = { position.x, position.y + size.y, position.z };
 		data.quadVertexBufferPointer->color = color;
 		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 1.0f };
+		data.quadVertexBufferPointer->textureIndex = textureIndex;
+		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
 		data.quadVertexBufferPointer++;
 
 		data.quadIndexCount += 6;
-
-		data.whiteTexture->Bind();
 
 		/*mat4 transform = translate(mat4(1.0f), position) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
 		data.textureShader->SetFloat4("u_color", color);
@@ -205,14 +232,61 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		texture->Bind();
+		constexpr vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float textureIndex = 0.0f;
 
-		mat4 transform = translate(mat4(1.0f), position) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
-		data.textureShader->SetFloat4("u_color", tintColor);
-		data.textureShader->SetMat4("u_transform", transform);
-		data.textureShader->SetFloat("u_tilingFactor", tilingFactor);
+		for (uint32_t index = 1; index < data.textureSlotIndex; index++)
+		{
+			if (*data.textureSlots[index].get() == *texture.get())
+			{
+				textureIndex = (float)index;
+				break;
+			}
+		}
 
-		data.quadVertexArray->Bind();
-		RenderCommand::DrawIndexed(data.quadVertexArray);
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)data.textureSlotIndex;
+			data.textureSlots[data.textureSlotIndex] = texture;
+			data.textureSlotIndex++;
+		}
+
+		data.quadVertexBufferPointer->position = position;
+		data.quadVertexBufferPointer->color = color;
+		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 0.0f };
+		data.quadVertexBufferPointer->textureIndex = textureIndex;
+		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
+		data.quadVertexBufferPointer++;
+
+		data.quadVertexBufferPointer->position = { position.x + size.x, position.y, position.z };
+		data.quadVertexBufferPointer->color = color;
+		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 0.0f };
+		data.quadVertexBufferPointer->textureIndex = textureIndex;
+		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
+		data.quadVertexBufferPointer++;
+
+		data.quadVertexBufferPointer->position = { position.x + size.x, position.y + size.y, position.z };
+		data.quadVertexBufferPointer->color = color;
+		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 1.0f };
+		data.quadVertexBufferPointer->textureIndex = textureIndex;
+		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
+		data.quadVertexBufferPointer++;
+
+		data.quadVertexBufferPointer->position = { position.x, position.y + size.y, position.z };
+		data.quadVertexBufferPointer->color = color;
+		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 1.0f };
+		data.quadVertexBufferPointer->textureIndex = textureIndex;
+		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
+		data.quadVertexBufferPointer++;
+
+		data.quadIndexCount += 6;
+
+		//mat4 transform = translate(mat4(1.0f), position) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
+		//data.textureShader->SetFloat4("u_color", tintColor);
+		//data.textureShader->SetMat4("u_transform", transform);
+		//data.textureShader->SetFloat("u_tilingFactor", tilingFactor);
+
+		//data.quadVertexArray->Bind();
+		//RenderCommand::DrawIndexed(data.quadVertexArray);
 	}
 }

@@ -48,7 +48,7 @@ namespace Crystal
 			//Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, radians(-45.0f), { 0.8f, 0.2f, 0.3f, 1.0f });
 			Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 			Renderer2D::DrawQuad({ 0.5f, 0.5f }, { 1.0f, 1.5f }, { 0.2f, 0.2f, 0.8f, 1.0f });
-			//Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, checkerTexture, 10.0f, vec4(1.0f, 0.8f, 0.8f, 1.0f));
+			Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, checkerTexture, 10.0f, vec4(1.0f, 0.8f, 0.8f, 1.0f));
 
 			Renderer2D::EndScene();
 		}
