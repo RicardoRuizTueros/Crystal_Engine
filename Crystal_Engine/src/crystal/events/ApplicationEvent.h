@@ -13,8 +13,8 @@ namespace Crystal
 			this->height = height;
 		}
 
-		inline unsigned int GetWidth() { return width; }
-		inline unsigned int GetHeight() { return height; }
+		unsigned int GetWidth() { return width; }
+		unsigned int GetHeight() { return height; }
 
 		string ToString() const override
 		{

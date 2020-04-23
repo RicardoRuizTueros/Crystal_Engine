@@ -14,8 +14,8 @@ namespace Crystal {
 	public:
 		static void Init();
 
-		inline static Reference<logger>& GetCoreLogger() { return coreLogger; }
-		inline static Reference<logger>& GetClientLogger() { return clientLogger; }
+		static Reference<logger>& GetCoreLogger() { return coreLogger; }
+		static Reference<logger>& GetClientLogger() { return clientLogger; }
 	
 	private:
 		static Reference<logger> clientLogger;

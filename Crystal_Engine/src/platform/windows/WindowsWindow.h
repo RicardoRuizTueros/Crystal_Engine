@@ -15,14 +15,14 @@ namespace Crystal {
 
 		void OnUpdate() override;
 
-		inline unsigned int GetWidth() const override { return data.width; }
-		inline unsigned int GetHeight() const override { return data.height; }
+		unsigned int GetWidth() const override { return data.width; }
+		unsigned int GetHeight() const override { return data.height; }
 
-		inline void SetEventCallback(const EventCallbackFunction& callback) override { data.callback = callback; }
+		void SetEventCallback(const EventCallbackFunction& callback) override { data.callback = callback; }
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		inline virtual void* GetNativeWindow() const { return window; }
+		virtual void* GetNativeWindow() const { return window; }
 	
 	private:
 		GLFWwindow* window;

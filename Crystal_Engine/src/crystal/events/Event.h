@@ -43,7 +43,7 @@ namespace Crystal
 		virtual int GetCategory() const = 0;
 		virtual string ToString() const { return GetName(); }
 
-		inline bool IsCategory(EventCategory category)
+		bool IsCategory(EventCategory category)
 		{
 			return GetCategory() & category;
 		}

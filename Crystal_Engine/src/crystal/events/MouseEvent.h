@@ -17,8 +17,8 @@ namespace Crystal
 			this->y = y;
 		}
 
-		inline float GetX() const { return x; }
-		inline float GetY() const { return y; }
+		float GetX() const { return x; }
+		float GetY() const { return y; }
 
 		string ToString() const override
 		{
@@ -43,8 +43,8 @@ namespace Crystal
 			this->yOffset = yOffset;
 		}
 
-		inline float GetXOffset() const { return xOffset; }
-		inline float GetYOffset() const { return yOffset; }
+		float GetXOffset() const { return xOffset; }
+		float GetYOffset() const { return yOffset; }
 
 		string ToString() const override
 		{

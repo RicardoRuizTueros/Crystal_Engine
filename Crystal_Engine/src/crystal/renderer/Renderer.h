@@ -20,7 +20,7 @@ namespace Crystal
 
 		static void Submit(const Reference<Shader>& shader, const Reference<VertexArray>& vertexArray, const mat4& transform = mat4(1.0f));
 
-		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+		static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
 

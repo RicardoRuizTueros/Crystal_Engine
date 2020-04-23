@@ -21,7 +21,7 @@ namespace Crystal
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 		
-		inline const string& GetName() const { return debugName; }
+		const string& GetName() const { return debugName; }
 	protected:
 		string debugName;
 	};

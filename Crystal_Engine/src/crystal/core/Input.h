@@ -11,11 +11,11 @@ namespace Crystal
 	class Input
 	{
 	public:
-		inline static bool IsKeyPressed(KeyCode keycode) { return instance->IsKeyPressedImplementation(keycode); }
-		inline static bool IsMousePressed(MouseCode button) { return instance->IsMouseButtonPressedImplementation(button); }
-		inline static pair<float, float> GetMousePosition() { return instance->GetMousePositionImplementation(); }
-		inline float GetMouseX() { return instance->GetMouseXImplementation(); }
-		inline float GetMouseY() { return instance->GetMouseYImplementation(); }
+		static bool IsKeyPressed(KeyCode keycode) { return instance->IsKeyPressedImplementation(keycode); }
+		static bool IsMousePressed(MouseCode button) { return instance->IsMouseButtonPressedImplementation(button); }
+		static pair<float, float> GetMousePosition() { return instance->GetMousePositionImplementation(); }
+		float GetMouseX() { return instance->GetMouseXImplementation(); }
+		float GetMouseY() { return instance->GetMouseYImplementation(); }
 
 		static Scope<Input> Create();
 

@@ -11,7 +11,7 @@ namespace Crystal
 	class KeyEvent : public Event
 	{
 	public:
-		inline KeyCode GetKeyCode() const { return keycode; }
+		KeyCode GetKeyCode() const { return keycode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
@@ -32,7 +32,7 @@ namespace Crystal
 			this->repeatCount = repeatCount;
 		}
 
-		inline int GetRepeatCount() const { return repeatCount; }
+		int GetRepeatCount() const { return repeatCount; }
 
 		string ToString() const override
 		{

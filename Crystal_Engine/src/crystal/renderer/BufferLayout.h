@@ -98,8 +98,8 @@ namespace Crystal
 		BufferLayout() = default;
 		BufferLayout(const initializer_list<BufferElement>& elements);
 
-		inline uint32_t GetStride() const { return stride; }
-		inline const vector<BufferElement>& GetElements() const { return elements; }
+		uint32_t GetStride() const { return stride; }
+		const vector<BufferElement>& GetElements() const { return elements; }
 
 		vector<BufferElement>::iterator begin() { return elements.begin(); }
 		vector<BufferElement>::iterator end() { return elements.end(); }
