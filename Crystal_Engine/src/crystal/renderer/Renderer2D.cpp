@@ -22,9 +22,9 @@ namespace Crystal
 
 	struct Renderer2DData
 	{
-		const uint32_t MAX_QUADS = 10000;
-		const uint32_t MAX_VERTICES = MAX_QUADS * 4;
-		const uint32_t MAX_INDICES = MAX_QUADS * 6;
+		static const uint32_t MAX_QUADS = 20000;
+		static const uint32_t MAX_VERTICES = MAX_QUADS * 4;
+		static const uint32_t MAX_INDICES = MAX_QUADS * 6;
 		static const uint32_t MAX_TEXTURE_SLOTS = 32;
 
 		Reference<VertexArray> quadVertexArray;
@@ -39,6 +39,8 @@ namespace Crystal
 
 		array<Reference<Texture2D>, MAX_TEXTURE_SLOTS> textureSlots;
 		uint32_t textureSlotIndex = 1;
+
+		Renderer2D::Statistics statistics;
 	};
 
 	static Renderer2DData data;
@@ -137,6 +139,8 @@ namespace Crystal
 			data.textureSlots[index]->Bind(index);
 
 		RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
+
+		data.statistics.drawCalls++;
 	}
 
 	void Renderer2D::DrawQuad(const vec2& position, const vec2& size, const vec4& color)
@@ -147,6 +151,9 @@ namespace Crystal
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const vec4& color)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
+
+		if (data.quadIndexCount >= data.MAX_INDICES)
+			FlushAndReset();
 
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
@@ -182,6 +189,8 @@ namespace Crystal
 		data.quadVertexBufferPointer++;
 
 		data.quadIndexCount += 6;
+
+		data.statistics.quadCount++;
 	}
 	
 	void Renderer2D::DrawQuad(const vec2& position, const vec2& size, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
@@ -197,6 +206,9 @@ namespace Crystal
 	void Renderer2D::DrawRotatedQuad(const vec3& position, const vec2& size, float rotation, const vec4& color)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
+
+		if (data.quadIndexCount >= data.MAX_INDICES)
+			FlushAndReset();
 
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
@@ -234,11 +246,16 @@ namespace Crystal
 		data.quadVertexBufferPointer++;
 
 		data.quadIndexCount += 6;
+
+		data.statistics.quadCount++;
 	}
 
 	void Renderer2D::DrawRotatedQuad(const vec3& position, const vec2& size, float rotation, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
+
+		if (data.quadIndexCount >= data.MAX_INDICES)
+			FlushAndReset();
 
 		constexpr vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float textureIndex = 0.0f;
@@ -292,16 +309,33 @@ namespace Crystal
 		data.quadVertexBufferPointer++;
 
 		data.quadIndexCount += 6;
+
+		data.statistics.quadCount++;
 	}
 
 	void Renderer2D::DrawRotatedQuad(const vec2& position, const vec2& size, float rotation, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
 	{
 		DrawRotatedQuad({ position.x, position.y, 0.0f}, size, rotation, texture, tilingFactor, tintColor);
 	}
+
+	void Renderer2D::FlushAndReset()
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		EndScene();
+
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPointer = data.quadVertexBufferBase;
+
+		data.textureSlotIndex = 1;
+	}
 	
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
+
+		if (data.quadIndexCount >= data.MAX_INDICES)
+			FlushAndReset();
 
 		constexpr vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float textureIndex = 0.0f;
@@ -351,5 +385,17 @@ namespace Crystal
 		data.quadVertexBufferPointer++;
 
 		data.quadIndexCount += 6;
+
+		data.statistics.quadCount++;
+	}
+
+	void Renderer2D::ResetStatistics()
+	{
+		memset(&data.statistics, 0, sizeof(Statistics));
+	}
+
+	Renderer2D::Statistics Renderer2D::GetStatistics()
+	{
+		return data.statistics;
 	}
 }

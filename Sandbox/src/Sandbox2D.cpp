@@ -35,6 +35,8 @@ namespace Crystal
 
 		cameraController.OnUpdate(timestep);
 
+		Renderer2D::ResetStatistics();
+
 		{
 			CRYSTAL_PROFILE_SCOPE("RenderCommand::OnUpdate");
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
@@ -49,11 +51,24 @@ namespace Crystal
 			Renderer2D::BeginScene(cameraController.GetCamera());
 
 			Renderer2D::DrawRotatedQuad({ 2.0f, 0.0f }, { 1.0f, 1.0f }, -45, { 0.8f, 0.2f, 0.3f, 1.0f });
-			Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+			Renderer2D::DrawQuad({ -2.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 			Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.5f }, { 0.2f, 0.2f, 0.8f, 1.0f });
-			Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, checkerTexture, 10.0f, vec4(1.0f, 0.8f, 0.8f, 1.0f));
+			Renderer2D::DrawQuad({ -10.0f, -10.0f, -0.2f }, { 20.0f, 20.0f }, checkerTexture, 10.0f);
 
-			Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, 0.0f }, { 10.0f, 10.0f }, rotation, checkerTexture, 10.0f, vec4(1.0f, 0.8f, 0.8f, 1.0f));
+			Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, rotation, checkerTexture, 10.0f);
+
+			Renderer2D::EndScene();
+
+			Renderer2D::BeginScene(cameraController.GetCamera());
+			
+			for (float y = -5.0f; y < 5.0f; y += 0.5f)
+			{
+				for (float x = -5.0f; x < 5.0f; x += 0.5f)
+				{
+					vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
+					Renderer2D::DrawQuad({ x, y }, { 0.45, 0.45 }, color);
+				}
+			}
 
 			Renderer2D::EndScene();
 		}
@@ -66,6 +81,16 @@ namespace Crystal
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor));
 		ImGui::End();
+
+		auto statistics = Renderer2D::GetStatistics();
+		ImGui::Begin("Renderer2D Statistics");
+		ImGui::Text("Draw calls %d", statistics.drawCalls);
+		ImGui::Text("Quads %d", statistics.quadCount);
+		ImGui::Text("Vertices %d", statistics.GetVertexCount());
+		ImGui::Text("Indices %d", statistics.GetIndexCount());
+		ImGui::End();
+
+
 	}
 
 	void Sandbox2D::OnEvent(Event& event)
