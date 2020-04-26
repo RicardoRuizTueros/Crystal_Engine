@@ -39,7 +39,5 @@ namespace Crystal
 
 		static void ResetStatistics();
 		static Statistics GetStatistics();
-	private:
-		static void FlushAndReset();
 	};
 }
