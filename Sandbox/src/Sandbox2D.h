@@ -27,6 +27,6 @@ namespace Crystal
 		Reference<VertexArray> squareVertexArray;
 		Reference<Shader> flatColorShader;
 
-		vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+		vec4 squareColor;
 	};
 }

@@ -46,12 +46,20 @@
 #endif 
 
 #ifdef CRYSTAL_DEBUG
+	#ifdef CRYSTAL_PLATFORM_WINDOWS
+		#define CRYSTAL_DEBUGBREAK __debugbreak()
+	#elif defined CRYSTAL_PLATFORM_LINUX
+		#include <signal.h>
+		#define CRYSTAL_DEBUGBREAK raise(SIGTRAP)
+	#else
+		#error "Platform doesn't support debugbreak yet!"
+#endif
 	#define CRYSTAL_ENABLE_ASSERTS
 #endif
 
 #ifdef CRYSTAL_ENABLE_ASSERTS
-	#define CRYSTAL_ASSERT(x, ...) { if(!x) { CRYSTAL_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); }}
-	#define CRYSTAL_CORE_ASSERT(x, ...) { if(!x) { CRYSTAL_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); }}
+	#define CRYSTAL_ASSERT(x, ...) { if(!x) { CRYSTAL_ERROR("Assertion Failed: {0}", __VA_ARGS__); CRYSTAL_DEBUGBREAK; }}
+	#define CRYSTAL_CORE_ASSERT(x, ...) { if(!x) { CRYSTAL_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); CRYSTAL_DEBUGBREAK; }}
 #else
 	#define CRYSTAL_ASSERT(x, ...)
 	#define CRYSTAL_CORE_ASSERT(x, ...)

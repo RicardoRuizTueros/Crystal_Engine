@@ -54,7 +54,8 @@ project "Crystal_Engine"
 
 	defines
 	{
-		"_CRT_SECURE_NO_WARNINGS"
+		"_CRT_SECURE_NO_WARNINGS",
+		"GLFW_INCLUDE_NONE"
 	}
 
 	includedirs
@@ -78,13 +79,6 @@ project "Crystal_Engine"
 
 	filter "system:windows"
 		systemversion "latest"
-
-		defines 
-		{
-			"CRYSTAL_PLATFORM_WINDOWS",
-			"CRYSTAL_BUILD_DLL",
-			"GLFW_INCLUDE_NONE",
-		}
 
 		filter "configurations:Debug"
 			defines "CRYSTAL_DEBUG"
@@ -132,11 +126,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		systemversion "latest"
-
-		defines 
-		{
-			"CRYSTAL_PLATFORM_WINDOWS"
-		}
 
 		filter "configurations:Debug"
 			defines "CRYSTAL_DEBUG"
