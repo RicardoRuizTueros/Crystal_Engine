@@ -23,6 +23,7 @@ namespace Crystal
 
 	private:
 		uint32_t rendererID;
+		uint32_t vertexBufferIndex = 0;
 		vector<Reference<VertexBuffer>> vertexBuffers;
 		Reference<IndexBuffer> indexBuffer;
 	};

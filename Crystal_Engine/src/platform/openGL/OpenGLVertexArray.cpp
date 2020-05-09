@@ -69,27 +69,71 @@ namespace Crystal
 
 	void OpenGLVertexArray::AddVertexBuffer(const Reference<VertexBuffer>& vertexBuffer)
 	{
+		CRYSTAL_PROFILE_FUNCTION();
+
 		CRYSTAL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!");
 
 		glBindVertexArray(rendererID);
 		vertexBuffer->Bind();
 
-		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 
 		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index,
-				element.GetComponentCount(),
-				ShaderDataTypeToOpenGLType(element.type),
-				element.normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.offset
-			);
+			switch (element.type)
+			{
+			case ShaderDataType::Float:
+			case ShaderDataType::Float2:
+			case ShaderDataType::Float3:
+			case ShaderDataType::Float4:
+			case ShaderDataType::Int:
+			case ShaderDataType::Int2:
+			case ShaderDataType::Int3:
+			case ShaderDataType::Int4:
+			case ShaderDataType::Bool:
+			{
 
-			index++;
+				glEnableVertexAttribArray(vertexBufferIndex);
+				glVertexAttribPointer(
+					vertexBufferIndex,
+					element.GetComponentCount(),
+					ShaderDataTypeToOpenGLType(element.type),
+					element.normalized ? GL_TRUE : GL_FALSE,
+					layout.GetStride(),
+					(const void*)element.offset
+				);
+
+				vertexBufferIndex++;
+
+				break;
+			}
+
+			case ShaderDataType::Matrix3:
+			case ShaderDataType::Matrix4:
+			{
+				uint8_t count = element.GetComponentCount();
+				
+				for (uint8_t index = 0; index < count; index++)
+				{
+					glEnableVertexAttribArray(vertexBufferIndex);
+					glVertexAttribPointer(
+						vertexBufferIndex,
+						count,
+						ShaderDataTypeToOpenGLType(element.type),
+						element.normalized ? GL_TRUE : GL_FALSE,
+						layout.GetStride(),
+						(const void*)(sizeof(float) * count * index)
+					);
+					glVertexAttribDivisor(vertexBufferIndex, 1);
+					vertexBufferIndex++;
+				}
+
+				break;
+			}
+			default:
+				CRYSTAL_CORE_ASSERT(false, "Unknown ShaderDataType!");
+
+			}
 		}
 
 		vertexBuffers.push_back(vertexBuffer);

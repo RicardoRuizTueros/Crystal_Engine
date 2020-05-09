@@ -17,6 +17,7 @@ namespace Crystal
 		static void EndScene();
 
 		static void Flush();
+		static void FlushAndReset();
 
 		static void DrawQuad(const vec2& position, const vec2& size, const vec4& color);
 		static void DrawQuad(const vec3& position, const vec2& size, const vec4& color);

@@ -127,14 +127,10 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		uint32_t dataSize = (uint8_t*)data.quadVertexBufferPointer - (uint8_t*)data.quadVertexBufferBase;
+		uint32_t dataSize = uint32_t ((uint8_t*)data.quadVertexBufferPointer - (uint8_t*)data.quadVertexBufferBase);
 		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
 
 		Flush();
-
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPointer = data.quadVertexBufferBase;
-		data.textureSlotIndex = 1;
 	}
 
 	void Renderer2D::Flush()
@@ -147,6 +143,15 @@ namespace Crystal
 		data.statistics.drawCalls++;
 	}
 
+	void Renderer2D::FlushAndReset()
+	{
+		EndScene();
+		
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPointer = data.quadVertexBufferBase;
+		data.textureSlotIndex = 1;
+	}
+
 	void Renderer2D::DrawQuad(const vec2& position, const vec2& size, const vec4& color)
 	{
 		DrawQuad({ position.x, position.y, 0.0f }, size, color);
@@ -156,41 +161,27 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		if (data.quadIndexCount >= data.MAX_INDICES)
-			EndScene();
+		constexpr size_t quadVertexCount = 4;
 
 		const float textureIndex = 0.0f;
+		constexpr vec2 textureCoordinates[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 		const float tilingFactor = 1.0f;
+
+		if (data.quadIndexCount >= data.MAX_INDICES)
+			FlushAndReset();
 
 		mat4 transform = translate(mat4(1.0f), position) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
 
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[0];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 0.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
-
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[1];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 0.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
-
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[2];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 1.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
-
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[3];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 1.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
+		for (size_t index = 0; index < quadVertexCount; index++)
+		{
+			data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[index];
+			data.quadVertexBufferPointer->color = color;
+			data.quadVertexBufferPointer->textureCoordinates = textureCoordinates[index];
+			data.quadVertexBufferPointer->textureIndex = textureIndex;
+			data.quadVertexBufferPointer->tilingFactor = tilingFactor;
+			
+			data.quadVertexBufferPointer++;
+		}
 
 		data.quadIndexCount += 6;
 
@@ -211,43 +202,29 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		if (data.quadIndexCount >= data.MAX_INDICES)
-			EndScene();
+		constexpr size_t quadVertexCount = 4;
 
 		const float textureIndex = 0.0f;
+		constexpr vec2 textureCoordinates[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 		const float tilingFactor = 1.0f;
+
+		if (data.quadIndexCount >= data.MAX_INDICES)
+			FlushAndReset();
 
 		mat4 transform = translate(mat4(1.0f), position) 
 			* rotate(mat4(1.0f), radians(rotation), {0.0f, 0.0f, 1.0f}) 
 			* scale(mat4(1.0f), { size.x, size.y, 1.0f });
 
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[0];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 0.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
+		for (size_t index = 0; index < quadVertexCount; index++)
+		{
+			data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[index];
+			data.quadVertexBufferPointer->color = color;
+			data.quadVertexBufferPointer->textureCoordinates = textureCoordinates[index];
+			data.quadVertexBufferPointer->textureIndex = textureIndex;
+			data.quadVertexBufferPointer->tilingFactor = tilingFactor;
 
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[1];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 0.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
-
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[2];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 1.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
-
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[3];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 1.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
+			data.quadVertexBufferPointer++;
+		}
 
 		data.quadIndexCount += 6;
 
@@ -258,11 +235,14 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		if (data.quadIndexCount >= data.MAX_INDICES)
-			EndScene();
-
+		constexpr size_t quadVertexCount = 4;
+		
+		constexpr vec2 textureCoordinates[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 		constexpr vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float textureIndex = 0.0f;
+
+		if (data.quadIndexCount >= data.MAX_INDICES)
+			FlushAndReset();
 
 		for (uint32_t index = 1; index < data.textureSlotIndex; index++)
 		{
@@ -275,6 +255,9 @@ namespace Crystal
 
 		if (textureIndex == 0.0f)
 		{
+			if (data.textureSlotIndex >= Renderer2DData::MAX_TEXTURE_SLOTS)
+				FlushAndReset();
+
 			textureIndex = (float)data.textureSlotIndex;
 			data.textureSlots[data.textureSlotIndex] = texture;
 			data.textureSlotIndex++;
@@ -284,33 +267,16 @@ namespace Crystal
 			* rotate(mat4(1.0f), radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* scale(mat4(1.0f), { size.x, size.y, 1.0f });
 
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[0];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 0.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
+		for (size_t index = 0; index < quadVertexCount; index++)
+		{
+			data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[index];
+			data.quadVertexBufferPointer->color = color;
+			data.quadVertexBufferPointer->textureCoordinates = textureCoordinates[index];
+			data.quadVertexBufferPointer->textureIndex = textureIndex;
+			data.quadVertexBufferPointer->tilingFactor = tilingFactor;
 
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[1];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 0.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
-
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[2];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 1.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
-
-		data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[3];
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 1.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
+			data.quadVertexBufferPointer++;
+		}
 
 		data.quadIndexCount += 6;
 
@@ -326,11 +292,14 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		if (data.quadIndexCount >= data.MAX_INDICES)
-			EndScene();
+		constexpr size_t quadVertexCount = 4;
 
+		constexpr vec2 textureCoordinates[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 		constexpr vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float textureIndex = 0.0f;
+
+		if (data.quadIndexCount >= data.MAX_INDICES)
+			FlushAndReset();
 
 		for (uint32_t index = 1; index < data.textureSlotIndex; index++)
 		{
@@ -343,38 +312,26 @@ namespace Crystal
 
 		if (textureIndex == 0.0f)
 		{
+			if (data.textureSlotIndex >= Renderer2DData::MAX_TEXTURE_SLOTS)
+				FlushAndReset();
+
 			textureIndex = (float)data.textureSlotIndex;
 			data.textureSlots[data.textureSlotIndex] = texture;
 			data.textureSlotIndex++;
 		}
 
-		data.quadVertexBufferPointer->position = position;
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 0.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
+		mat4 transform = translate(mat4(1.0f), position) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
 
-		data.quadVertexBufferPointer->position = { position.x + size.x, position.y, position.z };
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 0.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
+		for (size_t index = 0; index < quadVertexCount; index++)
+		{
+			data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[index];
+			data.quadVertexBufferPointer->color = color;
+			data.quadVertexBufferPointer->textureCoordinates = textureCoordinates[index];
+			data.quadVertexBufferPointer->textureIndex = textureIndex;
+			data.quadVertexBufferPointer->tilingFactor = tilingFactor;
 
-		data.quadVertexBufferPointer->position = { position.x + size.x, position.y + size.y, position.z };
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 1.0f, 1.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
-
-		data.quadVertexBufferPointer->position = { position.x, position.y + size.y, position.z };
-		data.quadVertexBufferPointer->color = color;
-		data.quadVertexBufferPointer->textureCoordinates = { 0.0f, 1.0f };
-		data.quadVertexBufferPointer->textureIndex = textureIndex;
-		data.quadVertexBufferPointer->tilingFactor = tilingFactor;
-		data.quadVertexBufferPointer++;
+			data.quadVertexBufferPointer++;
+		}
 
 		data.quadIndexCount += 6;
 
