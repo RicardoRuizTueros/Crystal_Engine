@@ -1,6 +1,6 @@
 # Binaries
 **/bin/
-!vendor/bin/premake/premake.exe
+!vendor/bin/premake/
 bin-int/
 
 # Crystal Engine files
