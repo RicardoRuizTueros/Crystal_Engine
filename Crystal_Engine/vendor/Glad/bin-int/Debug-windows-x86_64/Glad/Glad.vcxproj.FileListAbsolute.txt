@@ -1,4 +1,0 @@
-C:\Users\Ricky\source\repos\Crystal_Engine\Crystal_Engine\vendor\Glad\bin\Debug-windows-x86_64\Glad\Glad.pdb
-C:\Users\Ricky\source\repos\Crystal_Engine\Crystal_Engine\vendor\Glad\bin-int\Debug-windows-x86_64\Glad\Glad.pdb
-C:\Users\Ricky\Downloads\Crystal_Engine\Crystal_Engine\vendor\Glad\bin\Debug-windows-x86_64\Glad\Glad.pdb
-C:\Users\Ricky\Downloads\Crystal_Engine\Crystal_Engine\vendor\Glad\bin-int\Debug-windows-x86_64\Glad\Glad.pdb
