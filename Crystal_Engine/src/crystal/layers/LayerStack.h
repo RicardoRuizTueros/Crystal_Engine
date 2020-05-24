@@ -1,6 +1,6 @@
 #pragma once
 
-#include "crystal/core/Core.h"
+#include "crystal/core/Base.h"
 #include "crystal/layers/Layer.h"
 
 #include <vector>

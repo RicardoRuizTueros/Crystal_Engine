@@ -1,6 +1,6 @@
 #pragma once
 
-#include "crystal/core/Core.h"
+#include "crystal/core/Base.h"
 #include "crystal/events/Event.h"
 
 #include "crystal/core/Timestep.h"

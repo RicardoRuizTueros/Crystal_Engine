@@ -5,7 +5,7 @@
 #include "crystal/imgui/ImGuiLayer.h"
 
 #include "crystal/core/Log.h"
-#include "crystal/core/Core.h"
+#include "crystal/core/Base.h"
 #include "crystal/core/Timestep.h"
 #include "crystal/core/Input.h"
 #include "crystal/core/KeyCodes.h"

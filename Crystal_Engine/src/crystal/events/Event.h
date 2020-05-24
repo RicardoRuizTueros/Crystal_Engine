@@ -1,7 +1,7 @@
 #pragma once
 
 #include "crystalpch.h"
-#include "crystal/core/Core.h"
+#include "crystal/core/Base.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ namespace Crystal
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
-	// BIT defined in Core.h
+	// BIT defined in Base.h
 	// Using bit field to have multiple categories: 000000110 = Input + Keyboard
 	enum EventCategory
 	{

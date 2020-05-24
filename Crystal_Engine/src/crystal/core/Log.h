@@ -1,6 +1,6 @@
 #pragma once
 
-#include "crystal/core/Core.h"
+#include "crystal/core/Base.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/fmt/ostr.h>
