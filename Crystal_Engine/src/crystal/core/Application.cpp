@@ -66,9 +66,10 @@ namespace Crystal
 
 		for (auto iterator = layerStack.reverse_begin(); iterator != layerStack.reverse_end(); ++iterator)
 		{
-			(*iterator)->OnEvent(event);
 			if (event.handled)
 				break;
+
+			(*iterator)->OnEvent(event);
 		}
 	}
 

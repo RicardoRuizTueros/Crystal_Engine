@@ -91,4 +91,12 @@ namespace Crystal
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
+	
+	void ImGuiLayer::OnEvent(Event& event)
+	{
+		ImGuiIO& input = ImGui::GetIO();
+
+		event.handled |= event.IsCategory(EventCategoryMouse) & input.WantCaptureMouse;
+		event.handled |= event.IsCategory(EventCategoryKeyboard) & input.WantCaptureKeyboard;
+	}
 }

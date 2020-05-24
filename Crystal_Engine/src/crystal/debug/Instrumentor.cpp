@@ -48,14 +48,11 @@ namespace Crystal
 	{
 		stringstream json;
 
-		string name = result.name;
-		replace(name.begin(), name.end(), '"', '\'');
-
 		if (!firstProfile)
 		{
 			json << ",";
 		}
-		else 
+		else
 		{
 			firstProfile = false;
 		}
@@ -64,7 +61,7 @@ namespace Crystal
 		json << "{";
 		json << "\"cat\":\"function\",";
 		json << "\"dur\":" << result.elapsed.count() << ',';
-		json << "\"name\":\"" << name << "\",";
+		json << "\"name\":\"" << result.name << "\",";
 		json << "\"ph\":\"X\",";
 		json << "\"pid\":0,";
 		json << "\"tid\":" << result.threadID << ",";
@@ -72,7 +69,7 @@ namespace Crystal
 		json << "}";
 
 		lock_guard lock(mutex);
-		
+
 		if (currentSession)
 		{
 			outputStream << json.str();

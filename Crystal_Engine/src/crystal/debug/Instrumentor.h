@@ -51,6 +51,36 @@ namespace Crystal
 		void WriteFooter();
 		void InternalEndSession();
 	};
+
+	namespace InstrumentorUtils
+	{
+		template <size_t N>
+		struct ChangeResult
+		{
+			char data[N];
+		};
+
+		template <size_t N, size_t K>
+
+		constexpr auto CleanupOutputString(const char(&expr)[N], const char(&remove)[K])
+		{
+			ChangeResult<N> result = {};
+
+			size_t srcIndex = 0;
+			size_t dstIndex = 0;
+			while (srcIndex < N)
+			{
+				size_t matchIndex = 0;
+				while (matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex])
+					matchIndex++;
+				if (matchIndex == K - 1)
+					srcIndex += matchIndex;
+				result.data[dstIndex++] = expr[srcIndex] == '"' ? '\'' : expr[srcIndex];
+				srcIndex++;
+			}
+			return result;
+		}
+	}
 }
 
 #define CRYSTAL_PROFILE 1
@@ -64,7 +94,7 @@ namespace Crystal
 		#define CRYSTAL_FUNC_SIG __PRETTY_FUNCTION__
 	#elif defined(__DMC__) && (__DMC__ >= 0x810)
 		#define CRYSTAL_FUNC_SIG __PRETTY_FUNCTION__
-	#elif defined(__FUNCSIG__)
+	#elif defined(__FUNCSIG__) || (_MSC_VER)
 		#define CRYSTAL_FUNC_SIG __FUNCSIG__
 	#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
 		#define CRYSTAL_FUNC_SIG __FUNCTION__
@@ -82,7 +112,8 @@ namespace Crystal
 #if CRYSTAL_PROFILE
 	#define CRYSTAL_PROFILE_BEGIN_SESSION(name, filepath) ::Crystal::Instrumentor::Get().BeginSession(name, filepath)
 	#define CRYSTAL_PROFILE_END_SESSION() ::Crystal::Instrumentor::Get().EndSession()
-	#define CRYSTAL_PROFILE_SCOPE(name) ::Crystal::InstrumentationTimer timer##__LINE__(name);
+	#define CRYSTAL_PROFILE_SCOPE(name) constexpr auto fixedName = ::Crystal::InstrumentorUtils::CleanupOutputString(name, "__cdecl");\
+										::Crystal::InstrumentationTimer timer##__LINE__(fixedName.data);
 	#define CRYSTAL_PROFILE_FUNCTION() CRYSTAL_PROFILE_SCOPE(CRYSTAL_FUNC_SIG)
 #else
 	#define CRYSTAL_PROFILE_BEGIN_SESSION(name, filepath)

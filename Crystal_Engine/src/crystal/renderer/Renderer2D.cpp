@@ -108,6 +108,8 @@ namespace Crystal
 	void Renderer2D::Shutdown()
 	{
 		CRYSTAL_PROFILE_FUNCTION();
+
+		delete data.quadVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
@@ -238,7 +240,6 @@ namespace Crystal
 		constexpr size_t quadVertexCount = 4;
 		
 		constexpr vec2 textureCoordinates[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
-		constexpr vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float textureIndex = 0.0f;
 
 		if (data.quadIndexCount >= data.MAX_INDICES)
@@ -270,7 +271,7 @@ namespace Crystal
 		for (size_t index = 0; index < quadVertexCount; index++)
 		{
 			data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[index];
-			data.quadVertexBufferPointer->color = color;
+			data.quadVertexBufferPointer->color = tintColor;
 			data.quadVertexBufferPointer->textureCoordinates = textureCoordinates[index];
 			data.quadVertexBufferPointer->textureIndex = textureIndex;
 			data.quadVertexBufferPointer->tilingFactor = tilingFactor;
@@ -295,7 +296,6 @@ namespace Crystal
 		constexpr size_t quadVertexCount = 4;
 
 		constexpr vec2 textureCoordinates[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
-		constexpr vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float textureIndex = 0.0f;
 
 		if (data.quadIndexCount >= data.MAX_INDICES)
@@ -325,7 +325,7 @@ namespace Crystal
 		for (size_t index = 0; index < quadVertexCount; index++)
 		{
 			data.quadVertexBufferPointer->position = transform * data.quadVertexPositions[index];
-			data.quadVertexBufferPointer->color = color;
+			data.quadVertexBufferPointer->color = tintColor;
 			data.quadVertexBufferPointer->textureCoordinates = textureCoordinates[index];
 			data.quadVertexBufferPointer->textureIndex = textureIndex;
 			data.quadVertexBufferPointer->tilingFactor = tilingFactor;
