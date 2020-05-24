@@ -137,6 +137,9 @@ namespace Crystal
 
 	void Renderer2D::Flush()
 	{
+		if (data.quadIndexCount == 0)
+			return;
+
 		for (uint32_t index = 0; index < data.textureSlotIndex; index++)
 			data.textureSlots[index]->Bind(index);
 
