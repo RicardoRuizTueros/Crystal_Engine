@@ -20,6 +20,8 @@ namespace Crystal
 		public:
 			Application();
 			virtual ~Application();
+
+			void Close();
 			
 			void OnEvent(Event& event);
 			bool OnWindowClose(WindowCloseEvent& event);

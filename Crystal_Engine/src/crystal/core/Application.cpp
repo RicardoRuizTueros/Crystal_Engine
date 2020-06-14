@@ -39,6 +39,11 @@ namespace Crystal
 		Renderer::Shutdown();
 	}
 
+	void Application::Close()
+	{
+		running = false;
+	}
+
 	void Application::PushLayer(Layer* layer)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
