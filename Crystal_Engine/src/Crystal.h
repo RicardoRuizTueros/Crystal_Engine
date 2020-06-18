@@ -20,5 +20,6 @@
 #include "crystal/renderer/VertexBuffer.h"
 #include "crystal/renderer/IndexBuffer.h"
 #include "crystal/renderer/Shader.h"
+#include "crystal/renderer/FrameBuffer.h"
 #include "crystal/renderer/Texture.h"
 #include "crystal/renderer/OrthographicCamera.h"

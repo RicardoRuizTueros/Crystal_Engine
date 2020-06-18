@@ -5,6 +5,9 @@ bin-int/
 
 # Crystal Engine files
 *.log
+Sandbox/CrystalProfile-Run.json
+Sandbox/CrystalProfile-Shutdown.json
+Sandbox/CrystalProfile-Startup.json
 
 # Visual Studio files and folder
 .vs/
