@@ -18,7 +18,7 @@ namespace Crystal
 	class Application
 	{
 		public:
-			Application();
+			Application(const string& name = "Crystal Application");
 			virtual ~Application();
 
 			void Close();

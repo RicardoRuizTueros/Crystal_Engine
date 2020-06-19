@@ -26,7 +26,6 @@ private:
 	// To do: Remove this!
 	Reference<VertexArray> squareVertexArray;
 	Reference<Shader> flatColorShader;
-	Reference<FrameBuffer> frameBuffer;
 
 	vec4 squareColor;
 };

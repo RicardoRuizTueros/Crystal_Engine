@@ -141,3 +141,50 @@ project "Sandbox"
 			defines "CRYSTAL_DISTRIBUTION"
 			runtime "Release"
 			optimize "On"
+			
+project "Crystal_Editor"
+	location "Crystal_Editor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"Crystal_Engine/vendor/spdlog/include",
+		"Crystal_Engine/src",
+		"Crystal_Engine/vendor",
+		"%{IncludeDir.glm}"
+	}
+
+	links
+	{
+		"Crystal_Engine"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+		filter "configurations:Debug"
+			defines "CRYSTAL_DEBUG"
+			runtime "Debug"
+			symbols "On"
+
+		filter "configurations:Release"
+			defines "CRYSTAL_RELEASE"
+			runtime "Release"
+			optimize "On"
+
+		filter "configurations:Distribution"
+			defines "CRYSTAL_DISTRIBUTION"
+			runtime "Release"
+			optimize "On"
