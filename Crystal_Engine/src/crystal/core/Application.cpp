@@ -12,7 +12,7 @@ namespace Crystal
 {
 	Application* Application::instance = nullptr;
 
-	Application::Application()
+	Application::Application(const string& name)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
@@ -20,10 +20,8 @@ namespace Crystal
 		instance = this;
 		
 		// Window
-		window = Window::Create();
+		window = Window::Create(WindowProperties(name));
 		window->SetEventCallback(CRYSTAL_BIND_EVENT_FN(Application::OnEvent));
-
-		// window->SetVSync(false);
 
 		Renderer::Init();
 

@@ -12,10 +12,9 @@ namespace Crystal
 	struct WindowProperties
 	{
 		string title;
-		unsigned int width;
-		unsigned int height;
+		uint32_t width, height;
 
-		WindowProperties(const string& title = "Crystal Engine", unsigned int width = 1280, unsigned int height = 720)
+		WindowProperties(const string& title = "Crystal Engine", uint32_t width = 1280, uint32_t height = 720)
 		{
 			this->title = title;
 			this->width = width;
@@ -32,8 +31,8 @@ namespace Crystal
 
 		virtual void OnUpdate() = 0;
 
-		virtual unsigned int GetWidth() const = 0;
-		virtual unsigned int GetHeight() const = 0;
+		virtual uint32_t GetWidth() const = 0;
+		virtual uint32_t GetHeight() const = 0;
 
 		virtual void SetEventCallback(const EventCallbackFunction& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;

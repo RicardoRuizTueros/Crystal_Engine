@@ -6,7 +6,6 @@
 using namespace Crystal;
 using namespace glm;
 
-
 class Sandbox : public Application
 {
 public:
