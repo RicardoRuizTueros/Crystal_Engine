@@ -17,6 +17,8 @@ namespace Crystal
 		void OnUpdate(Timestep timestep);
 		void OnEvent(Event& event);
 
+		void OnResize(float width, float height);
+
 		OrthographicCamera& GetCamera() { return camera; }
 		const OrthographicCamera& GetCamera() const { return camera; }
 

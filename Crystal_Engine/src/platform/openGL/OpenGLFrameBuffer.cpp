@@ -14,10 +14,19 @@ namespace Crystal
 	OpenGLFrameBuffer::~OpenGLFrameBuffer()
 	{
 		glDeleteFramebuffers(1, &rendererID);
+		glDeleteTextures(1, &colorAttachment);
+		glDeleteTextures(1, &depthAttachment);
 	}
 
 	void OpenGLFrameBuffer::Invalidate()
 	{
+		if (rendererID)
+		{
+			glDeleteFramebuffers(1, &rendererID);
+			glDeleteTextures(1, &colorAttachment);
+			glDeleteTextures(1, &depthAttachment);
+		}
+
 		glCreateFramebuffers(1, &rendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
 
@@ -40,9 +49,18 @@ namespace Crystal
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
+	void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height)
+	{
+		specification.width = width;
+		specification.height = height;
+
+		Invalidate();
+	}
+
 	void OpenGLFrameBuffer::Bind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
+		glViewport(0, 0, specification.width, specification.height);
 	}
 
 	void OpenGLFrameBuffer::Unbind()

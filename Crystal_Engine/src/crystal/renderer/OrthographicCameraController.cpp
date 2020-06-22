@@ -64,7 +64,12 @@ namespace Crystal
 
 		dispatcher.Dispatch<MouseScrolledEvent>(CRYSTAL_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
 		dispatcher.Dispatch<WindowResizeEvent>(CRYSTAL_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
+	}
 
+	void OrthographicCameraController::OnResize(float width, float height)
+	{
+		aspectRatio = width / height;
+		camera.SetProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
 	}
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event)
@@ -81,8 +86,7 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		aspectRatio = (float)event.GetWidth() / (float)event.GetHeight();
-		camera.SetProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
+		OnResize((float)event.GetWidth(), (float)event.GetHeight());
 		return false;
 	}
 

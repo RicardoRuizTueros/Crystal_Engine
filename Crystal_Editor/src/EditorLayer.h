@@ -20,6 +20,7 @@ namespace Crystal
 
 	private:
 		OrthographicCameraController cameraController;
+		vec2 viewportSize = { 0.0f, 0.0f };
 
 		// To do: Remove this!
 		Reference<VertexArray> squareVertexArray;

@@ -11,7 +11,8 @@ namespace Crystal
 		virtual ~OpenGLFrameBuffer();
 
 		void Invalidate();
-
+		
+		virtual void Resize(uint32_t width, uint32_t height) override;
 		virtual void Bind() override;
 		virtual void Unbind() override;
 
@@ -19,7 +20,7 @@ namespace Crystal
 		virtual const FrameBufferSpecification& GetSpecification() const override { return specification; }
 
 	private:
-		uint32_t rendererID, colorAttachment, depthAttachment;
+		uint32_t rendererID = 0, colorAttachment = 0, depthAttachment = 0;
 		FrameBufferSpecification specification;
 	};
 }

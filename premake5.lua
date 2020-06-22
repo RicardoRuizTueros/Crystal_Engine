@@ -1,6 +1,6 @@
 workspace "Crystal_Engine"
 	architecture "x86_64"
-	startproject "Sandbox"
+	startproject "Crystal_Editor"
 	
 	configurations
 	{
