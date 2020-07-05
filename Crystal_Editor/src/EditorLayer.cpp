@@ -39,7 +39,8 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		cameraController.OnUpdate(timestep);
+		if (viewportFocused)
+			cameraController.OnUpdate(timestep);
 
 		Renderer2D::ResetStatistics();
 
@@ -156,9 +157,13 @@ namespace Crystal
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
-		ImGui::Begin("Scene");
+		ImGui::Begin("Viewport");
+
+		viewportFocused = ImGui::IsWindowFocused();
+		viewportHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->BlockEvents(!viewportFocused || !viewportHovered);
+
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		
 		if (viewportSize != *((vec2*)&viewportPanelSize))
 		{
 			viewportSize = { viewportPanelSize.x, viewportPanelSize.y };

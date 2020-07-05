@@ -6,13 +6,6 @@ bin-int/
 # Crystal Engine files
 *.log
 
-Crystal_Editor/CrystalProfile-Run.json
-Crystal_Editor/CrystalProfile-Shutdown.json
-Crystal_Editor/CrystalProfile-Startup.json
-Crystal_Editor/imgui.ini
-Crystal_Engine/vendor/GLFW
-Crystal_Engine/vendor/imgui
-
 # Visual Studio files and folder
 .vs/
 **.sln

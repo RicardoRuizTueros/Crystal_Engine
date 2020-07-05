@@ -20,7 +20,9 @@ namespace Crystal
 		void Begin();
 		void End();
 
+		void BlockEvents(bool block) { blockEvents = block; }
 	private:
+		bool blockEvents = true;
 		float lastTime;
 	};
 }

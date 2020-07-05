@@ -21,6 +21,7 @@ namespace Crystal
 	private:
 		OrthographicCameraController cameraController;
 		vec2 viewportSize = { 0.0f, 0.0f };
+		bool viewportFocused = false, viewportHovered = false;
 
 		// To do: Remove this!
 		Reference<VertexArray> squareVertexArray;

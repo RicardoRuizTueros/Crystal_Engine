@@ -32,6 +32,7 @@ namespace Crystal
 
 			static Application& Get() { return *instance; }
 			Window& GetWindow() { return *window; }
+			ImGuiLayer* GetImGuiLayer() { return imGuiLayer; }
 	private:
 		static Application* instance;
 
