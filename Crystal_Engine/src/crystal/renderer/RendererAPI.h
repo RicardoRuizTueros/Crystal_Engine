@@ -18,6 +18,8 @@ namespace Crystal
 			OpenGL = 1
 		};
 
+		virtual ~RendererAPI() = default;
+
 		virtual void Init() = 0;
 		virtual void SetClearColor(const vec4& color) = 0;
 		virtual void Clear() = 0;

@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 	sandbox->Run();
 	CRYSTAL_PROFILE_END_SESSION();
 
-	CRYSTAL_PROFILE_BEGIN_SESSION("Startup", "CrystalProfile-Shutdown.json");
+	CRYSTAL_PROFILE_BEGIN_SESSION("Shutdown", "CrystalProfile-Shutdown.json");
 	delete sandbox;
 	CRYSTAL_PROFILE_END_SESSION();
 }

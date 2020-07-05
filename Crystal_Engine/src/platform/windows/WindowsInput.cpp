@@ -1,14 +1,13 @@
 #include "crystalpch.h"
 
-#include "platform/windows/WindowsInput.h"
-
+#include "crystal/core/Input.h"
 #include "crystal/core/Application.h"
 
 #include <GLFW/glfw3.h>
 
 namespace Crystal
 {
-	bool WindowsInput::IsKeyPressedImplementation(KeyCode keycode)
+	bool Input::IsKeyPressed(KeyCode keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetKey(window, static_cast<int32_t>(keycode));
@@ -16,7 +15,7 @@ namespace Crystal
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImplementation(MouseCode button)
+	bool Input::IsMouseButtonPressed(MouseCode button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
@@ -24,7 +23,7 @@ namespace Crystal
 		return state == GLFW_PRESS;
 	}
 
-	pair<float, float> WindowsInput::GetMousePositionImplementation()
+	pair<float, float> Input::GetMousePosition()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		double xpos, ypos;
@@ -33,15 +32,15 @@ namespace Crystal
 		return { (float)xpos, (float)ypos };
 	}
 
-	float WindowsInput::GetMouseXImplementation()
+	float Input::GetMouseX()
 	{
-		auto [x, y] = GetMousePositionImplementation();
+		auto [x, y] = GetMousePosition();
 		return x;
 	}
 
-	float WindowsInput::GetMouseYImplementation()
+	float Input::GetMouseY()
 	{
-		auto [x, y] = GetMousePositionImplementation();
+		auto [x, y] = GetMousePosition();
 		return y;
 	}
 
