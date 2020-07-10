@@ -39,6 +39,17 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
+		// Resize
+		FrameBufferSpecification specification = frameBuffer->GetSpecification();
+
+		if (viewportSize.x > 0.0f && viewportSize.y > 0.0f &&
+		   (specification.width != viewportSize.x || specification.height != viewportSize.y))
+		{
+			frameBuffer->Resize((uint32_t) viewportSize.x, (uint32_t) viewportSize.y);
+			cameraController.OnResize(viewportSize.x, viewportSize.y);
+		}
+
+		// Update
 		if (viewportFocused)
 			cameraController.OnUpdate(timestep);
 
@@ -164,12 +175,7 @@ namespace Crystal
 		Application::Get().GetImGuiLayer()->BlockEvents(!viewportFocused || !viewportHovered);
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		if (viewportSize != *((vec2*)&viewportPanelSize))
-		{
-			viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-			frameBuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
-			cameraController.OnResize(viewportSize.x, viewportSize.y);
-		}
+		viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
 		uint32_t textureID = frameBuffer->GetColorAttachmentRendererID();
 		ImGui::Image((void*)textureID, ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
