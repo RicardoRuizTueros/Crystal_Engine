@@ -23,6 +23,9 @@ namespace Crystal
 		vec2 viewportSize = { 0.0f, 0.0f };
 		bool viewportFocused = false, viewportHovered = false;
 
+		Reference<Scene> activeScene;
+		entity squareEntity;
+
 		// To do: Remove this!
 		Reference<VertexArray> squareVertexArray;
 		Reference<Shader> flatColorShader;

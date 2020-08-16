@@ -28,6 +28,14 @@ namespace Crystal
 		frameBufferSpecification.width = 1280;
 		frameBufferSpecification.height = 720;
 		frameBuffer = FrameBuffer::Create(frameBufferSpecification);
+
+		activeScene = CreateReference<Scene>();
+
+		auto square = activeScene->CreateEntity();
+		activeScene->Registry().emplace<TransformComponent>(square);
+		activeScene->Registry().emplace<SpriteRendererComponent>(square, vec4{ 1.0f, 1.0f, 0.0f, 1.0f });
+
+		squareEntity = square;
 	}
 
 	void EditorLayer::OnDetach()
@@ -40,12 +48,11 @@ namespace Crystal
 		CRYSTAL_PROFILE_FUNCTION();
 
 		// Resize
-		FrameBufferSpecification specification = frameBuffer->GetSpecification();
-
-		if (viewportSize.x > 0.0f && viewportSize.y > 0.0f &&
-		   (specification.width != viewportSize.x || specification.height != viewportSize.y))
+		if (FrameBufferSpecification specification = frameBuffer->GetSpecification();
+			viewportSize.x > 0.0f && viewportSize.y > 0.0f && 
+			(specification.width != viewportSize.x || specification.height != viewportSize.y))
 		{
-			frameBuffer->Resize((uint32_t) viewportSize.x, (uint32_t) viewportSize.y);
+			frameBuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			cameraController.OnResize(viewportSize.x, viewportSize.y);
 		}
 
@@ -54,44 +61,16 @@ namespace Crystal
 			cameraController.OnUpdate(timestep);
 
 		Renderer2D::ResetStatistics();
+		frameBuffer->Bind();
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		RenderCommand::Clear();
 
-		{
-			CRYSTAL_PROFILE_SCOPE("RenderCommand::OnUpdate");
-			frameBuffer->Bind();
-			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-			RenderCommand::Clear();
-		}
+		Renderer2D::BeginScene(cameraController.GetCamera());
+		
+		activeScene->OnUpdate(timestep);
 
-		{
-			static float rotation = 0.0f;
-			rotation += timestep * 50.0f;
-
-			CRYSTAL_PROFILE_SCOPE("DrawQuad::OnUpdate");
-			Renderer2D::BeginScene(cameraController.GetCamera());
-
-			Renderer2D::DrawRotatedQuad({ 2.0f, 0.0f }, { 1.0f, 1.0f }, -45, squareColor);
-			Renderer2D::DrawQuad({ -2.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-			Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.5f }, { 0.2f, 0.2f, 0.8f, 1.0f });
-			Renderer2D::DrawQuad({ -10.0f, -10.0f, -0.2f }, { 20.0f, 20.0f }, checkerTexture, 10.0f);
-
-			Renderer2D::DrawRotatedQuad({ 15.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, rotation, checkerTexture, 10.0f);
-
-			Renderer2D::EndScene();
-
-			Renderer2D::BeginScene(cameraController.GetCamera());
-
-			for (float y = -5.0f; y < 5.0f; y += 0.5f)
-			{
-				for (float x = -5.0f; x < 5.0f; x += 0.5f)
-				{
-					vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
-					Renderer2D::DrawQuad({ x, y }, { 0.45, 0.45 }, color);
-				}
-			}
-
-			Renderer2D::EndScene();
-			frameBuffer->Unbind();
-		}
+		Renderer2D::EndScene();
+		frameBuffer->Unbind();
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -164,7 +143,9 @@ namespace Crystal
 		ImGui::Text("Quads: %d", statistics.quadCount);
 		ImGui::Text("Vertices: %d", statistics.GetVertexCount());
 		ImGui::Text("Indices: %d", statistics.GetIndexCount());
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+
+		auto& squareColor = activeScene->Registry().get<SpriteRendererComponent>(squareEntity).color;
+		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));	
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });

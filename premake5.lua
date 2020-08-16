@@ -22,6 +22,7 @@ IncludeDir["Glad"] = "Crystal_Engine/vendor/Glad/include"
 IncludeDir["imgui"] = "Crystal_Engine/vendor/imgui"
 IncludeDir["glm"] = "Crystal_Engine/vendor/glm"
 IncludeDir["stb_image"] = "Crystal_Engine/vendor/stb_image"
+IncludeDir["entt"] = "Crystal_Engine/vendor/entt"
 
 group "Dependencies"
 	include "Crystal_Engine/vendor/GLFW"
@@ -66,7 +67,8 @@ project "Crystal_Engine"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
@@ -163,7 +165,8 @@ project "Crystal_Editor"
 		"Crystal_Engine/vendor/spdlog/include",
 		"Crystal_Engine/src",
 		"Crystal_Engine/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links

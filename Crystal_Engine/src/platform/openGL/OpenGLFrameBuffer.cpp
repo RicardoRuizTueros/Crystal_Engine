@@ -5,6 +5,8 @@
 
 namespace Crystal
 {
+	static const uint32_t maxFrameBufferSize = 8192;
+
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& specification)
 		:specification(specification)
 	{
@@ -51,6 +53,12 @@ namespace Crystal
 
 	void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height)
 	{
+		if (width == 0 || height == 0 || width > maxFrameBufferSize || height > maxFrameBufferSize)
+		{
+			CRYSTAL_CORE_WARNING("Attempted to rezize framebuffer to {0}, {1}", width, height);
+			return;
+		}
+
 		specification.width = width;
 		specification.height = height;
 

@@ -8,3 +8,7 @@
 	path = Crystal_Engine/vendor/imgui
 	url = https://github.com/RicardoRuizTueros/imgui.git
 	branch = docking
+[submodule "Crystal_Engine/vendor/spdlog"]
+	path = Crystal_Engine/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
+	branch = v1.x
