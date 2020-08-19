@@ -25,4 +25,5 @@
 #include "crystal/renderer/OrthographicCamera.h"
 
 #include "crystal/scene/Scene.h"
+#include "crystal/scene/Entity.h"
 #include "crystal/scene/Components.h"

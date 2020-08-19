@@ -32,9 +32,7 @@ namespace Crystal
 		activeScene = CreateReference<Scene>();
 
 		auto square = activeScene->CreateEntity();
-		activeScene->Registry().emplace<TransformComponent>(square);
-		activeScene->Registry().emplace<SpriteRendererComponent>(square, vec4{ 1.0f, 1.0f, 0.0f, 1.0f });
-
+		square.AddComponent<SpriteRendererComponent>(vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 		squareEntity = square;
 	}
 
@@ -144,8 +142,16 @@ namespace Crystal
 		ImGui::Text("Vertices: %d", statistics.GetVertexCount());
 		ImGui::Text("Indices: %d", statistics.GetIndexCount());
 
-		auto& squareColor = activeScene->Registry().get<SpriteRendererComponent>(squareEntity).color;
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));	
+		if (squareEntity.HasComponent<SpriteRendererComponent>())
+		{
+			ImGui::Separator();
+			auto& tag = squareEntity.GetComponent<TagComponent>().tag;
+			ImGui::Text("%s", tag.c_str());
+
+			auto& squareColor = squareEntity.GetComponent<SpriteRendererComponent>().color;
+			ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+			ImGui::Separator();
+		}
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });

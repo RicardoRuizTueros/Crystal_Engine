@@ -24,7 +24,7 @@ namespace Crystal
 		bool viewportFocused = false, viewportHovered = false;
 
 		Reference<Scene> activeScene;
-		entity squareEntity;
+		Entity squareEntity;
 
 		// To do: Remove this!
 		Reference<VertexArray> squareVertexArray;

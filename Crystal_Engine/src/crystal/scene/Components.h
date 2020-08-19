@@ -3,9 +3,20 @@
 #include <glm/glm.hpp>
 
 using namespace glm;
+using namespace std;
 
 namespace Crystal 
 {
+	struct TagComponent
+	{
+		string tag;
+
+		TagComponent() = default;
+		TagComponent(const TagComponent&) = default;
+		TagComponent(const string& tag) 
+			: tag(tag) {};
+	};
+
 	struct TransformComponent
 	{
 		mat4 transform = mat4{ 1.0f };

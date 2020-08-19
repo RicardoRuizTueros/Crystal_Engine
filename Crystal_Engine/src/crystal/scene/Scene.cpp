@@ -1,8 +1,10 @@
 #include "crystalpch.h"
+
 #include "crystal/scene/Scene.h"
+#include "crystal/renderer/Renderer2D.h"
+#include "crystal/scene/Entity.h"
 
 #include "crystal/scene/Components.h"
-#include "crystal/renderer/Renderer2D.h"
 
 #include <glm/glm.hpp>
 
@@ -17,9 +19,19 @@ namespace Crystal
 	{
 	}
 
-	entity Scene::CreateEntity()
+	Entity Scene::CreateEntity(const string& name)
 	{
-		return registry.create();
+		Entity entity = { registry.create(), this };
+		entity.AddComponent<TransformComponent>();
+		
+		TagComponent tagComponent;
+
+		if (name.empty())
+			tagComponent = entity.AddComponent<TagComponent>("Entity");
+		else
+			tagComponent = entity.AddComponent<TagComponent>(name);
+		 		
+		return entity;
 	}
 
 	void Scene::OnUpdate(Timestep timestep)
@@ -30,8 +42,6 @@ namespace Crystal
 			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 			Renderer2D::DrawQuad(transform, sprite.color);
 		}
-
-
 	}
 
 }
