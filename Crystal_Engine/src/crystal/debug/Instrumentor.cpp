@@ -4,8 +4,14 @@
 namespace Crystal
 {
 	Instrumentor::Instrumentor()
-		: currentSession(nullptr), firstProfile(true)
+	: currentSession(nullptr) 
 	{
+	
+	}
+	
+	Instrumentor::~Instrumentor()
+	{
+		EndSession();
 	}
 
 	void Instrumentor::BeginSession(const string& name, const string& filepath)

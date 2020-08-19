@@ -34,7 +34,7 @@ namespace Crystal
 		stbi_uc* data = nullptr;
 		
 		{
-			CRYSTAL_PROFILE_SCOPE("stbi_load")
+			CRYSTAL_PROFILE_SCOPE("stbi_load");
 			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		}
 

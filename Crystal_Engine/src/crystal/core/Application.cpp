@@ -121,7 +121,7 @@ namespace Crystal
 
 				imGuiLayer->Begin();
 				{
-					CRYSTAL_PROFILE_SCOPE("Layers OnImGuiRender")
+					CRYSTAL_PROFILE_SCOPE("Layers OnImGuiRender");
 
 					for (Layer* layer : layerStack)
 						layer->OnImGuiRender();

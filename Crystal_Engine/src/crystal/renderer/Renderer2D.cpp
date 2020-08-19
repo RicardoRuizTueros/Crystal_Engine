@@ -164,7 +164,7 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const vec4& color)
 	{
-		CRYSTAL_PROFILE_FUNCTION()
+		CRYSTAL_PROFILE_FUNCTION();
 
 		mat4 transform = translate(mat4(1.0f), position) * scale(mat4(1.0f), { size.x, size.y, 1.0f });
 		DrawQuad(transform, color);

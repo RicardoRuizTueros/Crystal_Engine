@@ -33,6 +33,10 @@ namespace Crystal
 	
 	public:
 		Instrumentor();
+		Instrumentor(const Instrumentor&) = delete;
+		Instrumentor(Instrumentor&&) = delete;
+
+		~Instrumentor();
 
 		void BeginSession(const string& name, const string& filepath = "results.json");
 		void EndSession();
@@ -112,8 +116,10 @@ namespace Crystal
 #if CRYSTAL_PROFILE
 	#define CRYSTAL_PROFILE_BEGIN_SESSION(name, filepath) ::Crystal::Instrumentor::Get().BeginSession(name, filepath)
 	#define CRYSTAL_PROFILE_END_SESSION() ::Crystal::Instrumentor::Get().EndSession()
-	#define CRYSTAL_PROFILE_SCOPE(name) constexpr auto fixedName = ::Crystal::InstrumentorUtils::CleanupOutputString(name, "__cdecl");\
-										::Crystal::InstrumentationTimer timer##__LINE__(fixedName.data);
+	#define CRYSTAL_PROFILE_SCOPE(name) CRYSTAL_PROFILE_SCOPE_LINE(name, __LINE__)
+	#define CRYSTAL_PROFILE_SCOPE_LINE(name, line) constexpr auto fixedName##line = ::Crystal::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
+												   ::Crystal::InstrumentationTimer timer##line(fixedName##line.data)
+
 	#define CRYSTAL_PROFILE_FUNCTION() CRYSTAL_PROFILE_SCOPE(CRYSTAL_FUNC_SIG)
 #else
 	#define CRYSTAL_PROFILE_BEGIN_SESSION(name, filepath)
