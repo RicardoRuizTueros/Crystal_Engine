@@ -34,6 +34,12 @@ namespace Crystal
 		auto square = activeScene->CreateEntity();
 		square.AddComponent<SpriteRendererComponent>(vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 		squareEntity = square;
+
+		cameraA = activeScene->CreateEntity("Camera A");
+		cameraA.AddComponent<CameraComponent>(ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+
+		cameraB = activeScene->CreateEntity("Camera B");
+		cameraB.AddComponent<CameraComponent>(ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f)).primary = false;
 	}
 
 	void EditorLayer::OnDetach()
@@ -62,12 +68,9 @@ namespace Crystal
 		frameBuffer->Bind();
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
-
-		Renderer2D::BeginScene(cameraController.GetCamera());
 		
 		activeScene->OnUpdate(timestep);
 
-		Renderer2D::EndScene();
 		frameBuffer->Unbind();
 	}
 
@@ -152,6 +155,15 @@ namespace Crystal
 			ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
 			ImGui::Separator();
 		}
+
+		ImGui::DragFloat3("Camera Transform", value_ptr(cameraA.GetComponent<TransformComponent>().transform[3]));
+
+		if (ImGui::Checkbox("Camera A", &primaryCameraA))
+		{
+			cameraA.GetComponent<CameraComponent>().primary = primaryCameraA;
+			cameraB.GetComponent<CameraComponent>().primary = !primaryCameraA;
+		}
+
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });

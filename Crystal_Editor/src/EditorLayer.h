@@ -25,6 +25,8 @@ namespace Crystal
 
 		Reference<Scene> activeScene;
 		Entity squareEntity;
+		Entity cameraA, cameraB;
+		bool primaryCameraA = true;
 
 		// To do: Remove this!
 		Reference<VertexArray> squareVertexArray;

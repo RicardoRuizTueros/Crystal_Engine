@@ -8,7 +8,7 @@
 
 #include <glm/glm.hpp>
 
-namespace Crystal 
+namespace Crystal
 {
 
 	Scene::Scene()
@@ -23,24 +23,47 @@ namespace Crystal
 	{
 		Entity entity = { registry.create(), this };
 		entity.AddComponent<TransformComponent>();
-		
+
 		TagComponent tagComponent;
 
 		if (name.empty())
 			tagComponent = entity.AddComponent<TagComponent>("Entity");
 		else
 			tagComponent = entity.AddComponent<TagComponent>(name);
-		 		
+
 		return entity;
 	}
 
 	void Scene::OnUpdate(Timestep timestep)
 	{
-		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group)
+		Camera* mainCamera = nullptr;
+		mat4* mainCameraTransform = nullptr;
+
+		auto view = registry.view<TransformComponent, CameraComponent>();
+		for (auto entity : view)
 		{
-			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::DrawQuad(transform, sprite.color);
+			auto& [transformComponent, cameraComponent] = view.get<TransformComponent, CameraComponent>(entity);
+
+			if (cameraComponent.primary)
+			{
+				mainCamera = &cameraComponent.camera;
+				mainCameraTransform = &transformComponent.transform;
+				break;
+			}
+		}
+
+		if (mainCamera)
+		{
+			Renderer2D::BeginScene(mainCamera->GetProjection(), *mainCameraTransform);
+
+			auto group = registry.group<TransformComponent, SpriteRendererComponent>();
+			for (auto entity : group)
+			{
+				auto& [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				Renderer2D::DrawQuad(transformComponent, spriteComponent.color);
+			}
+
+			Renderer2D::EndScene();
 		}
 	}
 

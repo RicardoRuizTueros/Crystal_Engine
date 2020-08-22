@@ -2,6 +2,7 @@
 
 #include "crystal/renderer/OrthographicCamera.h"
 #include "crystal/renderer/Texture2D.h"
+#include "crystal/renderer/Camera.h"
 
 using namespace glm;
 
@@ -14,6 +15,8 @@ namespace Crystal
 		static void Shutdown();
 
 		static void BeginScene(const OrthographicCamera& camera);
+		static void BeginScene(const Camera& camera, const mat4& transform);
+
 		static void EndScene();
 
 		static void Flush();

@@ -125,6 +125,21 @@ namespace Crystal
 		data.textureSlotIndex = 1;
 	}
 
+	void Renderer2D::BeginScene(const Camera& camera, const mat4& transform)
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		mat4 viewProjection = camera.GetProjection() * inverse(transform);
+
+		data.textureShader->Bind();
+		data.textureShader->SetMat4("u_viewProjection", viewProjection);
+
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPointer = data.quadVertexBufferBase;
+
+		data.textureSlotIndex = 1;
+	}
+
 	void Renderer2D::EndScene()
 	{
 		CRYSTAL_PROFILE_FUNCTION();
