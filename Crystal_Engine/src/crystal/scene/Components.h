@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-#include "crystal/renderer/Camera.h"
+#include "crystal/renderer/SceneCamera.h"
 
 using namespace glm;
 using namespace std;
@@ -44,12 +44,11 @@ namespace Crystal
 
 	struct CameraComponent
 	{
-		Camera camera;
+		SceneCamera camera;
 		bool primary = true;
+		bool fixedAspectRatio = false;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
-		CameraComponent(const mat4& projection)
-			: camera(projection) {}
 	};
 }

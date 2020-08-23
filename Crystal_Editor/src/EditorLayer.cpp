@@ -36,10 +36,10 @@ namespace Crystal
 		squareEntity = square;
 
 		cameraA = activeScene->CreateEntity("Camera A");
-		cameraA.AddComponent<CameraComponent>(ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		cameraA.AddComponent<CameraComponent>();
 
 		cameraB = activeScene->CreateEntity("Camera B");
-		cameraB.AddComponent<CameraComponent>(ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f)).primary = false;
+		cameraB.AddComponent<CameraComponent>().primary = false;
 	}
 
 	void EditorLayer::OnDetach()
@@ -58,6 +58,7 @@ namespace Crystal
 		{
 			frameBuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			cameraController.OnResize(viewportSize.x, viewportSize.y);
+			activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		}
 
 		// Update
@@ -162,6 +163,13 @@ namespace Crystal
 		{
 			cameraA.GetComponent<CameraComponent>().primary = primaryCameraA;
 			cameraB.GetComponent<CameraComponent>().primary = !primaryCameraA;
+		}
+
+		{
+			auto& camera = cameraB.GetComponent<CameraComponent>().camera;
+			float orthographicHeight = camera.GetOrthographicHeight();
+			if (ImGui::DragFloat("CameraB orthographic height", &orthographicHeight))
+				camera.SetOrthographicSize(orthographicHeight);
 		}
 
 		ImGui::End();
