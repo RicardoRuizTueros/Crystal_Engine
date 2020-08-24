@@ -26,4 +26,5 @@
 
 #include "crystal/scene/Scene.h"
 #include "crystal/scene/Entity.h"
+#include "crystal/scene/ScriptableEntity.h"
 #include "crystal/scene/Components.h"

@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "crystal/renderer/SceneCamera.h"
+#include "crystal/scene/ScriptableEntity.h"
 
 using namespace glm;
 using namespace std;
@@ -50,5 +51,29 @@ namespace Crystal
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* instance = nullptr;
+
+		function<void()> InstantiateFunction;
+		function<void()> DestroyFunction;
+
+		function<void(ScriptableEntity*)> OnCreateFunction;
+		function<void(ScriptableEntity*)> OnDestroyFunction;
+		function<void(ScriptableEntity*, Timestep)> OnUpdateFunction;
+
+		template<typename InstanceType>
+		void Bind()
+		{
+			InstantiateFunction = [&]() {instance = new InstanceType(); };
+			DestroyFunction = [&]() {delete (InstanceType*)instance; instance = nullptr; };
+
+			OnCreateFunction = [](ScriptableEntity* instance) {((InstanceType*)instance)->OnCreate(); };
+			OnDestroyFunction = [](ScriptableEntity* instance) {((InstanceType*)instance)->OnDestroy(); };
+			OnUpdateFunction = [](ScriptableEntity* instance, Timestep timestep) {((InstanceType*)instance)->OnUpdate(timestep); };
+
+		}
 	};
 }

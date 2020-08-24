@@ -39,31 +39,58 @@ namespace Crystal
 		Camera* mainCamera = nullptr;
 		mat4* mainCameraTransform = nullptr;
 
-		auto view = registry.view<TransformComponent, CameraComponent>();
-		for (auto entity : view)
+		// Scripts
 		{
-			auto& [transformComponent, cameraComponent] = view.get<TransformComponent, CameraComponent>(entity);
+			registry.view<NativeScriptComponent>().each([=](auto entity, auto& nativeScriptComponent)
+				{
+					if (!nativeScriptComponent.instance)
+					{
+						nativeScriptComponent.InstantiateFunction();
+						nativeScriptComponent.instance->entity = Entity{ entity, this };
 
-			if (cameraComponent.primary)
+						if (nativeScriptComponent.OnCreateFunction)
+							nativeScriptComponent.OnCreateFunction(nativeScriptComponent.instance);
+					}
+
+					if (nativeScriptComponent.OnUpdateFunction)
+						nativeScriptComponent.OnUpdateFunction(nativeScriptComponent.instance, timestep);
+				}
+			);
+		}
+
+
+		// Cameras
+		{
+			auto view = registry.view<TransformComponent, CameraComponent>();
+			for (auto entity : view)
 			{
-				mainCamera = &cameraComponent.camera;
-				mainCameraTransform = &transformComponent.transform;
-				break;
+				auto& [transformComponent, cameraComponent] = view.get<TransformComponent, CameraComponent>(entity);
+
+				if (cameraComponent.primary)
+				{
+					mainCamera = &cameraComponent.camera;
+					mainCameraTransform = &transformComponent.transform;
+					break;
+				}
 			}
 		}
 
-		if (mainCamera)
+
+		// Sprite rendering
 		{
-			Renderer2D::BeginScene(mainCamera->GetProjection(), *mainCameraTransform);
-
-			auto group = registry.group<TransformComponent, SpriteRendererComponent>();
-			for (auto entity : group)
+			if (mainCamera)
 			{
-				auto& [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer2D::DrawQuad(transformComponent, spriteComponent.color);
-			}
+				Renderer2D::BeginScene(mainCamera->GetProjection(), *mainCameraTransform);
 
-			Renderer2D::EndScene();
+				auto group = registry.group<TransformComponent, SpriteRendererComponent>();
+				for (auto entity : group)
+				{
+					auto& [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+					Renderer2D::DrawQuad(transformComponent, spriteComponent.color);
+				}
+
+				Renderer2D::EndScene();
+			}
 		}
 	}
 
@@ -79,7 +106,7 @@ namespace Crystal
 			if (!cameraComponent.fixedAspectRatio)
 				cameraComponent.camera.SetViewportSize(width, height);
 		}
-	
+
 	}
 
 }
