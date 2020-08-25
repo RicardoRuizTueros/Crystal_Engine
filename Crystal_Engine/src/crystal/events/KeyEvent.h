@@ -2,7 +2,7 @@
 
 #include "crystalpch.h"
 #include "crystal/Events/Event.h"
-#include "crystal/core/Input.h"
+#include "crystal/core/KeyCodes.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ namespace Crystal
 	protected:
 		KeyCode keycode;
 
-		KeyEvent(KeyCode keycode)
+		KeyEvent(const KeyCode keycode)
 		{
 			this->keycode = keycode;
 		}
@@ -26,13 +26,13 @@ namespace Crystal
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(KeyCode keycode, int repeatCount) : KeyEvent(keycode)
+		KeyPressedEvent(const KeyCode keycode, const uint16_t repeatCount) : KeyEvent(keycode)
 		{
 			this->keycode = keycode;
 			this->repeatCount = repeatCount;
 		}
 
-		int GetRepeatCount() const { return repeatCount; }
+		uint16_t GetRepeatCount() const { return repeatCount; }
 
 		string ToString() const override
 		{
@@ -44,13 +44,13 @@ namespace Crystal
 
 		EVENT_CLASS_TYPE(KeyPressed)
 	private:
-		int repeatCount;
+		uint16_t repeatCount;
 	};
 
 	class KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(KeyCode keycode) : KeyEvent(keycode)
+		KeyTypedEvent(const KeyCode keycode) : KeyEvent(keycode)
 		{
 			this->keycode = keycode;
 		}
@@ -71,7 +71,7 @@ namespace Crystal
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(KeyCode keycode) : KeyEvent(keycode)
+		KeyReleasedEvent(const KeyCode keycode) : KeyEvent(keycode)
 		{
 			this->keycode = keycode;
 		}

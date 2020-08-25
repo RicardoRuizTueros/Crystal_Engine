@@ -13,23 +13,23 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		if (Input::IsKeyPressed(CRYSTAL_KEY_A)) 
+		if (Input::IsKeyPressed(Key::A)) 
 		{
 			cameraPosition.x -= cos(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
 			cameraPosition.y -= sin(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
 		}
-		else if (Input::IsKeyPressed(CRYSTAL_KEY_D))
+		else if (Input::IsKeyPressed(Key::D))
 		{
 			cameraPosition.x += cos(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
 			cameraPosition.y += sin(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
 		}
 
-		if (Input::IsKeyPressed(CRYSTAL_KEY_S))
+		if (Input::IsKeyPressed(Key::S))
 		{
 			cameraPosition.x -= -sin(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
 			cameraPosition.y -= cos(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
 		}
-		else if (Input::IsKeyPressed(CRYSTAL_KEY_W))
+		else if (Input::IsKeyPressed(Key::W))
 		{
 			cameraPosition.x += -sin(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
 			cameraPosition.y += cos(radians(cameraRotation)) * cameraTranslationSpeed * timestep;
@@ -37,9 +37,9 @@ namespace Crystal
 
 		if (enableRotation)
 		{
-			if (Input::IsKeyPressed(CRYSTAL_KEY_Q))
+			if (Input::IsKeyPressed(Key::Q))
 				cameraRotation += cameraRotationSpeed * timestep;
-			else if (Input::IsKeyPressed(CRYSTAL_KEY_E))
+			else if (Input::IsKeyPressed(Key::E))
 				cameraRotation -= cameraRotationSpeed * timestep;
 
 			if (cameraRotation > 180.0f)

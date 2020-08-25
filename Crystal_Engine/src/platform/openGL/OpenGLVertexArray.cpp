@@ -122,7 +122,7 @@ namespace Crystal
 						ShaderDataTypeToOpenGLType(element.type),
 						element.normalized ? GL_TRUE : GL_FALSE,
 						layout.GetStride(),
-						(const void*)(sizeof(float) * count * index)
+						(const void*)(element.offset + sizeof(float) * count * index)
 					);
 					glVertexAttribDivisor(vertexBufferIndex, 1);
 					vertexBufferIndex++;

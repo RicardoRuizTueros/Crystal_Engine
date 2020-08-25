@@ -283,7 +283,6 @@ namespace Crystal
 				result.resize(size);
 				filestream.seekg(0, ios::beg);
 				filestream.read(&result[0], size);
-				filestream.close();
 			}
 			else
 			{
@@ -292,7 +291,7 @@ namespace Crystal
 		}
 		else
 		{
-			CRYSTAL_CORE_ERROR("Cloud not open file '{0}'", filepath);
+			CRYSTAL_CORE_ERROR("Could not open file '{0}'", filepath);
 		}
 
 		return result;
