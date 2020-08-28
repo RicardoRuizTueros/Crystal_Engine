@@ -47,6 +47,8 @@ namespace Crystal
 		public:
 			void OnCreate()
 			{
+				auto& transform = GetComponent<TransformComponent>().transform;
+				transform[3][0] = rand() % 10 - 5.0f;
 			}
 			
 			void OnDestroy() 
@@ -70,6 +72,7 @@ namespace Crystal
 		};
 
 		cameraA.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		cameraB.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 
 	void EditorLayer::OnDetach()

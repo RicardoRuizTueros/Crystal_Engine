@@ -57,23 +57,18 @@ namespace Crystal
 	{
 		ScriptableEntity* instance = nullptr;
 
-		function<void()> InstantiateFunction;
-		function<void()> DestroyFunction;
-
-		function<void(ScriptableEntity*)> OnCreateFunction;
-		function<void(ScriptableEntity*)> OnDestroyFunction;
-		function<void(ScriptableEntity*, Timestep)> OnUpdateFunction;
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(NativeScriptComponent*);
 
 		template<typename InstanceType>
 		void Bind()
 		{
-			InstantiateFunction = [&]() {instance = new InstanceType(); };
-			DestroyFunction = [&]() {delete (InstanceType*)instance; instance = nullptr; };
-
-			OnCreateFunction = [](ScriptableEntity* instance) {((InstanceType*)instance)->OnCreate(); };
-			OnDestroyFunction = [](ScriptableEntity* instance) {((InstanceType*)instance)->OnDestroy(); };
-			OnUpdateFunction = [](ScriptableEntity* instance, Timestep timestep) {((InstanceType*)instance)->OnUpdate(timestep); };
-
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new InstanceType()); };
+			DestroyScript = [](NativeScriptComponent* nativeScriptComponent)
+			{
+				delete nativeScriptComponent->instance;
+				nativeScriptComponent->instance = nullptr;
+			};
 		}
 	};
 }

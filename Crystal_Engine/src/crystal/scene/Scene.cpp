@@ -45,15 +45,12 @@ namespace Crystal
 				{
 					if (!nativeScriptComponent.instance)
 					{
-						nativeScriptComponent.InstantiateFunction();
+						nativeScriptComponent.instance = nativeScriptComponent.InstantiateScript();
 						nativeScriptComponent.instance->entity = Entity{ entity, this };
-
-						if (nativeScriptComponent.OnCreateFunction)
-							nativeScriptComponent.OnCreateFunction(nativeScriptComponent.instance);
+						nativeScriptComponent.instance->OnCreate();
 					}
 
-					if (nativeScriptComponent.OnUpdateFunction)
-						nativeScriptComponent.OnUpdateFunction(nativeScriptComponent.instance, timestep);
+					nativeScriptComponent.instance->OnUpdate(timestep);
 				}
 			);
 		}
@@ -64,7 +61,7 @@ namespace Crystal
 			auto view = registry.view<TransformComponent, CameraComponent>();
 			for (auto entity : view)
 			{
-				auto& [transformComponent, cameraComponent] = view.get<TransformComponent, CameraComponent>(entity);
+				auto [transformComponent, cameraComponent] = view.get<TransformComponent, CameraComponent>(entity);
 
 				if (cameraComponent.primary)
 				{
@@ -85,7 +82,7 @@ namespace Crystal
 				auto group = registry.group<TransformComponent, SpriteRendererComponent>();
 				for (auto entity : group)
 				{
-					auto& [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+					auto [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 					Renderer2D::DrawQuad(transformComponent, spriteComponent.color);
 				}
 
