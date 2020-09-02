@@ -33,22 +33,25 @@ namespace Crystal
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
 		auto& tag = entity.GetComponent<TagComponent>().tag;
+
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
-		
-		if (ImGui::IsItemClicked())
-			selectedEntity = entity;
-		
+
 		if (selectedEntity == entity)
 			flags |= ImGuiTreeNodeFlags_Selected;
 
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
 
+		if (ImGui::IsItemClicked())
+			selectedEntity = entity;
+		
 		if (opened)
 		{
-			// Test
-			bool opened = ImGui::TreeNodeEx((void*)987239, flags, tag.c_str());
+			flags = ImGuiTreeNodeFlags_OpenOnArrow;
+			bool opened = ImGui::TreeNodeEx((void*)9817239, flags, tag.c_str());
+			
 			if (opened)
 				ImGui::TreePop();
+			
 			ImGui::TreePop();
 		}
 

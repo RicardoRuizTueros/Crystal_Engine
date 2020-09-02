@@ -12,3 +12,8 @@ bin-int/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+Crystal_Editor/Crystal_Editor/CrystalProfile-Run.json
+Crystal_Editor/Crystal_Editor/CrystalProfile-Shutdown.json
+Crystal_Editor/Crystal_Editor/CrystalProfile-Startup.json
+Crystal_Engine/vendor/imgui
+Crystal_Engine/vendor/GLFW
