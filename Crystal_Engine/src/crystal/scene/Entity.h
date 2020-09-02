@@ -42,9 +42,17 @@ namespace Crystal
 			scene->registry.remove<ComponentType>(entityHandler);
 		}
 
-		operator bool() const 
+		operator bool() const { return entityHandler != entt::null; }
+		operator uint32_t() const { return (uint32_t)entityHandler; }
+		
+		bool operator == (const Entity& other) const
 		{
-			return entityHandler != entt::null;
+			return entityHandler == other.entityHandler && scene == other.scene;
+		}
+		
+		bool operator != (const Entity& other) const
+		{
+			return !(*this == other);
 		}
 
 	private:

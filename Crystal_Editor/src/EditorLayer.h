@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Crystal.h"
+#include "panels/SceneHierarchyPanel.h"
 
 namespace Crystal
 {
@@ -35,5 +36,7 @@ namespace Crystal
 		Reference<FrameBuffer> frameBuffer;
 
 		vec4 squareColor;
+
+		SceneHierarchyPanel sceneHierarchyPanel;
 	};
 }

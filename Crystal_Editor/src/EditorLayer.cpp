@@ -73,6 +73,8 @@ namespace Crystal
 
 		cameraA.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		cameraB.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+		sceneHierarchyPanel.SetContext(activeScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -170,6 +172,8 @@ namespace Crystal
 
 			ImGui::EndMenuBar();
 		}
+
+		sceneHierarchyPanel.OnImGuiRender();
 
 		ImGui::Begin("Settings");
 		auto statistics = Crystal::Renderer2D::GetStatistics();
