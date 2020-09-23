@@ -23,6 +23,6 @@ namespace Crystal
 		Entity selectedEntity;
 
 		void DrawEntityNode(Entity entity);
-		
+		void DrawComponents(Entity entity);
 	};
 }

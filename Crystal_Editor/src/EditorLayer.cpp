@@ -45,17 +45,17 @@ namespace Crystal
 		class CameraController : public ScriptableEntity
 		{
 		public:
-			void OnCreate()
+			virtual void OnCreate() override
 			{
 				auto& transform = GetComponent<TransformComponent>().transform;
 				transform[3][0] = rand() % 10 - 5.0f;
 			}
 			
-			void OnDestroy() 
+			virtual void OnDestroy() override
 			{
 			}
 
-			void OnUpdate(Timestep timestep)
+			virtual void OnUpdate(Timestep timestep) override
 			{
 				auto& transform = GetComponent<TransformComponent>().transform;
 				float speed = 5.0f;
