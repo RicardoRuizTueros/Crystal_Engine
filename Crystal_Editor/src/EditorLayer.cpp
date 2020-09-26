@@ -31,9 +31,12 @@ namespace Crystal
 
 		activeScene = CreateReference<Scene>();
 
-		auto square = activeScene->CreateEntity();
-		square.AddComponent<SpriteRendererComponent>(vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
-		squareEntity = square;
+		auto greenSquare = activeScene->CreateEntity();
+		greenSquare.AddComponent<SpriteRendererComponent>(vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+		squareEntity = greenSquare;
+
+		auto redSquare = activeScene->CreateEntity();
+		redSquare.AddComponent<SpriteRendererComponent>(vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
 
 		cameraA = activeScene->CreateEntity("Camera A");
 		cameraA.AddComponent<CameraComponent>();
@@ -204,7 +207,7 @@ namespace Crystal
 
 		{
 			auto& camera = cameraB.GetComponent<CameraComponent>().camera;
-			float orthographicHeight = camera.GetOrthographicHeight();
+			float orthographicHeight = camera.GetOrthographicSize();
 			if (ImGui::DragFloat("CameraB orthographic height", &orthographicHeight))
 				camera.SetOrthographicSize(orthographicHeight);
 		}
