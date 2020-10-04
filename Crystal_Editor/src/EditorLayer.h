@@ -25,17 +25,13 @@ namespace Crystal
 		bool viewportFocused = false, viewportHovered = false;
 
 		Reference<Scene> activeScene;
-		Entity squareEntity;
 		Entity cameraA, cameraB;
-		bool primaryCameraA = true;
 
 		// To do: Remove this!
 		Reference<VertexArray> squareVertexArray;
 		Reference<Shader> flatColorShader;
 		Reference<Texture2D> checkerTexture;
 		Reference<FrameBuffer> frameBuffer;
-
-		vec4 squareColor;
 
 		SceneHierarchyPanel sceneHierarchyPanel;
 	};

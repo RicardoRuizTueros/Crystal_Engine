@@ -13,7 +13,7 @@ using namespace glm;
 namespace Crystal
 {
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), cameraController(1920.0f / 1080.0f), squareColor({ 0.2f, 0.8f, 0.3f, 1.0f })
+		: Layer("EditorLayer"), cameraController(1920.0f / 1080.0f)
 	{
 
 	}
@@ -31,15 +31,15 @@ namespace Crystal
 
 		activeScene = CreateReference<Scene>();
 
-		auto greenSquare = activeScene->CreateEntity();
+		auto greenSquare = activeScene->CreateEntity("Green Square");
 		greenSquare.AddComponent<SpriteRendererComponent>(vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
-		squareEntity = greenSquare;
 
-		auto redSquare = activeScene->CreateEntity();
+		auto redSquare = activeScene->CreateEntity("Red square");
 		redSquare.AddComponent<SpriteRendererComponent>(vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
 
 		cameraA = activeScene->CreateEntity("Camera A");
 		cameraA.AddComponent<CameraComponent>();
+		cameraA.GetComponent<CameraComponent>().camera.SetProjectionType(SceneCamera::ProjectionType::Orthographic);
 
 		cameraB = activeScene->CreateEntity("Camera B");
 		cameraB.AddComponent<CameraComponent>().primary = false;
@@ -178,39 +178,13 @@ namespace Crystal
 
 		sceneHierarchyPanel.OnImGuiRender();
 
-		ImGui::Begin("Settings");
+		ImGui::Begin("Statistics");
 		auto statistics = Crystal::Renderer2D::GetStatistics();
 		ImGui::Text("Renderer2D Statistics:");
 		ImGui::Text("Draw Calls: %d", statistics.drawCalls);
 		ImGui::Text("Quads: %d", statistics.quadCount);
 		ImGui::Text("Vertices: %d", statistics.GetVertexCount());
 		ImGui::Text("Indices: %d", statistics.GetIndexCount());
-
-		if (squareEntity.HasComponent<SpriteRendererComponent>())
-		{
-			ImGui::Separator();
-			auto& tag = squareEntity.GetComponent<TagComponent>().tag;
-			ImGui::Text("%s", tag.c_str());
-
-			auto& squareColor = squareEntity.GetComponent<SpriteRendererComponent>().color;
-			ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-			ImGui::Separator();
-		}
-
-		ImGui::DragFloat3("Camera Transform", value_ptr(cameraA.GetComponent<TransformComponent>().transform[3]));
-
-		if (ImGui::Checkbox("Camera A", &primaryCameraA))
-		{
-			cameraA.GetComponent<CameraComponent>().primary = primaryCameraA;
-			cameraB.GetComponent<CameraComponent>().primary = !primaryCameraA;
-		}
-
-		{
-			auto& camera = cameraB.GetComponent<CameraComponent>().camera;
-			float orthographicHeight = camera.GetOrthographicSize();
-			if (ImGui::DragFloat("CameraB orthographic height", &orthographicHeight))
-				camera.SetOrthographicSize(orthographicHeight);
-		}
 
 		ImGui::End();
 
