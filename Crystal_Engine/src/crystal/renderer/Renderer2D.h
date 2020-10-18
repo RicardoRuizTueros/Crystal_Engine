@@ -20,7 +20,6 @@ namespace Crystal
 		static void EndScene();
 
 		static void Flush();
-		static void FlushAndReset();
 
 		static void DrawQuad(const vec2& position, const vec2& size, const vec4& color);
 		static void DrawQuad(const vec3& position, const vec2& size, const vec4& color);
@@ -41,11 +40,15 @@ namespace Crystal
 			uint32_t drawCalls = 0;
 			uint32_t quadCount = 0;
 
-			uint32_t GetVertexCount() { return quadCount * 4; }
-			uint32_t GetIndexCount() { return quadCount * 6; }
+			uint32_t GetVertexCount() const { return quadCount * 4; }
+			uint32_t GetIndexCount() const { return quadCount * 6; }
 		};
 
 		static void ResetStatistics();
 		static Statistics GetStatistics();
+
+	private:
+		static void StartBatch();
+		static void NextBatch();
 	};
 }

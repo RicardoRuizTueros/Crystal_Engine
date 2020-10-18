@@ -119,6 +119,11 @@ namespace Crystal
 		data.textureShader->Bind();
 		data.textureShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 
+		StartBatch();
+	}
+
+	void Renderer2D::StartBatch()
+	{
 		data.quadIndexCount = 0;
 		data.quadVertexBufferPointer = data.quadVertexBufferBase;
 
@@ -134,18 +139,12 @@ namespace Crystal
 		data.textureShader->Bind();
 		data.textureShader->SetMat4("u_viewProjection", viewProjection);
 
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPointer = data.quadVertexBufferBase;
-
-		data.textureSlotIndex = 1;
+		StartBatch();
 	}
 
 	void Renderer2D::EndScene()
 	{
 		CRYSTAL_PROFILE_FUNCTION();
-
-		uint32_t dataSize = uint32_t ((uint8_t*)data.quadVertexBufferPointer - (uint8_t*)data.quadVertexBufferBase);
-		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
 
 		Flush();
 	}
@@ -155,6 +154,10 @@ namespace Crystal
 		if (data.quadIndexCount == 0)
 			return;
 
+		uint32_t dataSize = uint32_t((uint8_t*)data.quadVertexBufferPointer - (uint8_t*)data.quadVertexBufferBase);
+		data.quadVertexBuffer->SetData(data.quadVertexBufferBase, dataSize);
+
+		// Bind textures
 		for (uint32_t index = 0; index < data.textureSlotIndex; index++)
 			data.textureSlots[index]->Bind(index);
 
@@ -163,13 +166,10 @@ namespace Crystal
 		data.statistics.drawCalls++;
 	}
 
-	void Renderer2D::FlushAndReset()
+	void Renderer2D::NextBatch()
 	{
-		EndScene();
-		
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPointer = data.quadVertexBufferBase;
-		data.textureSlotIndex = 1;
+		Flush();
+		StartBatch();
 	}
 
 	void Renderer2D::DrawQuad(const vec2& position, const vec2& size, const vec4& color)
@@ -201,7 +201,7 @@ namespace Crystal
 		const float tilingFactor = 1.0f;
 
 		if (data.quadIndexCount >= data.MAX_INDICES)
-			FlushAndReset();
+			NextBatch();
 
 		for (size_t index = 0; index < quadVertexCount; index++)
 		{
@@ -229,7 +229,7 @@ namespace Crystal
 		float textureIndex = 0.0f;
 
 		if (data.quadIndexCount >= data.MAX_INDICES)
-			FlushAndReset();
+			NextBatch();
 
 		for (uint32_t index = 1; index < data.textureSlotIndex; index++)
 		{
@@ -243,7 +243,7 @@ namespace Crystal
 		if (textureIndex == 0.0f)
 		{
 			if (data.textureSlotIndex >= Renderer2DData::MAX_TEXTURE_SLOTS)
-				FlushAndReset();
+				NextBatch();
 
 			textureIndex = (float)data.textureSlotIndex;
 			data.textureSlots[data.textureSlotIndex] = texture;

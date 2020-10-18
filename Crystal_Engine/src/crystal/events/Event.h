@@ -63,7 +63,7 @@ namespace Crystal
 		{
 			if (event.GetEventType() == T::GetStaticType())
 			{
-				event.handled = function(static_cast<T&>(event));
+				event.handled |= function(static_cast<T&>(event));
 				return true;
 			}
 
