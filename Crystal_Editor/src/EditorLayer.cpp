@@ -50,8 +50,8 @@ namespace Crystal
 		public:
 			virtual void OnCreate() override
 			{
-				auto& transform = GetComponent<TransformComponent>().transform;
-				transform[3][0] = rand() % 10 - 5.0f;
+				auto& translation = GetComponent<TransformComponent>().translation;
+				translation.x = rand() % 10 - 5.0f;
 			}
 			
 			virtual void OnDestroy() override
@@ -60,17 +60,17 @@ namespace Crystal
 
 			virtual void OnUpdate(Timestep timestep) override
 			{
-				auto& transform = GetComponent<TransformComponent>().transform;
+				auto& translation = GetComponent<TransformComponent>().translation;
 				float speed = 5.0f;
 
 				if (Input::IsKeyPressed(Key::A))
-					transform[3][0] -= speed * timestep;
+					translation.x -= speed * timestep;
 				if (Input::IsKeyPressed(Key::D))
-					transform[3][0] += speed * timestep;
+					translation.x += speed * timestep;
 				if (Input::IsKeyPressed(Key::W))
-					transform[3][1] += speed * timestep;
+					translation.y += speed * timestep;
 				if (Input::IsKeyPressed(Key::S))
-					transform[3][1] -= speed * timestep;
+					translation.y -= speed * timestep;
 			}
 		};
 

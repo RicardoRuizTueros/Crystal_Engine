@@ -66,7 +66,7 @@ namespace Crystal
 				if (cameraComponent.primary)
 				{
 					mainCamera = &cameraComponent.camera;
-					mainCameraTransform = &transformComponent.transform;
+					mainCameraTransform = &transformComponent.GetTransform();
 					break;
 				}
 			}
@@ -83,7 +83,7 @@ namespace Crystal
 				for (auto entity : group)
 				{
 					auto [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-					Renderer2D::DrawQuad(transformComponent, spriteComponent.color);
+					Renderer2D::DrawQuad(transformComponent.GetTransform(), spriteComponent.color);
 				}
 
 				Renderer2D::EndScene();
