@@ -16,12 +16,16 @@ namespace Crystal
 		~Scene();
 
 		Entity CreateEntity(const string& name = string());
+		void DestroyEntity(Entity entity);
 
 		void OnUpdate(Timestep timestep);
 		void OnViewportResize(uint32_t width, uint32_t height);
 	private:
 		registry registry;
-		uint32_t viewportWidth = 0, viewportHeight = 0;
+		uint32_t viewportWidth = 1, viewportHeight = 1;
+
+		template <typename ComponentType>
+		void OnComponentAdded(Entity entity, ComponentType& component);
 
 		friend class Entity;
 		friend class SceneHierarchyPanel;

@@ -19,7 +19,9 @@ namespace Crystal
 		ComponentType& AddComponent(Arguments&&... arguments)
 		{
 			CRYSTAL_CORE_ASSERT(!HasComponent<ComponentType>(), "Entity has already that component!");
-			return scene->registry.emplace<ComponentType>(entityHandler, forward<Arguments>(arguments)...);
+			ComponentType& component = scene->registry.emplace<ComponentType>(entityHandler, forward<Arguments>(arguments)...);
+			scene->OnComponentAdded<ComponentType>(*this, component);
+			return component;
 		}
 
 		template<typename ComponentType>
@@ -44,7 +46,8 @@ namespace Crystal
 
 		operator bool() const { return entityHandler != entt::null; }
 		operator uint32_t() const { return (uint32_t)entityHandler; }
-		
+		operator entity() const { return entityHandler; }
+
 		bool operator == (const Entity& other) const
 		{
 			return entityHandler == other.entityHandler && scene == other.scene;

@@ -12,7 +12,7 @@ namespace Crystal
 	class OrthographicCameraController
 	{
 	public:
-		OrthographicCameraController(float aspectRation, bool enableRotation = false);
+		OrthographicCameraController(float aspectRatio, bool enableRotation = false);
 
 		void OnUpdate(Timestep timestep);
 		void OnEvent(Event& event);

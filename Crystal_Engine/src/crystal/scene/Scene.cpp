@@ -34,6 +34,11 @@ namespace Crystal
 		return entity;
 	}
 
+	void Scene::DestroyEntity(Entity entity)
+	{
+		registry.destroy(entity);
+	}
+
 	void Scene::OnUpdate(Timestep timestep)
 	{
 		Camera* mainCamera = nullptr;
@@ -65,6 +70,7 @@ namespace Crystal
 
 				if (cameraComponent.primary)
 				{
+
 					mainCamera = &cameraComponent.camera;
 					mainCameraTransform = &transformComponent.GetTransform();
 					break;
@@ -103,6 +109,43 @@ namespace Crystal
 			if (!cameraComponent.fixedAspectRatio)
 				cameraComponent.camera.SetViewportSize(width, height);
 		}
+	}
+
+	template<typename ComponentType>
+	void Scene::OnComponentAdded(Entity entity, ComponentType& component)
+	{
+		// Generic template should never be called!
+		static_assert(false);
+	}
+
+	template<>
+	void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
+	{
+		
+	}
+
+	template<>
+	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
+	{
+		// Updates viewport to render the new camera
+		component.camera.SetViewportSize(viewportWidth, viewportHeight);
+	}
+
+	template<>
+	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+	{
+	
+	}
+
+	template<>
+	void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component)
+	{
+
+	}
+
+	template<>
+	void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component)
+	{
 
 	}
 
