@@ -1,14 +1,14 @@
-[submodule "Crystal_Engine/vendor/GLFW"]
-	path = Crystal_Engine/vendor/GLFW
-	url = https://github.com/RicardoRuizTueros/glfw.git
-[submodule "Crystal_Engine/vendor/glm"]
-	path = Crystal_Engine/vendor/glm
-	url = https://www.github.com/g-truc/glm
-[submodule "Crystal_Engine/vendor/imgui"]
-	path = Crystal_Engine/vendor/imgui
-	url = https://github.com/RicardoRuizTueros/imgui.git
-	branch = docking
 [submodule "Crystal_Engine/vendor/spdlog"]
 	path = Crystal_Engine/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
 	branch = v1.x
+[submodule "Crystal_Engine/vendor/GLFW"]
+	path = Crystal_Engine/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
+[submodule "Crystal_Engine/vendor/glm"]
+	path = Crystal_Engine/vendor/glm
+	url = https://github.com/g-truc/glm
+[submodule "Crystal_Engine/vendor/imgui"]
+	path = Crystal_Engine/vendor/imgui
+	url = https://github.com/TheCherno/imgui
+	branch = docking
