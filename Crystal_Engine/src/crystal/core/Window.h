@@ -14,7 +14,7 @@ namespace Crystal
 		string title;
 		uint32_t width, height;
 
-		WindowProperties(const string& title = "Crystal Engine", uint32_t width = 1280, uint32_t height = 720)
+		WindowProperties(const string& title = "Crystal Engine", uint32_t width = 1600, uint32_t height = 900)
 		{
 			this->title = title;
 			this->width = width;

@@ -20,6 +20,7 @@ namespace Crystal
 		void Begin();
 		void End();
 
+		void SetDarkThemeColors();
 		void BlockEvents(bool block) { blockEvents = block; }
 	private:
 		bool blockEvents = true;
