@@ -36,7 +36,8 @@ project "Crystal_Engine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	links
@@ -44,7 +45,8 @@ project "Crystal_Engine"
 		"GLFW",
 		"Glad",
 		"imgui",
-		"opengl32.lib"
+		"opengl32.lib",
+		"yaml-cpp"
 	}
 
 	filter "system:windows"

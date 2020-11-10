@@ -12,3 +12,6 @@
 	path = Crystal_Engine/vendor/imgui
 	url = https://github.com/TheCherno/imgui
 	branch = docking
+[submodule "Crystal_Engine/vendor/yaml-cpp"]
+	path = Crystal_Engine/vendor/yaml-cpp
+	url = https://github.com/TheCherno/yaml-cpp
