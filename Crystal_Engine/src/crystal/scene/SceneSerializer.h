@@ -12,7 +12,7 @@ namespace Crystal
 		void Serialize(const string& filepath);
 		void SerializeRuntime(const string& filepath);
 
-		void Deserialize(const string& filepath);
+		bool Deserialize(const string& filepath);
 		void DeserializeRuntime(const string& filepath);
 		
 	private:

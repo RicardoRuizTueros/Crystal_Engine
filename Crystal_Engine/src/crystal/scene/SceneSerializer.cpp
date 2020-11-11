@@ -20,7 +20,7 @@ namespace YAML
 			node.push_back(vector.x);
 			node.push_back(vector.y);
 			node.push_back(vector.z);
-			
+
 			return node;
 		}
 
@@ -35,7 +35,11 @@ namespace YAML
 
 			return true;
 		}
+	};
 
+	template<>
+	struct convert<vec4>
+	{
 		static Node encode(const vec4& vector)
 		{
 			Node node;
@@ -65,6 +69,22 @@ namespace YAML
 
 namespace Crystal
 {
+	Emitter& operator << (Emitter& out, const vec3 vector)
+	{
+		out << Flow;
+		out << BeginSeq << vector.x << vector.y << vector.z << EndSeq;
+		
+		return out;
+	}
+
+	Emitter& operator << (Emitter& out, const vec4 vector)
+	{
+		out << Flow;
+		out << BeginSeq << vector.x << vector.y << vector.z << vector.w << EndSeq;
+
+		return out;
+	}
+
 	SceneSerializer::SceneSerializer(const Reference<Scene>& scene)
 	{
 		this->scene = scene;
@@ -93,6 +113,30 @@ namespace Crystal
 		ofstream fout(filepath);
 		fout << out.c_str();
 	}
+
+	bool SceneSerializer::Deserialize(const string& filepath)
+	{
+		ifstream stream(filepath);
+		stringstream stringStream;
+
+		stringStream << stream.rdbuf();
+
+		Node data = Load(stringStream.str());
+
+		if (!data["Scene"])
+			return false;
+
+		string sceneName = data["Scene"].as<string>();
+
+		auto entities = data["Entities"];
+		if (entities)
+		{
+			for (auto entity : entities)
+			{
+				uint32_t uuid = 
+			}
+		}
+	}
 	
 	static void SerializeEntity(Emitter out, Entity entity)
 	{
@@ -119,6 +163,46 @@ namespace Crystal
 			out << Key << "Rotation" << Value << transformComponent.rotation;
 			out << Key << "Scale" << Value << transformComponent.scale;
 
+			out << EndMap;
 		}
+
+		if (entity.HasComponent<CameraComponent>())
+		{
+			out << Key << "CameraComponent";
+			out << BeginMap;
+
+			auto& cameraComponent = entity.GetComponent<CameraComponent>();
+			auto& camera = cameraComponent.camera;
+
+			out << Key << "Primary" << Value << cameraComponent.primary;
+			out << Key << "FixedAspectRatio" << Value << cameraComponent.fixedAspectRatio;
+
+			out << Key << "Camera";
+			out << BeginMap;
+			out << Key << "ProjectionType" << Value << (int)camera.GetProjectionType();
+			out << Key << "PerspectiveFOV" << Value << camera.GetPerspectiveVerticalFieldOfView();
+			out << Key << "PerspectiveNear" << Value << camera.GetPerspectiveNearClip();
+			out << Key << "PerspectiveFar" << Value << camera.GetPerspectiveFarClip();
+			out << Key << "OrthographicSize" << Value << camera.GetOrthographicSize();
+			out << Key << "OrthographicNear" << Value << camera.GetOrthographicNearClip();
+			out << Key << "OrthographicFar" << Value << camera.GetOrthographicFarClip();
+			out << EndMap;
+
+			out << EndMap;
+		}
+
+		if (entity.HasComponent<SpriteRendererComponent>())
+		{
+			out << Key << "SpriteRendererComponent";
+			out << BeginMap;
+
+			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
+			out << BeginMap;
+			out << Key << "Color" << Value << spriteRendererComponent.color;
+			
+			out << EndMap;
+		}
+
+		out << EndMap;
 	}
 }
