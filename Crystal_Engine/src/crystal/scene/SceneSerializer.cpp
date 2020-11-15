@@ -73,7 +73,7 @@ namespace Crystal
 	{
 		out << Flow;
 		out << BeginSeq << vector.x << vector.y << vector.z << EndSeq;
-		
+
 		return out;
 	}
 
@@ -89,29 +89,34 @@ namespace Crystal
 	{
 		this->scene = scene;
 	}
-	
+
 	void SceneSerializer::Serialize(const string& filepath)
 	{
 		Emitter out;
 		out << BeginMap;
 		out << Key << "Scene" << Value << "Untitled scene";
 		out << Key << "Entities" << Value << BeginSeq;
-		
+
 		scene->registry.each([&](auto entityID)
-		{
-			Entity entity = { entityID, scene.get() };
+			{
+				Entity entity = { entityID, scene.get() };
 
-			if (!entity)
-				return;
+				if (!entity)
+					return;
 
-			SerializeEntity(out, entity)
-		});
+				SerializeEntity(out, entity);
+			});
 
 		out << EndSeq;
 		out << EndMap;
 
 		ofstream fout(filepath);
 		fout << out.c_str();
+	}
+
+	void SceneSerializer::SerializeRuntime(const string& filepath)
+	{
+		CRYSTAL_CORE_ASSERT(false, "Not implemented");
 	}
 
 	bool SceneSerializer::Deserialize(const string& filepath)
@@ -133,16 +138,65 @@ namespace Crystal
 		{
 			for (auto entity : entities)
 			{
-				uint32_t uuid = 
+				uint64_t uuid = entity["EntityID"].as<uint64_t>();
+
+				string name;
+				auto tagComponent = entity["TagComponent"];
+				if (tagComponent)
+					name = tagComponent["Tag"].as<string>();
+
+				Entity deserializedEntity = scene->CreateEntity(name);
+
+				auto transformComponent = entity["TransformComponent"];
+				if (transformComponent)
+				{
+					auto& deserializedTransformComponent = deserializedEntity.GetComponent<TransformComponent>();
+					deserializedTransformComponent.translation = transformComponent["Translation"].as<vec3>();
+					deserializedTransformComponent.rotation = transformComponent["Rotation"].as<vec3>();
+					deserializedTransformComponent.scale = transformComponent["Scale"].as<vec3>();
+				}
+
+				auto cameraComponent = entity["CameraComponent"];
+				if (cameraComponent)
+				{
+					auto& deserializedCameraComponent = deserializedEntity.AddComponent<CameraComponent>();
+					deserializedCameraComponent.fixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
+					deserializedCameraComponent.primary = cameraComponent["Primary"].as<bool>();
+
+					auto& camera = cameraComponent["Camera"];
+					auto& deserializedCamera = deserializedCameraComponent.camera;
+					deserializedCamera.SetProjectionType((SceneCamera::ProjectionType)camera["ProjectionType"].as<int>());
+					deserializedCamera.SetPerspeciveVerticalFieldOfView(camera["PerspectiveFOV"].as<float>());
+					deserializedCamera.SetPerspectiveNearClip(camera["PerspectiveNear"].as<float>());
+					deserializedCamera.SetPerspectiveFarClip(camera["PerspectiveFar"].as<float>());
+					deserializedCamera.SetOrthographicSize(camera["OrthographicSize"].as<float>());
+					deserializedCamera.SetOrthographicNearClip(camera["OrthographicNear"].as<float>());
+					deserializedCamera.SetOrthographicFarClip(camera["OrthographicFar"].as<float>());
+				}
+
+				auto spriteRendererComponent = entity["SpriteRendererComponent"];
+				if (spriteRendererComponent)
+				{
+					auto& deserializedSpriRendererComponent = deserializedEntity.AddComponent<SpriteRendererComponent>();
+					deserializedSpriRendererComponent.color = spriteRendererComponent["Color"].as<vec4>();
+				}
 			}
 		}
+
+		return true;
 	}
-	
-	static void SerializeEntity(Emitter out, Entity entity)
+
+	bool SceneSerializer::DeserializeRuntime(const string& filepath)
+	{
+		CRYSTAL_CORE_ASSERT(false, "Not implemented");
+		return false;
+	}
+
+	static void SerializeEntity(Emitter& out, Entity entity)
 	{
 		out << BeginMap;
 		out << Key << "EntityID" << Value << "7777"; // Todo: Replace with entity UUID
-		
+
 		if (entity.HasComponent<TagComponent>())
 		{
 			out << Key << "TagComponent";
@@ -155,7 +209,7 @@ namespace Crystal
 
 		if (entity.HasComponent<TransformComponent>())
 		{
-			out << Key << "TranformComponent";
+			out << Key << "TransformComponent";
 			out << BeginMap;
 
 			auto& transformComponent = entity.GetComponent<TransformComponent>();
@@ -197,9 +251,8 @@ namespace Crystal
 			out << BeginMap;
 
 			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
-			out << BeginMap;
 			out << Key << "Color" << Value << spriteRendererComponent.color;
-			
+
 			out << EndMap;
 		}
 

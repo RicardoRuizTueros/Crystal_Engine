@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Crystal.h"
-#include "panels/SceneHierarchyPanel.h"
+#include "Panels/SceneHierarchyPanel.h"
+#include "Crystal/Scene/SceneSerializer.h"
 
 namespace Crystal
 {

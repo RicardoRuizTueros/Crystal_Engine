@@ -179,6 +179,18 @@ namespace Crystal
 				// which we can't undo at the moment without finer window depth/z control.
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
+				if (ImGui::MenuItem("Serialize"))
+				{
+					SceneSerializer serializer(activeScene);
+					serializer.Serialize("../assets/scenes/Example.scene");
+				}
+
+				if (ImGui::MenuItem("Deserialize"))
+				{
+					SceneSerializer serializer(activeScene);
+					serializer.Deserialize("../assets/scenes/Example.scene");
+				}
+
 				if (ImGui::MenuItem("Exit")) Crystal::Application::Get().Close();
 				ImGui::EndMenu();
 			}

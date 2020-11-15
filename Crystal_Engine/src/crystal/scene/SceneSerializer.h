@@ -13,7 +13,7 @@ namespace Crystal
 		void SerializeRuntime(const string& filepath);
 
 		bool Deserialize(const string& filepath);
-		void DeserializeRuntime(const string& filepath);
+		bool DeserializeRuntime(const string& filepath);
 		
 	private:
 		Reference<Scene> scene;

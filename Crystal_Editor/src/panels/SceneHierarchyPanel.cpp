@@ -307,7 +307,7 @@ namespace Crystal
 				}
 			});
 
-		DrawComponent<SpriteRendererComponent>("Transform", entity, [](auto& component)
+		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
 			{
 				ImGui::ColorEdit4("Color", value_ptr(component.color));
 			});
