@@ -19,6 +19,7 @@ namespace Crystal
 	void SceneHierarchyPanel::SetContext(const Reference<Scene>& scene)
 	{
 		this->scene = scene;
+		selectedEntity = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()

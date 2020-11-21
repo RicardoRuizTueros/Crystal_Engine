@@ -21,7 +21,7 @@ namespace Crystal
 		
 		// Window
 		window = Window::Create(WindowProperties(name));
-		window->SetEventCallback(CRYSTAL_BIND_EVENT_FN(Application::OnEvent));
+		window->SetEventCallback(CRYSTAL_BIND_EVENT_FUNCTION(Application::OnEvent));
 
 		Renderer::Init();
 
@@ -64,8 +64,8 @@ namespace Crystal
 		CRYSTAL_PROFILE_FUNCTION();
 
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<WindowCloseEvent>(CRYSTAL_BIND_EVENT_FN(Application::OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(CRYSTAL_BIND_EVENT_FN(Application::OnWindowResize));
+		dispatcher.Dispatch<WindowCloseEvent>(CRYSTAL_BIND_EVENT_FUNCTION(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(CRYSTAL_BIND_EVENT_FUNCTION(Application::OnWindowResize));
 
 		for (auto iterator = layerStack.reverse_begin(); iterator != layerStack.reverse_end(); ++iterator)
 		{

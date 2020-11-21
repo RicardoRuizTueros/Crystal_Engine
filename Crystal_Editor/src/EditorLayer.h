@@ -4,6 +4,8 @@
 #include "Panels/SceneHierarchyPanel.h"
 #include "Crystal/Scene/SceneSerializer.h"
 
+#include "crystal/utils/PlatformUtils.h"
+
 namespace Crystal
 {
 	class EditorLayer : public Layer
@@ -21,6 +23,13 @@ namespace Crystal
 		void OnEvent(Event& event) override;
 
 	private:
+		bool OnKeyPressed(KeyPressedEvent& event);
+
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
+
+
 		OrthographicCameraController cameraController;
 		vec2 viewportSize = { 0.0f, 0.0f };
 		bool viewportFocused = false, viewportHovered = false;

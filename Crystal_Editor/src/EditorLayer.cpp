@@ -179,17 +179,14 @@ namespace Crystal
 				// which we can't undo at the moment without finer window depth/z control.
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
-				if (ImGui::MenuItem("Serialize"))
-				{
-					SceneSerializer serializer(activeScene);
-					serializer.Serialize("../assets/scenes/Example.scene");
-				}
+				if (ImGui::MenuItem("New", "Ctrl+N"))
+					NewScene();
 
-				if (ImGui::MenuItem("Deserialize"))
-				{
-					SceneSerializer serializer(activeScene);
-					serializer.Deserialize("../assets/scenes/Example.scene");
-				}
+				if (ImGui::MenuItem("Open...", "Ctrl+O"))
+					OpenScene(); 
+				
+				if (ImGui::MenuItem("Save as...", "Ctrl+Shift+S"))
+					SaveSceneAs();
 
 				if (ImGui::MenuItem("Exit")) Crystal::Application::Get().Close();
 				ImGui::EndMenu();
@@ -231,5 +228,69 @@ namespace Crystal
 	void EditorLayer::OnEvent(Event& event)
 	{
 		cameraController.OnEvent(event);
+
+		EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<KeyPressedEvent>(CRYSTAL_BIND_EVENT_FUNCTION(OnKeyPressed));
+	}
+	
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
+	{
+		// Shortcuts
+		if (event.GetRepeatCount() > 0)
+			return false;
+
+		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+
+		switch (event.GetKeyCode())
+		{
+			case Key::N:
+				if (control)
+					NewScene();
+			break;
+
+			case Key::O:
+				if (control)
+					OpenScene();
+			break;
+
+			case Key::S:
+				if (control && shift)
+					SaveSceneAs();
+			break;
+		}
+	}
+	
+	void EditorLayer::NewScene()
+	{
+		activeScene = CreateReference<Scene>();
+		activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+		sceneHierarchyPanel.SetContext(activeScene);
+	}
+	
+	void EditorLayer::OpenScene()
+	{
+		string filepath = FileDialogs::OpenFile("Crystal scene (*.scene)\0*.scene\0");
+		
+		if (!filepath.empty())
+		{
+			activeScene = CreateReference<Scene>();
+			activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+			sceneHierarchyPanel.SetContext(activeScene);
+
+			SceneSerializer serializer(activeScene);
+			serializer.Deserialize(filepath);
+		}
+	}
+	
+	void EditorLayer::SaveSceneAs()
+	{
+		string filepath = FileDialogs::SaveFile("Crystal scene (*.scene)\0*.scene\0");
+
+		if (!filepath.empty())
+		{
+			SceneSerializer serializer(activeScene);
+			serializer.Serialize(filepath);
+		}
 	}
 }

@@ -62,8 +62,8 @@ namespace Crystal
 
 		EventDispatcher dispatcher(event);
 
-		dispatcher.Dispatch<MouseScrolledEvent>(CRYSTAL_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
-		dispatcher.Dispatch<WindowResizeEvent>(CRYSTAL_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
+		dispatcher.Dispatch<MouseScrolledEvent>(CRYSTAL_BIND_EVENT_FUNCTION(OrthographicCameraController::OnMouseScrolled));
+		dispatcher.Dispatch<WindowResizeEvent>(CRYSTAL_BIND_EVENT_FUNCTION(OrthographicCameraController::OnWindowResized));
 	}
 
 	void OrthographicCameraController::OnResize(float width, float height)
