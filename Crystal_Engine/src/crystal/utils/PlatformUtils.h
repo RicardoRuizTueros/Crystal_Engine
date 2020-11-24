@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <optional>
 
 using namespace std;
 
@@ -10,9 +11,8 @@ namespace Crystal
     {
         public:
 
-        // Return empty string if dialog is cancelled
-        static string OpenFile(const char* filter);
-        static string SaveFile(const char* filter);
+        static optional<string> OpenFile(const char* filter);
+        static optional<string> SaveFile(const char* filter);
 
     };
 }

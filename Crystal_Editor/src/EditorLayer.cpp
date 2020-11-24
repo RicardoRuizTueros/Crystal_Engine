@@ -270,27 +270,27 @@ namespace Crystal
 	
 	void EditorLayer::OpenScene()
 	{
-		string filepath = FileDialogs::OpenFile("Crystal scene (*.scene)\0*.scene\0");
+		optional<string> filepath = FileDialogs::OpenFile("Crystal scene (*.scene)\0*.scene\0");
 		
-		if (!filepath.empty())
+		if (filepath)
 		{
 			activeScene = CreateReference<Scene>();
 			activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			sceneHierarchyPanel.SetContext(activeScene);
 
 			SceneSerializer serializer(activeScene);
-			serializer.Deserialize(filepath);
+			serializer.Deserialize(*filepath);
 		}
 	}
 	
 	void EditorLayer::SaveSceneAs()
 	{
-		string filepath = FileDialogs::SaveFile("Crystal scene (*.scene)\0*.scene\0");
+		optional<string> filepath = FileDialogs::SaveFile("Crystal scene (*.scene)\0*.scene\0");
 
-		if (!filepath.empty())
+		if (filepath)
 		{
 			SceneSerializer serializer(activeScene);
-			serializer.Serialize(filepath);
+			serializer.Serialize(*filepath);
 		}
 	}
 }

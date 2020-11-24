@@ -20,6 +20,7 @@ namespace YAML
 			node.push_back(vector.x);
 			node.push_back(vector.y);
 			node.push_back(vector.z);
+			node.SetStyle(EmitterStyle::Flow);
 
 			return node;
 		}
@@ -48,7 +49,8 @@ namespace YAML
 			node.push_back(vector.y);
 			node.push_back(vector.z);
 			node.push_back(vector.w);
-
+			node.SetStyle(EmitterStyle::Flow);
+	
 			return node;
 		}
 
@@ -121,12 +123,7 @@ namespace Crystal
 
 	bool SceneSerializer::Deserialize(const string& filepath)
 	{
-		ifstream stream(filepath);
-		stringstream stringStream;
-
-		stringStream << stream.rdbuf();
-
-		Node data = Load(stringStream.str());
+		Node data = LoadFile(filepath);
 
 		if (!data["Scene"])
 			return false;

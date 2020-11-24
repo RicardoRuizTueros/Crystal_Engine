@@ -6,6 +6,15 @@
 #include <imgui/imgui_internal.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <cstring>
+
+/* The Microsoft C++ compiler is non-compliant with the C++ standard and needs
+ * the following definition to disable a security warning on std::strncpy().
+ */
+#ifdef _MSVC_LANG
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 using namespace glm;
 
 namespace Crystal
@@ -204,7 +213,7 @@ namespace Crystal
 
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
-			strcpy_s(buffer, sizeof(buffer), tag.c_str());
+			strncpy(buffer, tag.c_str(), sizeof(buffer));
 
 			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
 				tag = string(buffer);
@@ -221,13 +230,21 @@ namespace Crystal
 		{
 			if (ImGui::MenuItem("Camera"))
 			{
-				selectedEntity.AddComponent<CameraComponent>();
+				if (!selectedEntity.HasComponent<CameraComponent>())
+					selectedEntity.AddComponent<CameraComponent>();
+				else
+					CRYSTAL_CORE_WARNING("This entity has already a camera component!");
+
 				ImGui::CloseCurrentPopup();
 			}
 
 			if (ImGui::MenuItem("Sprite Renderer"))
 			{
-				selectedEntity.AddComponent<SpriteRendererComponent>();
+				if (!selectedEntity.HasComponent<SpriteRendererComponent>())
+					selectedEntity.AddComponent<SpriteRendererComponent>();
+				else
+					CRYSTAL_CORE_WARNING("This entity has already a sprite renderer component!");
+
 				ImGui::CloseCurrentPopup();
 			}
 

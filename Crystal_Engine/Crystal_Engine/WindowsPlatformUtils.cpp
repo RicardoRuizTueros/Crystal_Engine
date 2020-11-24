@@ -10,7 +10,7 @@
 
 namespace Crystal
 {
-	string FileDialogs::OpenFile(const char* filter)
+	optional<string> FileDialogs::OpenFile(const char* filter)
 	{
 		OPENFILENAMEA openFileName;
 		CHAR fileSize[255] = { 0 };
@@ -25,11 +25,11 @@ namespace Crystal
 
 		if (GetOpenFileNameA(&openFileName) == TRUE)
 			return openFileName.lpstrFile;
-		
-		return string();
+		 
+		return nullopt;
 	}
-	
-	string FileDialogs::SaveFile(const char* filter)
+
+	optional<string> FileDialogs::SaveFile(const char* filter)
 	{
 		OPENFILENAMEA openFileName;
 		CHAR fileSize[255] = { 0 };
@@ -41,10 +41,11 @@ namespace Crystal
 		openFileName.lpstrFilter = filter;
 		openFileName.nFilterIndex = 1;
 		openFileName.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+		openFileName.lpstrDefExt = strchr(filter, '\0') + 1;
 
 		if (GetSaveFileNameA(&openFileName) == TRUE)
 			return openFileName.lpstrFile;
 
-		return string();
+		return nullopt;
 	}
 }
