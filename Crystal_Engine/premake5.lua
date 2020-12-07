@@ -1,5 +1,4 @@
 project "Crystal_Engine"
-	location "Crystal_Engine"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
@@ -19,6 +18,8 @@ project "Crystal_Engine"
 		"vendor/glm/glm/**.inl",
 		"vendor/stb_image/**.h",
 		"vendor/stb_image/**.cpp",
+		"vendor/ImGuizmo/ImGuizmo.h",
+		"vendor/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	defines
@@ -37,7 +38,8 @@ project "Crystal_Engine"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.yaml_cpp}"
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links
@@ -48,6 +50,9 @@ project "Crystal_Engine"
 		"opengl32.lib",
 		"yaml-cpp"
 	}
+	
+	filter "files:vendor/ImGuizmo/**.cpp"
+	flags { "NoPCH" }
 
 	filter "system:windows"
 		systemversion "latest"

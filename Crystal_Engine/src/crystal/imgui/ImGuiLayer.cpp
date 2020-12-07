@@ -6,10 +6,12 @@
 #include <examples/imgui_impl_opengl3.h>
 
 #include "crystal/core/Application.h"
+#include "ImGuizmo.h"
 
 // To do: Substitute this hack
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+
 
 namespace Crystal
 {
@@ -17,7 +19,6 @@ namespace Crystal
 	{
 
 	}
-
 	void ImGuiLayer::Begin()
 	{
 		CRYSTAL_PROFILE_FUNCTION();
@@ -25,6 +26,7 @@ namespace Crystal
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+		ImGuizmo::BeginFrame();
 	}
 
 	void ImGuiLayer::End()

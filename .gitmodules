@@ -15,3 +15,6 @@
 [submodule "Crystal_Engine/vendor/yaml-cpp"]
 	path = Crystal_Engine/vendor/yaml-cpp
 	url = https://github.com/TheCherno/yaml-cpp
+[submodule "Crystal_Engine/vendor/ImGuizmo"]
+	path = Crystal_Engine/vendor/ImGuizmo
+	url = https://github.com/TheCherno/ImGuizmo

@@ -1,7 +1,5 @@
 #include "EditorLayer.h"
 
-#include "platform/openGL/OpenGLShader.h"
-
 #include <imgui/imgui.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -22,27 +20,12 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		checkerTexture = Texture2D::Create("../assets/textures/checkerboard.png");
-
 		FrameBufferSpecification frameBufferSpecification;
 		frameBufferSpecification.width = 1280;
 		frameBufferSpecification.height = 720;
 		frameBuffer = FrameBuffer::Create(frameBufferSpecification);
 
 		activeScene = CreateReference<Scene>();
-
-		auto greenSquare = activeScene->CreateEntity("Green Square");
-		greenSquare.AddComponent<SpriteRendererComponent>(vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
-
-		auto redSquare = activeScene->CreateEntity("Red square");
-		redSquare.AddComponent<SpriteRendererComponent>(vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
-
-		cameraA = activeScene->CreateEntity("Camera A");
-		cameraA.AddComponent<CameraComponent>();
-		cameraA.GetComponent<CameraComponent>().camera.SetProjectionType(SceneCamera::ProjectionType::Orthographic);
-
-		cameraB = activeScene->CreateEntity("Camera B");
-		cameraB.AddComponent<CameraComponent>().primary = false;
 
 		// Camera controller class
 		class CameraController : public ScriptableEntity
@@ -73,9 +56,6 @@ namespace Crystal
 					translation.y -= speed * timestep;
 			}
 		};
-
-		cameraA.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-		cameraB.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
 		sceneHierarchyPanel.SetContext(activeScene);
 	}
@@ -212,7 +192,7 @@ namespace Crystal
 
 		viewportFocused = ImGui::IsWindowFocused();
 		viewportHovered = ImGui::IsWindowHovered();
-		Application::Get().GetImGuiLayer()->BlockEvents(!viewportFocused || !viewportHovered);
+		Application::Get().GetImGuiLayer()->BlockEvents(!viewportFocused && !viewportHovered);
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
@@ -221,6 +201,16 @@ namespace Crystal
 		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 		ImGui::End();
 		ImGui::PopStyleVar();
+
+		// Gizmos
+		Entity selectedEntity = sceneHierarchyPanel.GetSelectedEntity();
+		if (selectedEntity && gizmoType != -1)
+		{
+			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+
+		}
+
 
 		ImGui::End();
 	}

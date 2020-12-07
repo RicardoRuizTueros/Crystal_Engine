@@ -2,6 +2,8 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 
 #include "crystal/renderer/SceneCamera.h"
 #include "crystal/scene/ScriptableEntity.h"
@@ -34,14 +36,9 @@ namespace Crystal
 
 		mat4 GetTransform()
 		{
-			mat4 rotationMatrix = 
-				rotate(mat4(1.0f), rotation.x, { 1, 0, 0 }) *
-				rotate(mat4(1.0f), rotation.y, { 0, 1, 0 }) *
-				rotate(mat4(1.0f), rotation.z, { 0, 0, 1 });
-
 			return
 				translate(mat4(1.0f), translation) *
-				rotationMatrix *
+				toMat4(quat(rotation)) *
 				glm::scale(mat4(1.0f), scale);
 		}
 	};

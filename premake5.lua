@@ -32,6 +32,7 @@ IncludeDir["glm"] = "%{wks.location}/Crystal_Engine/vendor/glm"
 IncludeDir["stb_image"] = "%{wks.location}/Crystal_Engine/vendor/stb_image"
 IncludeDir["entt"] = "%{wks.location}/Crystal_Engine/vendor/entt"
 IncludeDir["yaml_cpp"] = "%{wks.location}/Crystal_Engine/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "%{wks.location}/Crystal_Engine/vendor/ImGuizmo"
 
 group "Dependencies"
 	include "vendor/premake"

@@ -35,14 +35,8 @@ namespace Crystal
 		bool viewportFocused = false, viewportHovered = false;
 
 		Reference<Scene> activeScene;
-		Entity cameraA, cameraB;
-
-		// To do: Remove this!
-		Reference<VertexArray> squareVertexArray;
-		Reference<Shader> flatColorShader;
-		Reference<Texture2D> checkerTexture;
 		Reference<FrameBuffer> frameBuffer;
-
 		SceneHierarchyPanel sceneHierarchyPanel;
+		int gizmoType = -1;
 	};
 }
