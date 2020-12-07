@@ -111,6 +111,19 @@ namespace Crystal
 		}
 	}
 
+	Entity Scene::GetPrimaryCameraEntity()
+	{
+		auto view = registry.view<CameraComponent>();
+		for (auto entity : view)
+		{
+			const auto& camera = view.get<CameraComponent>(entity);
+			if (camera.primary)
+				return Entity{entity, this};
+		}
+
+		return {};
+	}
+
 	template<typename ComponentType>
 	void Scene::OnComponentAdded(Entity entity, ComponentType& component)
 	{
@@ -121,7 +134,7 @@ namespace Crystal
 	template<>
 	void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
 	{
-		
+
 	}
 
 	template<>
@@ -134,7 +147,7 @@ namespace Crystal
 	template<>
 	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
 	{
-	
+
 	}
 
 	template<>

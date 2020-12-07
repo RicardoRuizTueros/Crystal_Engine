@@ -135,7 +135,7 @@ namespace Crystal
 		{
 			for (auto entity : entities)
 			{
-				uint64_t uuid = entity["EntityID"].as<uint64_t>();
+					uint64_t uuid = entity["Entity"].as<uint64_t>();
 
 				string name;
 				auto tagComponent = entity["TagComponent"];
@@ -192,7 +192,7 @@ namespace Crystal
 	static void SerializeEntity(Emitter& out, Entity entity)
 	{
 		out << BeginMap;
-		out << Key << "EntityID" << Value << "7777"; // Todo: Replace with entity UUID
+		out << Key << "Entity" << Value << "7777"; // Todo: Replace with entity UUID
 
 		if (entity.HasComponent<TagComponent>())
 		{

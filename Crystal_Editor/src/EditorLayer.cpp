@@ -6,6 +6,9 @@
 
 #include <chrono>
 
+#include "ImGuizmo/ImGuizmo.h"
+#include "math/Math.h"
+
 using namespace glm;
 
 namespace Crystal
@@ -209,6 +212,42 @@ namespace Crystal
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
 
+			float windowWidth = (float)ImGui::GetWindowWidth();
+			float windowHeight = (float)ImGui::GetWindowHeight();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+			// Camera
+			auto cameraEntity = activeScene->GetPrimaryCameraEntity();
+			const auto& camera = cameraEntity.GetComponent<CameraComponent>().camera;
+			const mat4& cameraProjection = camera.GetProjection();
+			mat4 cameraView = inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+
+			// Selected entity transform
+			auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
+			mat4 transform = transformComponent.GetTransform();
+
+			// Snaping. 0.5m - Translation/Scale, 45º - Rotation
+			bool snap = Input::IsKeyPressed(Key::LeftControl);
+			float snapValue = gizmoType == ImGuizmo::OPERATION::ROTATE ? 45.0f : 0.5f;
+			float snapValues[3] = { snapValue, snapValue, snapValue };
+
+			ImGuizmo::Manipulate(
+				value_ptr(cameraView),
+				value_ptr(cameraProjection),
+				(ImGuizmo::OPERATION)gizmoType, ImGuizmo::LOCAL,
+				value_ptr(transform), nullptr, snap ? snapValues : nullptr);
+
+			if (ImGuizmo::IsUsing())
+			{
+				vec3 translation, rotation, scale;
+				Math::DecomposeTransform(transform, translation, rotation, scale);
+				
+				// Apply rotations as delta to avoid Gimbal Lock
+				vec3 deltaRotation = rotation - transformComponent.rotation;
+				transformComponent.translation = translation;
+				transformComponent.rotation += deltaRotation;
+				transformComponent.scale = scale;
+			}
 		}
 
 
@@ -248,6 +287,23 @@ namespace Crystal
 				if (control && shift)
 					SaveSceneAs();
 			break;
+
+			// Gizmos
+			case Key::Q:
+				gizmoType = -1;
+			break;
+
+			case Key::W:
+				gizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+
+			case Key::E:
+				gizmoType = ImGuizmo::OPERATION::ROTATE;
+				break;
+
+			case Key::R:
+				gizmoType = ImGuizmo::OPERATION::SCALE;
+				break;
 		}
 	}
 	

@@ -20,6 +20,8 @@ namespace Crystal
 
 		void OnUpdate(Timestep timestep);
 		void OnViewportResize(uint32_t width, uint32_t height);
+
+		Entity GetPrimaryCameraEntity();
 	private:
 		registry registry;
 		uint32_t viewportWidth = 1, viewportHeight = 1;
