@@ -202,8 +202,6 @@ namespace Crystal
 
 		uint64_t textureID = frameBuffer->GetColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-		ImGui::End();
-		ImGui::PopStyleVar();
 
 		// Gizmos
 		Entity selectedEntity = sceneHierarchyPanel.GetSelectedEntity();
@@ -241,7 +239,7 @@ namespace Crystal
 			{
 				vec3 translation, rotation, scale;
 				Math::DecomposeTransform(transform, translation, rotation, scale);
-				
+
 				// Apply rotations as delta to avoid Gimbal Lock
 				vec3 deltaRotation = rotation - transformComponent.rotation;
 				transformComponent.translation = translation;
@@ -250,6 +248,8 @@ namespace Crystal
 			}
 		}
 
+		ImGui::End();
+		ImGui::PopStyleVar();
 
 		ImGui::End();
 	}
