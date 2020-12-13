@@ -39,7 +39,7 @@ namespace Crystal
 		registry.destroy(entity);
 	}
 
-	void Scene::OnUpdate(Timestep timestep)
+	void Scene::OnUpdateRuntime(Timestep timestep)
 	{
 		Camera* mainCamera = nullptr;
 		mat4* mainCameraTransform = nullptr;
@@ -95,6 +95,20 @@ namespace Crystal
 				Renderer2D::EndScene();
 			}
 		}
+	}
+
+	void Scene::OnUpdateEditor(Timestep timestep, EditorCamera& camera)
+	{
+		Renderer2D::BeginScene(camera);
+
+		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group)
+		{
+			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+			Renderer2D::DrawQuad(transform.GetTransform(), sprite.color);
+		}
+
+		Renderer2D::EndScene();
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)

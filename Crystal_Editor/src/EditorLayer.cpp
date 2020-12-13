@@ -30,6 +30,8 @@ namespace Crystal
 
 		activeScene = CreateReference<Scene>();
 
+		editorCamera = EditorCamera(30.0f, 1778.0f, 0.1f, 1000.0f);
+
 		// Camera controller class
 		class CameraController : public ScriptableEntity
 		{
@@ -79,6 +81,7 @@ namespace Crystal
 		{
 			frameBuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			cameraController.OnResize(viewportSize.x, viewportSize.y);
+			editorCamera.SetViewportSize(viewportSize.x, viewportSize.y);
 			activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		}
 
@@ -86,12 +89,14 @@ namespace Crystal
 		if (viewportFocused)
 			cameraController.OnUpdate(timestep);
 
+		editorCamera.OnUpdate(timestep);
+
 		Renderer2D::ResetStatistics();
 		frameBuffer->Bind();
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
 		
-		activeScene->OnUpdate(timestep);
+		activeScene->OnUpdateEditor(timestep, editorCamera);
 
 		frameBuffer->Unbind();
 	}
@@ -214,11 +219,16 @@ namespace Crystal
 			float windowHeight = (float)ImGui::GetWindowHeight();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
-			// Camera
-			auto cameraEntity = activeScene->GetPrimaryCameraEntity();
-			const auto& camera = cameraEntity.GetComponent<CameraComponent>().camera;
-			const mat4& cameraProjection = camera.GetProjection();
-			mat4 cameraView = inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+			// Runtime camera from Entity
+			//auto cameraEntity = activeScene->GetPrimaryCameraEntity();
+			//const auto& camera = cameraEntity.GetComponent<CameraComponent>().camera;
+			//const mat4& cameraProjection = camera.GetProjection();
+			//mat4 cameraView = inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+
+			// Editor camera
+			const mat4& cameraProjection = editorCamera.GetProjection();
+			mat4 cameraView = editorCamera.GetView();
+
 
 			// Selected entity transform
 			auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
@@ -257,6 +267,7 @@ namespace Crystal
 	void EditorLayer::OnEvent(Event& event)
 	{
 		cameraController.OnEvent(event);
+		editorCamera.OnEvent(event);
 
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<KeyPressedEvent>(CRYSTAL_BIND_EVENT_FUNCTION(OnKeyPressed));

@@ -25,7 +25,7 @@ namespace Crystal
 
 	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
-		sceneData->viewProjectionMatrix = camera.GetViewProjectionMatrix();
+		sceneData->viewProjectionMatrix = camera.GetViewProjection();
 	}
 
 	void Renderer::EndScene()

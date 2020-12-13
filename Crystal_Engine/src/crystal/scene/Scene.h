@@ -2,6 +2,7 @@
 
 #include "entt.hpp"
 #include "crystal/core/Timestep.h"
+#include "crystal/renderer/EditorCamera.h"
 
 using namespace entt;
 
@@ -18,7 +19,8 @@ namespace Crystal
 		Entity CreateEntity(const string& name = string());
 		void DestroyEntity(Entity entity);
 
-		void OnUpdate(Timestep timestep);
+		void OnUpdateRuntime(Timestep timestep);
+		void OnUpdateEditor(Timestep timestep, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		Entity GetPrimaryCameraEntity();

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Crystal.h"
-#include "Panels/SceneHierarchyPanel.h"
-#include "Crystal/Scene/SceneSerializer.h"
+#include "panels/SceneHierarchyPanel.h"
 
+#include "crystal/scene/SceneSerializer.h"
 #include "crystal/utils/PlatformUtils.h"
+#include "crystal/renderer/EditorCamera.h"
 
 namespace Crystal
 {
@@ -29,6 +30,7 @@ namespace Crystal
 		void OpenScene();
 		void SaveSceneAs();
 
+		EditorCamera editorCamera;
 
 		OrthographicCameraController cameraController;
 		vec2 viewportSize = { 0.0f, 0.0f };

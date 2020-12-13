@@ -117,7 +117,17 @@ namespace Crystal
 		CRYSTAL_PROFILE_FUNCTION();
 
 		data.textureShader->Bind();
-		data.textureShader->SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
+		data.textureShader->SetMat4("u_viewProjection", camera.GetViewProjection());
+
+		StartBatch();
+	}
+
+	void Renderer2D::BeginScene(const EditorCamera& camera)
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		data.textureShader->Bind();
+		data.textureShader->SetMat4("u_viewProjection", camera.GetViewProjection());
 
 		StartBatch();
 	}
