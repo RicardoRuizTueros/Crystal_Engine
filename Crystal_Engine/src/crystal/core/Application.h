@@ -38,7 +38,7 @@ namespace Crystal
 
 		bool running = true;
 		bool minimized = false;
-		unique_ptr<Window> window;
+		Scope<Window> window;
 		ImGuiLayer* imGuiLayer;
 		LayerStack layerStack;
 		float lastFrameTime = 0.0f;
