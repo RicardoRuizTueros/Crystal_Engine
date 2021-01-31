@@ -16,11 +16,22 @@ namespace Crystal
 		virtual void Bind() override;
 		virtual void Unbind() override;
 
-		virtual uint32_t GetColorAttachmentRendererID() const override { return colorAttachment; }
-		virtual const FrameBufferSpecification& GetSpecification() const override { return specification; }
+		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override 
+		{
+			CRYSTAL_CORE_ASSERT(index < colorAttachments.size(), "Invalid index");
+			return colorAttachments[index];
+		}
+		
+		virtual const FrameBufferSpecification& GetSpecification() const override { return frameBufferSpecification; }
 
 	private:
 		uint32_t rendererID = 0, colorAttachment = 0, depthAttachment = 0;
-		FrameBufferSpecification specification;
+		FrameBufferSpecification frameBufferSpecification;
+
+		vector<FrameBufferTextureSpecification> colorAttachmentSpecifications;
+		FrameBufferTextureSpecification depthAttachmentSpecification = FrameBufferTextureFormat::None;
+
+		vector<uint32_t> colorAttachments;
+		uint32_t m_DepthAttachment = 0;
 	};
 }

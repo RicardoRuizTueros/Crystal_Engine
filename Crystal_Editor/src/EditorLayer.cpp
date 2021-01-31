@@ -24,6 +24,7 @@ namespace Crystal
 		CRYSTAL_PROFILE_FUNCTION();
 
 		FrameBufferSpecification frameBufferSpecification;
+		frameBufferSpecification.attachmentsSpecification = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::DefaultDepth };
 		frameBufferSpecification.width = 1280;
 		frameBufferSpecification.height = 720;
 		frameBuffer = FrameBuffer::Create(frameBufferSpecification);
