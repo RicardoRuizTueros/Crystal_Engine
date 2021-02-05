@@ -42,7 +42,7 @@ namespace Crystal
 				auto& translation = GetComponent<TransformComponent>().translation;
 				translation.x = rand() % 10 - 5.0f;
 			}
-			
+
 			virtual void OnDestroy() override
 			{
 			}
@@ -77,7 +77,7 @@ namespace Crystal
 
 		// Resize
 		if (FrameBufferSpecification specification = frameBuffer->GetSpecification();
-			viewportSize.x > 0.0f && viewportSize.y > 0.0f && 
+			viewportSize.x > 0.0f && viewportSize.y > 0.0f &&
 			(specification.width != viewportSize.x || specification.height != viewportSize.y))
 		{
 			frameBuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
@@ -96,7 +96,7 @@ namespace Crystal
 		frameBuffer->Bind();
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
-		
+
 		activeScene->OnUpdateEditor(timestep, editorCamera);
 
 		frameBuffer->Unbind();
@@ -172,8 +172,8 @@ namespace Crystal
 					NewScene();
 
 				if (ImGui::MenuItem("Open...", "Ctrl+O"))
-					OpenScene(); 
-				
+					OpenScene();
+
 				if (ImGui::MenuItem("Save as...", "Ctrl+Shift+S"))
 					SaveSceneAs();
 
@@ -273,7 +273,7 @@ namespace Crystal
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<KeyPressedEvent>(CRYSTAL_BIND_EVENT_FUNCTION(OnKeyPressed));
 	}
-	
+
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
 	{
 		// Shortcuts
@@ -285,51 +285,55 @@ namespace Crystal
 
 		switch (event.GetKeyCode())
 		{
-			case Key::N:
-				if (control)
-					NewScene();
+		case Key::N:
+			if (control)
+				NewScene();
 			break;
 
-			case Key::O:
-				if (control)
-					OpenScene();
+		case Key::O:
+			if (control)
+				OpenScene();
 			break;
 
-			case Key::S:
-				if (control && shift)
-					SaveSceneAs();
+		case Key::S:
+			if (control && shift)
+				SaveSceneAs();
 			break;
 
 			// Gizmos
-			case Key::Q:
+		case Key::Q:
+			if (!ImGuizmo::IsUsing())
 				gizmoType = -1;
 			break;
 
-			case Key::W:
+		case Key::W:
+			if (!ImGuizmo::IsUsing())
 				gizmoType = ImGuizmo::OPERATION::TRANSLATE;
-				break;
+			break;
 
-			case Key::E:
+		case Key::E:
+			if (!ImGuizmo::IsUsing())
 				gizmoType = ImGuizmo::OPERATION::ROTATE;
-				break;
+			break;
 
-			case Key::R:
+		case Key::R:
+			if (!ImGuizmo::IsUsing())
 				gizmoType = ImGuizmo::OPERATION::SCALE;
-				break;
+			break;
 		}
 	}
-	
+
 	void EditorLayer::NewScene()
 	{
 		activeScene = CreateReference<Scene>();
 		activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		sceneHierarchyPanel.SetContext(activeScene);
 	}
-	
+
 	void EditorLayer::OpenScene()
 	{
 		optional<string> filepath = FileDialogs::OpenFile("Crystal scene (*.scene)\0*.scene\0");
-		
+
 		if (filepath)
 		{
 			activeScene = CreateReference<Scene>();
@@ -340,7 +344,7 @@ namespace Crystal
 			serializer.Deserialize(*filepath);
 		}
 	}
-	
+
 	void EditorLayer::SaveSceneAs()
 	{
 		optional<string> filepath = FileDialogs::SaveFile("Crystal scene (*.scene)\0*.scene\0");

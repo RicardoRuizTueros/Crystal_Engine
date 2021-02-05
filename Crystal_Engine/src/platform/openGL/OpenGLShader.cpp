@@ -196,11 +196,18 @@ namespace Crystal
 		UploadUniformFloat(name, value);
 	}
 
-	void OpenGLShader::SetMat4(const string& name, const mat4& matrix)
+	void OpenGLShader::SetFloat2(const string& name, const vec2& value)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		UploadUniformMat4(name, matrix);
+		UploadUniformFloat2(name, value);
+	}
+
+	void OpenGLShader::SetFloat3(const string& name, const vec3& vector)
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		UploadUniformFloat3(name, vector);
 	}
 
 	void OpenGLShader::SetFloat4(const string& name, const vec4& vector)
@@ -210,11 +217,11 @@ namespace Crystal
 		UploadUniformFloat4(name, vector);
 	}
 
-	void OpenGLShader::SetFloat3(const string& name, const vec3& vector)
+	void OpenGLShader::SetMat4(const string& name, const mat4& matrix)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		UploadUniformFloat3(name, vector);
+		UploadUniformMat4(name, matrix);
 	}
 
 	void OpenGLShader::UploadUniformInt(const string& name, int value)

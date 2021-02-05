@@ -19,6 +19,8 @@ namespace Crystal
 		virtual void SetInt(const string& name, const int& value) = 0;
 		virtual void SetIntArray(const string& name, int* values, uint32_t count) = 0;
 		virtual void SetFloat(const string& name, const float& value) = 0;
+		virtual void SetFloat2(const string& name, const vec2& value) = 0;
+		virtual void SetFloat3(const string& name, const vec3& value) = 0;
 		virtual void SetMat4(const string& name, const mat4& matrix) = 0;
 		virtual void SetFloat4(const string& name, const vec4& vector) = 0;
 		virtual void SetFloat3(const string& name, const vec3& vector) = 0;

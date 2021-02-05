@@ -43,7 +43,7 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		 glGenVertexArrays(1, &rendererID);
+		glGenVertexArrays(1, &rendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
@@ -86,6 +86,19 @@ namespace Crystal
 			case ShaderDataType::Float2:
 			case ShaderDataType::Float3:
 			case ShaderDataType::Float4:
+			{
+				glEnableVertexAttribArray(vertexBufferIndex);
+				glVertexAttribPointer(
+					vertexBufferIndex,
+					element.GetComponentCount(),
+					ShaderDataTypeToOpenGLType(element.type),
+					element.normalized ? GL_TRUE : GL_FALSE,
+					layout.GetStride(),
+					(const void*)element.offset);
+
+				vertexBufferIndex++;
+				break;
+			}
 			case ShaderDataType::Int:
 			case ShaderDataType::Int2:
 			case ShaderDataType::Int3:
@@ -94,14 +107,12 @@ namespace Crystal
 			{
 
 				glEnableVertexAttribArray(vertexBufferIndex);
-				glVertexAttribPointer(
+				glVertexAttribIPointer(
 					vertexBufferIndex,
 					element.GetComponentCount(),
 					ShaderDataTypeToOpenGLType(element.type),
-					element.normalized ? GL_TRUE : GL_FALSE,
 					layout.GetStride(),
-					(const void*)element.offset
-				);
+					(const void*)element.offset);
 
 				vertexBufferIndex++;
 
@@ -112,7 +123,7 @@ namespace Crystal
 			case ShaderDataType::Matrix4:
 			{
 				uint8_t count = element.GetComponentCount();
-				
+
 				for (uint8_t index = 0; index < count; index++)
 				{
 					glEnableVertexAttribArray(vertexBufferIndex);
