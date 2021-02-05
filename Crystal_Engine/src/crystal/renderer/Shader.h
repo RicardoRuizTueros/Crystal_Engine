@@ -23,7 +23,6 @@ namespace Crystal
 		virtual void SetFloat3(const string& name, const vec3& value) = 0;
 		virtual void SetMat4(const string& name, const mat4& matrix) = 0;
 		virtual void SetFloat4(const string& name, const vec4& vector) = 0;
-		virtual void SetFloat3(const string& name, const vec3& vector) = 0;
 
 		virtual const string& GetName() const = 0;
 

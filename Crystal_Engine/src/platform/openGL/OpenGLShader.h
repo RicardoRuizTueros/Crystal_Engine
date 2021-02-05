@@ -30,7 +30,6 @@ namespace Crystal
 		virtual void SetFloat3(const string& name, const vec3& value) override;
 		virtual void SetMat4(const string& name, const mat4& matrix) override;
 		virtual void SetFloat4(const string& name, const vec4& vector) override;
-		virtual void SetFloat3(const string& name, const vec3& vector) override;
 
 		void UploadUniformInt(const string& name, int value);
 		void UploadUniformIntArray(const string& name, int* values, uint32_t count);
