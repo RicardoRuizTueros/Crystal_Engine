@@ -14,7 +14,6 @@ namespace Crystal
 	{
 	public:
 		OpenGLShader(const string& filepath);
-		OpenGLShader(const string& name, const string& filepath);
 		OpenGLShader(const string& name, const string& vertexSource, const string& fragmentSource);
 		~OpenGLShader();
 
