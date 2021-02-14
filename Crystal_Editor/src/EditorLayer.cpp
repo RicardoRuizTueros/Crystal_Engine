@@ -86,18 +86,19 @@ namespace Crystal
 			activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		}
 
-		// Render
-		Renderer2D::ResetStatistics();
-		frameBuffer->Bind();
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-		RenderCommand::Clear();
-
 		// Update
 		if (viewportFocused)
 			cameraController.OnUpdate(timestep);
 
 		editorCamera.OnUpdate(timestep);
 
+		// Render
+		Renderer2D::ResetStatistics();
+		frameBuffer->Bind();
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		RenderCommand::Clear();
+
+		// Update scene
 		activeScene->OnUpdateEditor(timestep, editorCamera);
 
 		auto [mouseX, mouseY] = ImGui::GetMousePos();
@@ -107,7 +108,10 @@ namespace Crystal
 		vec2 viewPortSize = viewPortBounds[1] - viewPortBounds[0];
 		mouseY = viewPortSize.y - mouseY; // Invert Y axis to match textures coordinates
 		
-		if ((int)mouseX >= 0 && (int)mouseY >= 0 && (int)mouseX < (int)viewportSize.x && (int)mouseY < (int)viewportSize.y)
+		int mouseXInt = (int)mouseX;
+		int mouseYInt = (int)mouseY;
+
+		if (mouseXInt >= 0 && mouseYInt >= 0 && mouseXInt < (int)viewportSize.x && mouseYInt < (int)viewportSize.y)
 		{
 			int pixelData = frameBuffer->ReadPixel(1, mouseX, mouseY);
 			CRYSTAL_CORE_WARNING("Pixel data = {0}", pixelData);

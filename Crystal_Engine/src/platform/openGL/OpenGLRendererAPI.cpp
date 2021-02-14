@@ -58,7 +58,7 @@ namespace Crystal
 	{
 		uint32_t count = indexCount ?  indexCount : vertexArray->GetIndexBuffer()->GetCount();
 
-		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr); // TODO: Triggers fragment recompile warning ???
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	
