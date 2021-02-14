@@ -1,7 +1,6 @@
 #pragma once
 
 #include "crystal/core/Base.h"
-#include "crystal/core/Log.h"
 
 #include "crystal/scene/Scene.h"
 #include "crystal/scene/Entity.h"

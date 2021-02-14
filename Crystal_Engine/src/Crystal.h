@@ -11,6 +11,7 @@
 #include "crystal/core/KeyCodes.h"
 #include "crystal/core/MouseCodes.h"
 #include "crystal/core/Application.h"
+#include "crystal/core/Assert.h"
 
 #include "crystal/renderer/OrthographicCameraController.h"
 #include "crystal/renderer/Renderer.h"

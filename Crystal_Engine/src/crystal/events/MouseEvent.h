@@ -65,7 +65,7 @@ namespace Crystal
 	public:
 		MouseCode GetMouseButton() const { return button; }
 
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
 	protected:
 		MouseCode button;
 

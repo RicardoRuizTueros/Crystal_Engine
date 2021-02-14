@@ -27,6 +27,7 @@ void main()
 #version 450
 
 layout(location = 0) out vec4 color;
+layout(location = 1) out int entityID;
 
 in vec4 v_color;
 in vec2 v_textureCoordinates;
@@ -76,4 +77,6 @@ void main()
 	}
 
 	color = textureColor;
+
+	entityID = 13; // TODO: Put actual entityID
 }

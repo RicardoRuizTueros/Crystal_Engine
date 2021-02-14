@@ -24,7 +24,7 @@ namespace Crystal
 		CRYSTAL_PROFILE_FUNCTION();
 
 		FrameBufferSpecification frameBufferSpecification;
-		frameBufferSpecification.attachmentsSpecification = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::DefaultDepth };
+		frameBufferSpecification.attachmentsSpecification = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RED_INTEGER, FrameBufferTextureFormat::DefaultDepth };
 		frameBufferSpecification.width = 1280;
 		frameBufferSpecification.height = 720;
 		frameBuffer = FrameBuffer::Create(frameBufferSpecification);
@@ -86,18 +86,32 @@ namespace Crystal
 			activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		}
 
+		// Render
+		Renderer2D::ResetStatistics();
+		frameBuffer->Bind();
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		RenderCommand::Clear();
+
 		// Update
 		if (viewportFocused)
 			cameraController.OnUpdate(timestep);
 
 		editorCamera.OnUpdate(timestep);
 
-		Renderer2D::ResetStatistics();
-		frameBuffer->Bind();
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-		RenderCommand::Clear();
-
 		activeScene->OnUpdateEditor(timestep, editorCamera);
+
+		auto [mouseX, mouseY] = ImGui::GetMousePos();
+		mouseX -= viewPortBounds[0].x;
+		mouseY -= viewPortBounds[0].y;
+
+		vec2 viewPortSize = viewPortBounds[1] - viewPortBounds[0];
+		mouseY = viewPortSize.y - mouseY; // Invert Y axis to match textures coordinates
+		
+		if ((int)mouseX >= 0 && (int)mouseY >= 0 && (int)mouseX < (int)viewportSize.x && (int)mouseY < (int)viewportSize.y)
+		{
+			int pixelData = frameBuffer->ReadPixel(1, mouseX, mouseY);
+			CRYSTAL_CORE_WARNING("Pixel data = {0}", pixelData);
+		}
 
 		frameBuffer->Unbind();
 	}
@@ -198,6 +212,7 @@ namespace Crystal
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
 		ImGui::Begin("Viewport");
+		auto viewportOffset = ImGui::GetCursorPos();
 
 		viewportFocused = ImGui::IsWindowFocused();
 		viewportHovered = ImGui::IsWindowHovered();
@@ -208,6 +223,16 @@ namespace Crystal
 
 		uint64_t textureID = frameBuffer->GetColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+		auto windowSize = ImGui::GetWindowSize();
+		ImVec2 minBound = ImGui::GetWindowPos();
+
+		minBound.x += viewportOffset.x;
+		minBound.y += viewportOffset.y;
+
+		ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
+		viewPortBounds[0] = { minBound.x, minBound.y };
+		viewPortBounds[1] = { maxBound.x, maxBound.y };
 
 		// Gizmos
 		Entity selectedEntity = sceneHierarchyPanel.GetSelectedEntity();

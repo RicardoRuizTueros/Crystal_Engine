@@ -332,7 +332,7 @@ namespace Crystal
 		CRYSTAL_PROFILE_FUNCTION();
 
 		GLuint program = glCreateProgram();
-		CRYSTAL_CORE_ASSERT(shaderSources.size() > 2, "We only support 2 shaders");
+		CRYSTAL_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders");
 		array<GLenum, 2> glShadersIDs;
 		int glShaderIDIndex = 0;
 

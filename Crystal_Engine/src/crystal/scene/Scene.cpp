@@ -83,7 +83,7 @@ namespace Crystal
 		{
 			if (mainCamera)
 			{
-				Renderer2D::BeginScene(mainCamera->GetProjection(), *mainCameraTransform);
+				Renderer2D::BeginScene(*mainCamera, *mainCameraTransform);
 
 				auto group = registry.group<TransformComponent, SpriteRendererComponent>();
 				for (auto entity : group)
