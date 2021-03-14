@@ -98,6 +98,9 @@ namespace Crystal
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
 
+		// Clear entityID attachment to -1
+		frameBuffer->ClearAttachment(1, -1);
+
 		// Update scene
 		activeScene->OnUpdateEditor(timestep, editorCamera);
 

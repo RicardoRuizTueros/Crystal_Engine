@@ -15,6 +15,8 @@ namespace Crystal
 		virtual void Resize(uint32_t width, uint32_t height) override;
 		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) override;
 
+		virtual void ClearAttachment(uint32_t index, int value) override;
+
 		virtual void Bind() override;
 		virtual void Unbind() override;
 

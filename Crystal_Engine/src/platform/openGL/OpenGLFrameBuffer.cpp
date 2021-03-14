@@ -80,6 +80,18 @@ namespace Crystal
 
 			return false;
 		}
+
+		static GLenum CrystalFBTextureFormatToGL(FrameBufferTextureFormat format)
+		{
+			switch (format)
+			{
+				case Crystal::FrameBufferTextureFormat::RGBA8: return GL_RGBA8;
+				case Crystal::FrameBufferTextureFormat::RED_INTEGER: return GL_RED_INTEGER;
+			}
+
+			CRYSTAL_CORE_ASSERT(false, "Unknown format");
+			return 0;
+		}
 	}
 
 
@@ -198,6 +210,14 @@ namespace Crystal
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData); // TODO: Fix hardcode
 
 		return pixelData;
+	}
+
+	void OpenGLFrameBuffer::ClearAttachment(uint32_t index, int value)
+	{
+		CRYSTAL_CORE_ASSERT(index < colorAttachments.size(), "Attachment index is invalid");
+		
+		auto& specification = colorAttachmentSpecifications[index];
+		glClearTexImage(colorAttachments[index], 0, Utils::CrystalFBTextureFormatToGL(specification.format), GL_INT, &value);
 	}
 
 	void OpenGLFrameBuffer::Bind()
