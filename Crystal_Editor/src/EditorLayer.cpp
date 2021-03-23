@@ -105,10 +105,10 @@ namespace Crystal
 		activeScene->OnUpdateEditor(timestep, editorCamera);
 
 		auto [mouseX, mouseY] = ImGui::GetMousePos();
-		mouseX -= viewPortBounds[0].x;
-		mouseY -= viewPortBounds[0].y;
+		mouseX -= viewportBounds[0].x;
+		mouseY -= viewportBounds[0].y;
 
-		vec2 viewPortSize = viewPortBounds[1] - viewPortBounds[0];
+		vec2 viewPortSize = viewportBounds[1] - viewportBounds[0];
 		mouseY = viewPortSize.y - mouseY; // Invert Y axis to match textures coordinates
 		
 		int mouseXInt = (int)mouseX;
@@ -117,8 +117,6 @@ namespace Crystal
 		if (mouseXInt >= 0 && mouseYInt >= 0 && mouseXInt < (int)viewportSize.x && mouseYInt < (int)viewportSize.y)
 		{
 			int pixelData = frameBuffer->ReadPixel(1, mouseX, mouseY);
-			CRYSTAL_CORE_WARNING("Pixel data = {0}", pixelData);
-
 			hoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, activeScene.get());
 		}
 
@@ -228,7 +226,13 @@ namespace Crystal
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
 		ImGui::Begin("Viewport");
-		auto viewportOffset = ImGui::GetCursorPos();
+		
+		auto viewPortMinimumRegion = ImGui::GetWindowContentRegionMin();
+		auto viewPortMaximumRegion = ImGui::GetWindowContentRegionMax();
+		auto viewPortOffset = ImGui::GetWindowPos();
+
+		viewportBounds[0] = { viewPortMinimumRegion.x + viewPortOffset.x, viewPortMinimumRegion.y + viewPortOffset.y };
+		viewportBounds[1] = { viewPortMaximumRegion.x + viewPortOffset.x, viewPortMaximumRegion.y + viewPortOffset.y };
 
 		viewportFocused = ImGui::IsWindowFocused();
 		viewportHovered = ImGui::IsWindowHovered();
@@ -240,26 +244,11 @@ namespace Crystal
 		uint64_t textureID = frameBuffer->GetColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
-		auto windowSize = ImGui::GetWindowSize();
-		ImVec2 minBound = ImGui::GetWindowPos();
-
-		minBound.x += viewportOffset.x;
-		minBound.y += viewportOffset.y;
-
-		ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
-		viewPortBounds[0] = { minBound.x, minBound.y };
-		viewPortBounds[1] = { maxBound.x, maxBound.y };
-
 		// Gizmos
 		Entity selectedEntity = sceneHierarchyPanel.GetSelectedEntity();
 		if (selectedEntity && gizmoType != -1)
 		{
-			ImGuizmo::SetOrthographic(false);
-			ImGuizmo::SetDrawlist();
-
-			float windowWidth = (float)ImGui::GetWindowWidth();
-			float windowHeight = (float)ImGui::GetWindowHeight();
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+			ImGuizmo::SetRect(viewportBounds[0].x, viewportBounds[0].y, viewportBounds[1].x - viewportBounds[0].x, viewportBounds[1].y - viewportBounds[0].y);
 
 			// Runtime camera from Entity
 			//auto cameraEntity = activeScene->GetPrimaryCameraEntity();

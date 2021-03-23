@@ -34,7 +34,7 @@ namespace Crystal
 
 		OrthographicCameraController cameraController;
 		vec2 viewportSize = { 0.0f, 0.0f };
-		vec2 viewPortBounds[2];
+		vec2 viewportBounds[2];
 		bool viewportFocused = false, viewportHovered = false;
 
 		Reference<Scene> activeScene;
