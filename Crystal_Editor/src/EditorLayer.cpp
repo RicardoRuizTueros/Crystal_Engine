@@ -118,6 +118,8 @@ namespace Crystal
 		{
 			int pixelData = frameBuffer->ReadPixel(1, mouseX, mouseY);
 			CRYSTAL_CORE_WARNING("Pixel data = {0}", pixelData);
+
+			hoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, activeScene.get());
 		}
 
 		frameBuffer->Unbind();
@@ -208,6 +210,13 @@ namespace Crystal
 		sceneHierarchyPanel.OnImGuiRender();
 
 		ImGui::Begin("Statistics");
+
+		string hoveredEntityName = "None";
+		if (hoveredEntity)
+			hoveredEntityName = hoveredEntity.GetComponent<TagComponent>().tag;
+
+		ImGui::Text("Hovered entity: %s", hoveredEntityName.c_str());
+
 		auto statistics = Crystal::Renderer2D::GetStatistics();
 		ImGui::Text("Renderer2D Statistics:");
 		ImGui::Text("Draw Calls: %d", statistics.drawCalls);

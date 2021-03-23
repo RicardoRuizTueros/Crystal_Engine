@@ -18,6 +18,9 @@ namespace Crystal
 		vec2 textureCoordinates;
 		float textureIndex;
 		float tilingFactor;
+
+		// Editor only
+		int entityID;
 	};
 
 	struct Renderer2DData
@@ -58,7 +61,8 @@ namespace Crystal
 			{ ShaderDataType::Float4, "a_color"},
 			{ ShaderDataType::Float2, "a_textureCoordinates" },
 			{ ShaderDataType::Float, "a_textureIndex" },
-			{ ShaderDataType::Float, "a_tilingFactor" }
+			{ ShaderDataType::Float, "a_tilingFactor" },
+			{ ShaderDataType::Int, "a_entityID" }
 		});
 
 		data.quadVertexArray->AddVertexBuffer(data.quadVertexBuffer);
@@ -200,7 +204,7 @@ namespace Crystal
 		DrawQuad({ position.x, position.y, 0.0f }, size, texture, tilingFactor, tintColor);
 	}
 
-	void Renderer2D::DrawQuad(const mat4& transform, const vec4& color)
+	void Renderer2D::DrawQuad(const mat4& transform, const vec4& color, int entityID)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
@@ -220,6 +224,7 @@ namespace Crystal
 			data.quadVertexBufferPointer->textureCoordinates = textureCoordinates[index];
 			data.quadVertexBufferPointer->textureIndex = textureIndex;
 			data.quadVertexBufferPointer->tilingFactor = tilingFactor;
+			data.quadVertexBufferPointer->entityID = entityID;
 
 			data.quadVertexBufferPointer++;
 		}
@@ -229,7 +234,7 @@ namespace Crystal
 		data.statistics.quadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const mat4& transform, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
+	void Renderer2D::DrawQuad(const mat4& transform, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor, int entityID)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
@@ -267,6 +272,7 @@ namespace Crystal
 			data.quadVertexBufferPointer->textureCoordinates = textureCoordinates[index];
 			data.quadVertexBufferPointer->textureIndex = textureIndex;
 			data.quadVertexBufferPointer->tilingFactor = tilingFactor;
+			data.quadVertexBufferPointer->entityID = entityID;
 
 			data.quadVertexBufferPointer++;
 		}
@@ -306,6 +312,11 @@ namespace Crystal
 	void Renderer2D::DrawRotatedQuad(const vec2& position, const vec2& size, float rotation, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)
 	{
 		DrawRotatedQuad({ position.x, position.y, 0.0f}, size, rotation, texture, tilingFactor, tintColor);
+	}
+
+	void Renderer2D::DrawSprite(const mat4& transform, SpriteRendererComponent& spriteRendererComponent, int entityID)
+	{
+		DrawQuad(transform, spriteRendererComponent.color, entityID);
 	}
 	
 	void Renderer2D::DrawQuad(const vec3& position, const vec2& size, const Reference<Texture2D>& texture, float tilingFactor, const vec4& tintColor)

@@ -41,5 +41,7 @@ namespace Crystal
 		Reference<FrameBuffer> frameBuffer;
 		SceneHierarchyPanel sceneHierarchyPanel;
 		int gizmoType = -1;
+
+		Entity hoveredEntity;
 	};
 }

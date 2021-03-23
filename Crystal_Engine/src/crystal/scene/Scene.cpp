@@ -88,8 +88,8 @@ namespace Crystal
 				auto group = registry.group<TransformComponent, SpriteRendererComponent>();
 				for (auto entity : group)
 				{
-					auto [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-					Renderer2D::DrawQuad(transformComponent.GetTransform(), spriteComponent.color);
+					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+					Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
 				}
 
 				Renderer2D::EndScene();
@@ -105,7 +105,7 @@ namespace Crystal
 		for (auto entity : group)
 		{
 			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::DrawQuad(transform.GetTransform(), sprite.color);
+			Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
 		}
 
 		Renderer2D::EndScene();
