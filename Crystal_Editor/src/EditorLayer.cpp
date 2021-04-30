@@ -302,6 +302,7 @@ namespace Crystal
 
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<KeyPressedEvent>(CRYSTAL_BIND_EVENT_FUNCTION(OnKeyPressed));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(CRYSTAL_BIND_EVENT_FUNCTION(OnMouseButtonPressed));
 	}
 
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
@@ -351,6 +352,17 @@ namespace Crystal
 				gizmoType = ImGuizmo::OPERATION::SCALE;
 			break;
 		}
+	}
+
+	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& event)
+	{
+		if (event.GetMouseButton() == Mouse::ButtonLeft)
+		{
+			if (viewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
+				sceneHierarchyPanel.SetSelectedEntity(hoveredEntity);
+		}
+
+		return false;
 	}
 
 	void EditorLayer::NewScene()

@@ -65,6 +65,11 @@ namespace Crystal
 		ImGui::End();
 	}
 
+	void SceneHierarchyPanel::SetSelectedEntity(Entity entity)
+	{
+		selectedEntity = entity;
+	}
+
 	static void DrawVec3Control(const string& label, vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f)
 	{
 		ImGuiIO& io = ImGui::GetIO();

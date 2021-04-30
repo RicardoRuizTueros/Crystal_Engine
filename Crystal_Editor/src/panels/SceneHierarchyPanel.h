@@ -18,7 +18,7 @@ namespace Crystal
 		void OnImGuiRender();
 
 		Entity const GetSelectedEntity() { return selectedEntity; }
-		
+		void SetSelectedEntity(Entity entity);
 	private:
 		Reference<Scene> scene;
 		Entity selectedEntity;
