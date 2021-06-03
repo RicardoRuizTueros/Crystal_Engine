@@ -5,6 +5,12 @@ bin-int/
 
 # Crystal Engine files
 *.log
+Crystal_Engine/vendor/imgui
+Crystal_Engine/vendor/GLFW
+Crystal_Engine/vendor/yaml-cpp
+Crystal_Engine/vendor/VulkanSDK
+Crystal_Editor/assets/cache
+scripts/__pycache__
 
 # Visual Studio files and folder
 .vs/
@@ -12,6 +18,3 @@ bin-int/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
-Crystal_Engine/vendor/imgui
-Crystal_Engine/vendor/GLFW
-Crystal_Engine/vendor/yaml-cpp

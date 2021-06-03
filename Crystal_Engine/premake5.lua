@@ -2,7 +2,7 @@ project "Crystal_Engine"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -39,7 +39,8 @@ project "Crystal_Engine"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}"
+		"%{IncludeDir.ImGuizmo}",
+		"%{IncludeDir.VulkanSDK}"
 	}
 
 	links
@@ -47,8 +48,8 @@ project "Crystal_Engine"
 		"GLFW",
 		"Glad",
 		"imgui",
-		"opengl32.lib",
-		"yaml-cpp"
+		"yaml-cpp",
+		"opengl32.lib"
 	}
 	
 	filter "files:vendor/ImGuizmo/**.cpp"
@@ -62,12 +63,33 @@ project "Crystal_Engine"
 			runtime "Debug"
 			symbols "On"
 
+			links
+			{
+				"%{Library.ShaderC_Debug}",
+				"%{Library.SPIRV_Cross_Debug}",
+				"%{Library.SPIRV_Cross_GLSL_Debug}"
+			}
+
 		filter "configurations:Release"
 			defines "CRYSTAL_RELEASE"
 			runtime "Release"
 			optimize "On"
 
+			links
+			{
+				"%{Library.ShaderC_Release}",
+				"%{Library.SPIRV_Cross_Release}",
+				"%{Library.SPIRV_Cross_GLSL_Release}"
+			}
+
 		filter "configurations:Distribution"
 			defines "CRYSTAL_DISTRIBUTION"
 			runtime "Release"
 			optimize "On"
+
+			links
+			{
+				"%{Library.ShaderC_Release}",
+				"%{Library.SPIRV_Cross_Release}",
+				"%{Library.SPIRV_Cross_GLSL_Release}"
+			}	
