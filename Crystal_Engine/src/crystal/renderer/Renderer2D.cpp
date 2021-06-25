@@ -4,8 +4,10 @@
 #include "crystal/renderer/VertexArray.h"
 #include "crystal/renderer/Shader.h"
 #include "crystal/renderer/RenderCommand.h"
+#include "crystal/renderer/UniformBuffer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 
@@ -44,6 +46,14 @@ namespace Crystal
 		uint32_t textureSlotIndex = 1;
 
 		Renderer2D::Statistics statistics;
+
+		struct CameraData
+		{
+			mat4 viewProjection;
+		};
+
+		CameraData cameraBuffer;
+		Reference<UniformBuffer> cameraUniformBuffer;
 	};
 
 	static Renderer2DData data;
@@ -107,6 +117,8 @@ namespace Crystal
 		data.quadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
 		data.quadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
 		data.quadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+
+		data.cameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
 	}
 
 	void Renderer2D::Shutdown()
@@ -130,8 +142,18 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		data.textureShader->Bind();
-		data.textureShader->SetMat4("u_viewProjection", camera.GetViewProjection());
+		data.cameraBuffer.viewProjection = camera.GetViewProjection();
+		data.cameraUniformBuffer->SetData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
+
+		StartBatch();
+	}
+
+	void Renderer2D::BeginScene(const Camera& camera, const mat4& transform)
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		data.cameraBuffer.viewProjection = camera.GetProjection() * inverse(transform);
+		data.cameraUniformBuffer->SetData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
 
 		StartBatch();
 	}
@@ -142,18 +164,6 @@ namespace Crystal
 		data.quadVertexBufferPointer = data.quadVertexBufferBase;
 
 		data.textureSlotIndex = 1;
-	}
-
-	void Renderer2D::BeginScene(const Camera& camera, const mat4& transform)
-	{
-		CRYSTAL_PROFILE_FUNCTION();
-
-		mat4 viewProjection = camera.GetProjection() * inverse(transform);
-
-		data.textureShader->Bind();
-		data.textureShader->SetMat4("u_viewProjection", viewProjection);
-
-		StartBatch();
 	}
 
 	void Renderer2D::EndScene()
@@ -175,6 +185,7 @@ namespace Crystal
 		for (uint32_t index = 0; index < data.textureSlotIndex; index++)
 			data.textureSlots[index]->Bind(index);
 
+		data.textureShader->Bind();
 		RenderCommand::DrawIndexed(data.quadVertexArray, data.quadIndexCount);
 
 		data.statistics.drawCalls++;

@@ -21,7 +21,7 @@ public:
 	}
 };
 
-Crystal::Application* Crystal::CreateApplication()
+Crystal::Application* CreateApplication()
 {
 	return new Sandbox();
 }

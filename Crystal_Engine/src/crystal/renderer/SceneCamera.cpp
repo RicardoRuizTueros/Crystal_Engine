@@ -34,6 +34,8 @@ namespace Crystal
 
 	void SceneCamera::SetViewportSize(uint32_t width, uint32_t height)
 	{
+		CRYSTAL_CORE_ASSERT(width > 0 && height > 0);
+		
 		aspectRatio = (float)width / (float)height;
 		RecalculateProjection();
 	}

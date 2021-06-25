@@ -1,5 +1,4 @@
 project "Crystal_Editor"
-	location "Crystal_Editor"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
@@ -7,7 +6,6 @@ project "Crystal_Editor"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
-
 
 	files
 	{
@@ -33,17 +31,17 @@ project "Crystal_Editor"
 	filter "system:windows"
 		systemversion "latest"
 
-		filter "configurations:Debug"
-			defines "CRYSTAL_DEBUG"
-			runtime "Debug"
-			symbols "On"
+	filter "configurations:Debug"
+		defines "CRYSTAL_DEBUG"
+		runtime "Debug"
+		symbols "On"
 
-		filter "configurations:Release"
-			defines "CRYSTAL_RELEASE"
-			runtime "Release"
-			optimize "On"
+	filter "configurations:Release"
+		defines "CRYSTAL_RELEASE"
+		runtime "Release"
+		optimize "On"
 
-		filter "configurations:Distribution"
-			defines "CRYSTAL_DISTRIBUTION"
-			runtime "Release"
-			optimize "On"
+	filter "configurations:Distribution"
+		defines "CRYSTAL_DISTRIBUTION"
+		runtime "Release"
+		optimize "On"

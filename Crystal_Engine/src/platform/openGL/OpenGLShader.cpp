@@ -2,32 +2,124 @@
 
 #include "platform/openGL/OpenGLShader.h"
 
+#include "crystal/core/Timer.h"
+
 #include <fstream>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <shaderc/shaderc.hpp>
+#include <spirv_cross/spirv_cross.hpp>
+#include <spirv_cross/spirv_glsl.hpp>
+
 
 using namespace std;
 
 namespace Crystal
 {
-	static GLenum ShaderTypeFromString(const string& type)
+	namespace Utils
 	{
-		if (type == "vertex")
-			return GL_VERTEX_SHADER;
-		if (type == "fragment" || type == "pixel")
-			return GL_FRAGMENT_SHADER;
+		static GLenum ShaderTypeFromString(const string& type)
+		{
+			if (type == "vertex")
+				return GL_VERTEX_SHADER;
+			if (type == "fragment" || type == "pixel")
+				return GL_FRAGMENT_SHADER;
 
-		CRYSTAL_CORE_ASSERT(false, "Unknown type shader!");
-		return 0;
+			CRYSTAL_CORE_ASSERT(false, "Unknown type shader!");
+			return 0;
+		}
+
+		static const char* GetCacheDirectory()
+		{
+			// To do: Validation of cache directory
+			return "assets/cache/shader/opengl";
+		}
+
+		static const char* GLShaderStageCachedOpenGLFileExtension(uint32_t stage)
+		{
+			switch (stage)
+			{
+			case GL_VERTEX_SHADER:
+				return ".cached_opengl.vertex";
+
+			case GL_FRAGMENT_SHADER:
+				return ".cached_opengl.fragment";
+			}
+
+			CRYSTAL_CORE_ASSERT(false, "Unsupported stage!");
+			return "";
+		}
+
+		static const char* GLShaderStageCachedVulkanFileExtension(uint32_t stage)
+		{
+			switch (stage)
+			{
+			case GL_VERTEX_SHADER:
+				return ".cached_vulkan.vertex";
+
+			case GL_FRAGMENT_SHADER:
+				return ".cached_vulkan.fragment";
+			}
+
+			CRYSTAL_CORE_ASSERT(false, "Unsupported stage!");
+			return "";
+		}
+
+		static shaderc_shader_kind GLShaderStageToShaderC(GLenum stage)
+		{
+			switch (stage)
+			{
+			case GL_VERTEX_SHADER:
+				return shaderc_glsl_vertex_shader;
+
+			case GL_FRAGMENT_SHADER:
+				return shaderc_glsl_fragment_shader;
+			}
+
+			CRYSTAL_CORE_ASSERT(false, "Unsupported stage!");
+			return (shaderc_shader_kind)0;
+		}
+
+		static const char* GLShaderStageToString(GLenum stage)
+		{
+			switch (stage)
+			{
+			case GL_VERTEX_SHADER:
+				return "GL_VERTEX_SHADER";
+
+			case GL_FRAGMENT_SHADER:
+				return "GL_FRAGMENT_SHADER";
+			}
+
+			CRYSTAL_CORE_ASSERT(false, "Unsupported stage!");
+			return nullptr;
+		}
+
+		static void CreateCacheDirectoryIfNeeded()
+		{
+			string cacheDirectory = GetCacheDirectory();
+
+			if (!filesystem::exists(cacheDirectory))
+				filesystem::create_directories(cacheDirectory);
+		}
 	}
 
-	OpenGLShader::OpenGLShader(const string& filepath) 
+	OpenGLShader::OpenGLShader(const string& filepath): filepath(filepath)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
+		Utils::CreateCacheDirectoryIfNeeded();
+
 		string source = ReadFile(filepath);
 		auto shaderSources = Preprocess(source);
-		Compile(shaderSources);
+		{
+			Timer timer;
+
+			CompileOrGetVulkanBinaries(shaderSources);
+			CompileOrGetOpenGLBinaries();
+			CreateProgram();
+			CRYSTAL_CORE_WARNING("Shader creation in {0} ms", timer.ElapsedMilliSeconds());
+		}
 
 		// Extract name from filepath
 		auto lastSlash = filepath.find_last_of("/\\");
@@ -44,7 +136,10 @@ namespace Crystal
 		unordered_map<GLenum, string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSource;
 		sources[GL_FRAGMENT_SHADER] = fragmentSource;
-		Compile(sources);
+
+		CompileOrGetVulkanBinaries(sources);
+		CompileOrGetOpenGLBinaries();
+		CreateProgram();;
 	}
 
 	OpenGLShader::~OpenGLShader()
@@ -211,58 +306,156 @@ namespace Crystal
 			size_t endOfLine = source.find_first_of("\r\n", position);
 			size_t begin = position + typeTokenLength + 1;
 			std::string type = source.substr(begin, endOfLine - begin);
-			CRYSTAL_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
+			CRYSTAL_CORE_ASSERT(Utils::ShaderTypeFromString(type), "Invalid shader type specified");
 
 			size_t nextLinePos = source.find_first_not_of("\r\n", endOfLine);
 			position = source.find(typeToken, nextLinePos);
-			shaderSources[ShaderTypeFromString(type)] = (position == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, position - nextLinePos);
+			shaderSources[Utils::ShaderTypeFromString(type)] = (position == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, position - nextLinePos);
 		}
 
 		return shaderSources;
 	}
 
-	void OpenGLShader::Compile(const unordered_map<GLenum, string>& shaderSources)
+	void OpenGLShader::CompileOrGetVulkanBinaries(const unordered_map<GLenum, string>& shaderSources)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
 		GLuint program = glCreateProgram();
-		CRYSTAL_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders");
-		array<GLenum, 2> glShadersIDs;
-		int glShaderIDIndex = 0;
+		shaderc::Compiler compiler;
+		shaderc::CompileOptions options;
 
-		for (auto& keyValue : shaderSources)
+		options.SetTargetEnvironment(shaderc_target_env_vulkan, shaderc_env_version_vulkan_1_2);
+
+		const bool optimize = true;
+		if (optimize)
+			options.SetOptimizationLevel(shaderc_optimization_level_performance);
+
+		filesystem::path cacheDirectory = Utils::GetCacheDirectory();
+
+		auto& shaderData = vulkanSPIRV;
+		shaderData.clear();
+		for (auto&& [stage, source] : shaderSources)
 		{
-			GLenum type = keyValue.first;
-			const GLchar* source = keyValue.second.c_str();
+			filesystem::path shaderFilePath = filepath;
+			filesystem::path cachedPath = cacheDirectory / (shaderFilePath.filename().string() +
+				Utils::GLShaderStageCachedVulkanFileExtension(stage));
 
-			GLuint shader = glCreateShader(type);
-
-			glShaderSource(shader, 1, &source, 0);
-			glCompileShader(shader);
-
-			GLint isCompiled = 0;
-			glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
-
-			if (isCompiled == GL_FALSE)
+			ifstream inStream(cachedPath, ios::in | ios::binary);
+			if (inStream.is_open())
 			{
-				GLint maxLength = 0;
-				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+				inStream.seekg(0, ios::end);
+				auto size = inStream.tellg();
+				inStream.seekg(0, ios::beg);
 
-				vector<GLchar> infoLog(maxLength);
-				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
-
-				glDeleteShader(shader);
-
-				CRYSTAL_CORE_ERROR("{0}", infoLog.data());
-				CRYSTAL_CORE_ASSERT(false, "Shader compilation failed!");
-				break;
+				auto& data = shaderData[stage];
+				data.resize(size / sizeof(uint32_t));
+				inStream.read((char*)data.data(), size);
 			}
+			else
+			{
+				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source,
+					Utils::GLShaderStageToShaderC(stage), filepath.c_str(), options);
 
-			glAttachShader(program, shader);
-			glShadersIDs[glShaderIDIndex++] = shader;
+				if (module.GetCompilationStatus() != shaderc_compilation_status_success)
+				{
+					CRYSTAL_CORE_ERROR(module.GetErrorMessage());
+					CRYSTAL_CORE_ASSERT(false);
+				}
+
+				shaderData[stage] = vector<uint32_t>(module.cbegin(), module.cend());
+
+				ofstream outStream(cachedPath, ios::out | ios::binary);
+				if (outStream.is_open())
+				{
+					auto& data = shaderData[stage];
+					outStream.write((char*)data.data(), data.size() * sizeof(uint32_t));
+					outStream.flush();
+					outStream.close();
+				}
+			}
 		}
 
-		rendererID = program;
+		for (auto&& [stage, data] : shaderData)
+			Reflect(stage, data);
+	}
+
+	void OpenGLShader::CompileOrGetOpenGLBinaries()
+	{
+		CRYSTAL_PROFILE_FUNCTION();
+
+		auto& shaderData = openGLSPIRV;
+		shaderc::Compiler compiler;
+		shaderc::CompileOptions options;
+
+		options.SetTargetEnvironment(shaderc_target_env_opengl, shaderc_env_version_opengl_4_5);
+
+		const bool optimize = true;
+		if (optimize)
+			options.SetOptimizationLevel(shaderc_optimization_level_performance);
+
+		filesystem::path cacheDirectory = Utils::GetCacheDirectory();
+
+		shaderData.clear();
+		openGLSourceCode.clear();
+		for (auto&& [stage, spirv] : vulkanSPIRV)
+		{
+			filesystem::path shaderFilePath = filepath;
+			filesystem::path cachedPath = cacheDirectory / (shaderFilePath.filename().string() +
+				Utils::GLShaderStageCachedVulkanFileExtension(stage));
+
+			ifstream inStream(cachedPath, ios::in | ios::binary);
+			if (inStream.is_open())
+			{
+				inStream.seekg(0, ios::end);
+				auto size = inStream.tellg();
+				inStream.seekg(0, ios::beg);
+
+				auto& data = shaderData[stage];
+				data.resize(size / sizeof(uint32_t));
+				inStream.read((char*)data.data(), size);
+			}
+			else
+			{
+				spirv_cross::CompilerGLSL glslCompiler(spirv);
+				openGLSourceCode[stage] = glslCompiler.compile();
+
+				auto& source = openGLSourceCode[stage];
+				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source,
+					Utils::GLShaderStageToShaderC(stage), filepath.c_str());
+
+				if (module.GetCompilationStatus() != shaderc_compilation_status_success)
+				{
+					CRYSTAL_CORE_ERROR(module.GetErrorMessage());
+					CRYSTAL_CORE_ASSERT(false);
+				}
+
+				shaderData[stage] = vector<uint32_t>(module.cbegin(), module.cend());
+
+				ofstream outStream(cachedPath, ios::out | ios::binary);
+				if (outStream.is_open())
+				{
+					auto& data = shaderData[stage];
+					outStream.write((char*)data.data(), data.size() * sizeof(uint32_t));
+					outStream.flush();
+					outStream.close();
+				}
+			}
+		}
+	}
+
+	void OpenGLShader::CreateProgram()
+	{
+		GLuint program = glCreateProgram();
+		
+		vector<GLuint> shaderIDs;
+		for (auto&& [stage, spirv] : openGLSPIRV)
+		{
+			GLuint shaderID = shaderIDs.emplace_back(glCreateShader(stage));
+			glShaderBinary(1, &shaderID, GL_SHADER_BINARY_FORMAT_SPIR_V, spirv.data(), spirv.size() * sizeof(uint32_t));
+			glSpecializeShader(shaderID, "main", 0, nullptr, nullptr);
+			glAttachShader(program, shaderID);
+		}
+
 
 		glLinkProgram(program);
 
@@ -275,21 +468,49 @@ namespace Crystal
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
 			vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+			glGetProgramInfoLog(program, maxLength, &maxLength, infoLog.data());
+			CRYSTAL_CORE_ERROR("Shader linking failed ({0}):\n{1}", filepath, infoLog.data());
 
 			glDeleteProgram(program);
 
-			for (auto id : glShadersIDs)
+			for (auto id : shaderIDs)
 				glDeleteShader(id);
-
-			CRYSTAL_CORE_ERROR("{0}", infoLog.data());
-			CRYSTAL_CORE_ASSERT(false, "Shader link error!");
-			return;
 		}
 
-		for (auto id : glShadersIDs) {
+		for (auto id : shaderIDs) 
+		{
 			glDetachShader(program, id);
 			glDeleteShader(id);
+		}
+
+		rendererID = program;
+	}
+
+	void OpenGLShader::Reflect(GLenum stage, const vector<uint32_t>& shaderData)
+	{
+		spirv_cross::Compiler compiler(shaderData);
+		spirv_cross::ShaderResources resources = compiler.get_shader_resources();
+
+		CRYSTAL_CORE_TRACE("OpenGLShader::Reflect - {0} {1}", Utils::GLShaderStageToString(stage), filepath);
+		CRYSTAL_CORE_TRACE("OpenGLShader::Reflect - {0} Uniform buffers size", resources.uniform_buffers.size());
+		CRYSTAL_CORE_TRACE("OpenGLShader::Reflect - {0} Resources size", resources.sampled_images.size());
+		CRYSTAL_CORE_TRACE("OpenGLShader::Reflect - {0} Resources", resources.sampled_images.size());
+		
+
+		CRYSTAL_CORE_TRACE("OpenGLShader::Reflect - Uniform buffers:");
+
+		for (const auto& resource : resources.uniform_buffers)
+		{
+			const auto& bufferType = compiler.get_type(resource.base_type_id);
+			uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
+			uint32_t binding = compiler.get_decoration(resource.id, spv::DecorationBinding);
+
+			int memberCount = bufferType.member_types.size();
+
+			CRYSTAL_CORE_TRACE("{0}", resource.name);
+			CRYSTAL_CORE_TRACE("Size = {0}", bufferSize);
+			CRYSTAL_CORE_TRACE("Binding = {0}", binding);
+			CRYSTAL_CORE_TRACE("Members = {0}", memberCount);
 		}
 	}
 }

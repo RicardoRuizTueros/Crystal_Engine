@@ -70,7 +70,6 @@ namespace Crystal
 
 				if (cameraComponent.primary)
 				{
-
 					mainCamera = &cameraComponent.camera;
 					mainCameraTransform = &transformComponent.GetTransform();
 					break;
@@ -132,7 +131,7 @@ namespace Crystal
 		{
 			const auto& camera = view.get<CameraComponent>(entity);
 			if (camera.primary)
-				return Entity{entity, this};
+				return Entity{ entity, this };
 		}
 
 		return {};
@@ -155,7 +154,8 @@ namespace Crystal
 	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
 	{
 		// Updates viewport to render the new camera
-		component.camera.SetViewportSize(viewportWidth, viewportHeight);
+		if (viewportHeight > 0 && viewportWidth > 0)
+			component.camera.SetViewportSize(viewportWidth, viewportHeight);
 	}
 
 	template<>

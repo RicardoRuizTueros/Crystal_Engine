@@ -12,7 +12,8 @@ namespace Crystal
 {
 	Application* Application::instance = nullptr;
 
-	Application::Application(const string& name)
+	Application::Application(const string& name, ApplicationCommandLineArguments arguments) 
+		: arguments(arguments)
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 

@@ -24,6 +24,5 @@ namespace Crystal
 		void BlockEvents(bool block) { blockEvents = block; }
 	private:
 		bool blockEvents = true;
-		float lastTime;
 	};
 }

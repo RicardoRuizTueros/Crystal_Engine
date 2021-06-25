@@ -31,6 +31,14 @@ namespace Crystal
 
 		activeScene = CreateReference<Scene>();
 
+		auto commandLineArguments = Application::Get().GetCommandLineArguments();
+		if (commandLineArguments.count > 1)
+		{
+			auto sceneFilepath = commandLineArguments[1];
+			SceneSerializer serializer(activeScene);
+			serializer.Deserialize(sceneFilepath);
+		}
+
 		editorCamera = EditorCamera(30.0f, 1778.0f, 0.1f, 1000.0f);
 
 		// Camera controller class
@@ -331,7 +339,7 @@ namespace Crystal
 				SaveSceneAs();
 			break;
 
-			// Gizmos
+		// Gizmos
 		case Key::Q:
 			if (!ImGuizmo::IsUsing())
 				gizmoType = -1;
@@ -374,27 +382,27 @@ namespace Crystal
 
 	void EditorLayer::OpenScene()
 	{
-		optional<string> filepath = FileDialogs::OpenFile("Crystal scene (*.scene)\0*.scene\0");
+		string filepath = FileDialogs::OpenFile("Crystal scene (*.scene)\0*.scene\0");
 
-		if (filepath)
+		if (!filepath.empty())
 		{
 			activeScene = CreateReference<Scene>();
 			activeScene->OnViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			sceneHierarchyPanel.SetContext(activeScene);
 
 			SceneSerializer serializer(activeScene);
-			serializer.Deserialize(*filepath);
+			serializer.Deserialize(filepath);
 		}
 	}
 
 	void EditorLayer::SaveSceneAs()
 	{
-		optional<string> filepath = FileDialogs::SaveFile("Crystal scene (*.scene)\0*.scene\0");
+		string filepath = FileDialogs::SaveFile("Crystal scene (*.scene)\0*.scene\0");
 
-		if (filepath)
+		if (!filepath.empty())
 		{
 			SceneSerializer serializer(activeScene);
-			serializer.Serialize(*filepath);
+			serializer.Serialize(filepath);
 		}
 	}
 }

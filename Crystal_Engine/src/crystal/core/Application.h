@@ -15,10 +15,23 @@ int main(int argc, char** argv);
 
 namespace Crystal
 {
+	struct ApplicationCommandLineArguments
+	{
+		int count = 0;
+		char** arguments = nullptr;
+
+		const char* operator[](int index) const
+		{
+			CRYSTAL_CORE_ASSERT(index < count);
+			return arguments[index];
+		}
+	};
+
 	class Application
 	{
 		public:
-			Application(const string& name = "Crystal Application");
+			Application(const string& name = "Crystal Application", 
+						ApplicationCommandLineArguments arguments = ApplicationCommandLineArguments());
 			virtual ~Application();
 
 			void Close();
@@ -33,8 +46,10 @@ namespace Crystal
 			static Application& Get() { return *instance; }
 			Window& GetWindow() { return *window; }
 			ImGuiLayer* GetImGuiLayer() { return imGuiLayer; }
+			ApplicationCommandLineArguments GetCommandLineArguments() const { return arguments; }
 	private:
 		static Application* instance;
+		ApplicationCommandLineArguments arguments;
 
 		bool running = true;
 		bool minimized = false;
@@ -47,5 +62,6 @@ namespace Crystal
 		void Run();
 	};
 
-	Application* CreateApplication();
+	// To be defined in client
+	Application* CreateApplication(ApplicationCommandLineArguments arguments);
 }

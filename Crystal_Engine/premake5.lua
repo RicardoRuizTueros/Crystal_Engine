@@ -58,38 +58,42 @@ project "Crystal_Engine"
 	filter "system:windows"
 		systemversion "latest"
 
-		filter "configurations:Debug"
-			defines "CRYSTAL_DEBUG"
-			runtime "Debug"
-			symbols "On"
+		defines
+		{
+		}
 
-			links
-			{
-				"%{Library.ShaderC_Debug}",
-				"%{Library.SPIRV_Cross_Debug}",
-				"%{Library.SPIRV_Cross_GLSL_Debug}"
-			}
+	filter "configurations:Debug"
+		defines "CRYSTAL_DEBUG"
+		runtime "Debug"
+		symbols "On"
 
-		filter "configurations:Release"
-			defines "CRYSTAL_RELEASE"
-			runtime "Release"
-			optimize "On"
+		links
+		{
+			"%{Library.ShaderC_Debug}",
+			"%{Library.SPIRV_Cross_Debug}",
+			"%{Library.SPIRV_Cross_GLSL_Debug}"
+		}
 
-			links
-			{
-				"%{Library.ShaderC_Release}",
-				"%{Library.SPIRV_Cross_Release}",
-				"%{Library.SPIRV_Cross_GLSL_Release}"
-			}
+	filter "configurations:Release"
+		defines "CRYSTAL_RELEASE"
+		runtime "Release"
+		optimize "On"
 
-		filter "configurations:Distribution"
-			defines "CRYSTAL_DISTRIBUTION"
-			runtime "Release"
-			optimize "On"
+		links
+		{
+			"%{Library.ShaderC_Release}",
+			"%{Library.SPIRV_Cross_Release}",
+			"%{Library.SPIRV_Cross_GLSL_Release}"
+		}
 
-			links
-			{
-				"%{Library.ShaderC_Release}",
-				"%{Library.SPIRV_Cross_Release}",
-				"%{Library.SPIRV_Cross_GLSL_Release}"
-			}	
+	filter "configurations:Distribution"
+		defines "CRYSTAL_DISTRIBUTION"
+		runtime "Release"
+		optimize "On"
+
+		links
+		{
+			"%{Library.ShaderC_Release}",
+			"%{Library.SPIRV_Cross_Release}",
+			"%{Library.SPIRV_Cross_GLSL_Release}"
+		}	

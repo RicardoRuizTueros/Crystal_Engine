@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <optional>
 
 using namespace std;
 
@@ -11,8 +10,8 @@ namespace Crystal
     {
         public:
 
-        static optional<string> OpenFile(const char* filter);
-        static optional<string> SaveFile(const char* filter);
+        static string OpenFile(const char* filter);
+        static string SaveFile(const char* filter);
 
     };
 }

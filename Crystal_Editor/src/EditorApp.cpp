@@ -8,8 +8,8 @@ namespace Crystal
 	class EditorApp : public Application
 	{
 	public:
-		EditorApp::EditorApp()
-			: Application("Crystal Editor")
+		EditorApp::EditorApp(ApplicationCommandLineArguments arguments)
+			: Application("Crystal Editor", arguments)
 		{
 			PushLayer(new EditorLayer());
 		}
@@ -20,8 +20,8 @@ namespace Crystal
 		}
 	};
 
-	Application* CreateApplication()
+	Application* CreateApplication(ApplicationCommandLineArguments arguments)
 	{
-		return new EditorApp();
+		return new EditorApp(arguments);
 	}
 }

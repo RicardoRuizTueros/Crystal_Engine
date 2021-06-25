@@ -42,10 +42,19 @@ namespace Crystal
 	private:
 		uint32_t rendererID;
 		string name;
+		string filepath;
+
+		unordered_map<GLenum, vector<uint32_t>> vulkanSPIRV;
+		unordered_map<GLenum, vector<uint32_t>> openGLSPIRV;
+
+		unordered_map<GLenum, string> openGLSourceCode;
 
 		string ReadFile(const string& filepath);
 		unordered_map<GLenum, string> Preprocess(const string& source);
-		void Compile(const unordered_map<GLenum, string>& shaderSources);
+		void CompileOrGetVulkanBinaries(const unordered_map<GLenum, string>& shaderSources);
+		void CompileOrGetOpenGLBinaries();
+		void CreateProgram();
+		void Reflect(GLenum stage, const vector<uint32_t>& shaderData);
 	};
 }
 
