@@ -36,6 +36,11 @@ project "Crystal_Editor"
 		runtime "Debug"
 		symbols "On"
 
+		postbuildcommands
+		{
+			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
+		}
+
 	filter "configurations:Release"
 		defines "CRYSTAL_RELEASE"
 		runtime "Release"

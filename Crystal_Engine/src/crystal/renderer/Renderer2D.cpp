@@ -132,9 +132,9 @@ namespace Crystal
 	{
 		CRYSTAL_PROFILE_FUNCTION();
 
-		data.textureShader->Bind();
-		data.textureShader->SetMat4("u_viewProjection", camera.GetViewProjection());
-
+		data.cameraBuffer.viewProjection = camera.GetViewProjection();
+		data.cameraUniformBuffer->SetData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
+	
 		StartBatch();
 	}
 
