@@ -107,7 +107,7 @@ namespace Crystal
 		for (uint32_t index = 0; index < data.MAX_TEXTURE_SLOTS; index++)
 			samplers[index] = index;
 
-		data.textureShader = Shader::Create("../assets/shaders/Texture.glsl");
+		data.textureShader = Shader::Create("assets/shaders/Texture.glsl");
 		data.textureShader->Bind();
 		data.textureShader->SetIntArray("u_textures", samplers, data.MAX_TEXTURE_SLOTS);
 

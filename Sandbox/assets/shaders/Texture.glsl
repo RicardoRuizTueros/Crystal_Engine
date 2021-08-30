@@ -8,10 +8,10 @@ layout(location = 3) in float a_textureIndex;
 layout(location = 4) in float a_tilingFactor;
 layout(location = 5) in int a_entityID;
 
-layout(std 140, binding = 0) uniform Camera
+layout(std140, binding = 0) uniform Camera
 {
 	mat4 u_viewProjection;
-}
+};
 
 struct VertexOutput
 {
@@ -19,7 +19,7 @@ struct VertexOutput
 	vec2 textureCoordinates;
 	float textureIndex;
 	float tilingFactor;
-}
+};
 
 layout(location = 0) out VertexOutput vertexOutput;
 layout(location = 4) out flat int v_entityID;
@@ -30,7 +30,7 @@ void main()
 	vertexOutput.textureCoordinates = a_textureCoordinates;
 	vertexOutput.textureIndex = a_textureIndex;
 	vertexOutput.tilingFactor = a_tilingFactor;
-	vertexOutput.entityID = a_entityID;
+	v_entityID = a_entityID;
 	gl_Position = u_viewProjection * vec4(a_position, 1.0);
 }
 
@@ -46,10 +46,10 @@ struct VertexOutput
 	vec2 textureCoordinates;
 	float textureIndex;
 	float tilingFactor;
-}
+};
 
 layout(location = 0) in VertexOutput fragmentInput;
-layout(location = 4) in flat int entityID;
+layout(location = 4) in flat int v_entityID;
 
 layout(binding = 0) uniform sampler2D u_textures[32];
 

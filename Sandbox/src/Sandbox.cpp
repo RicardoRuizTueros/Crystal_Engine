@@ -1,27 +1,27 @@
 #include "Crystal.h"
-#include "Sandbox2D.h"
-
 #include "crystal/core/EntryPoint.h"
 
-using namespace Crystal;
-using namespace glm;
+#include "Sandbox2D.h"
 
-class Sandbox : public Application
+namespace Crystal
 {
-public:
-	Sandbox(Crystal::ApplicationCommandLineArguments arguments)
+	class Sandbox : public Application
 	{
-		// PushLayer(new ExampleLayer());
-		PushLayer(new Sandbox2D());
-	}
+	public:
+		Sandbox::Sandbox(ApplicationCommandLineArguments arguments)
+		{
+			// PushLayer(new ExampleLayer());
+			PushLayer(new Sandbox2D());
+		}
 
-	~Sandbox()
+		Sandbox::~Sandbox()
+		{
+
+		}
+	};
+
+	Application* CreateApplication(ApplicationCommandLineArguments arguments)
 	{
-
+		return new Sandbox(arguments);
 	}
-};
-
-Crystal::Application* CreateApplication(Crystal::ApplicationCommandLineArguments arguments)
-{
-	return new Sandbox(arguments);
 }
