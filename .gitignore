@@ -18,3 +18,5 @@ scripts/__pycache__
 **.vcxproj.filters
 **.vcxproj.user
 Crystal_Editor/CrystalProfile-Startup.json
+Crystal_Editor/CrystalProfile-Run.json
+Crystal_Editor/CrystalProfile-Shutdown.json
