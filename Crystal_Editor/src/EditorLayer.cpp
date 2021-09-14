@@ -214,6 +214,7 @@ namespace Crystal
 		}
 
 		sceneHierarchyPanel.OnImGuiRender();
+		contentBrowserPanel.OnImGuiRender();
 
 		ImGui::Begin("Statistics");
 

@@ -2,6 +2,7 @@
 
 #include "Crystal.h"
 #include "panels/SceneHierarchyPanel.h"
+#include "panels/ContentBrowserPanel.h"
 
 #include "crystal/scene/SceneSerializer.h"
 #include "crystal/utils/PlatformUtils.h"
@@ -43,6 +44,8 @@ namespace Crystal
 		Reference<FrameBuffer> frameBuffer;
 		SceneHierarchyPanel sceneHierarchyPanel;
 		int gizmoType = -1;
+
+		ContentBrowserPanel contentBrowserPanel;
 
 		Entity hoveredEntity;
 	};
