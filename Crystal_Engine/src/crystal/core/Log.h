@@ -1,6 +1,8 @@
 #pragma once
 
 #include "crystal/core/Base.h"
+#include "glm/gtx/string_cast.hpp"
+
 #pragma warning(push, 0)
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -23,6 +25,24 @@ namespace Crystal {
 		static Reference<logger> clientLogger;
 		static Reference<logger> coreLogger;
 	};
+}
+
+template<typename OStream, glm::length_t L, typename T, glm::qualifier Q>
+inline OStream& operator<<(OStream& stream, const glm::vec<L, T, Q>& vector)
+{
+	return stream << glm::to_string(vector);
+}
+
+template<typename OStream, glm::length_t C, glm::length_t R, typename T, glm::qualifier Q>
+inline OStream& operator<<(OStream& stream, const glm::mat<C, R, T, Q>& matrix)
+{
+	return stream << glm::to_string(matrix);
+}
+
+template<typename OStream, typename T, glm::qualifier Q>
+inline OStream& operator<<(OStream& stream, glm::qua<T, Q> quaternion)
+{
+	return stream << glm::to_string(quaternion);
 }
 
 #define CRYSTAL_CORE_ERROR(...)	Crystal::Log::GetCoreLogger()->error(__VA_ARGS__)
